@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+    id 'groovy'
+}
+
+group 'pl.edu.agh.iisg.agh'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'org.codehaus.groovy', name: 'groovy-all', version: "${groovyVersion}"
+    testCompile group: 'org.spockframework', name: 'spock-core', version: "${spockVersion}"
+}
