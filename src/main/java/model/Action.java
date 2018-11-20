@@ -1,5 +1,5 @@
 package model;
 
 public interface Action {
-    public void execute(Game game);
+    public Status execute(Game game);
 }

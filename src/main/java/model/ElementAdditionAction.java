@@ -3,9 +3,14 @@ package model;
 public class ElementAdditionAction implements Action {
     private BoardElement element;
 
+    public ElementAdditionAction(BoardElement element) {
+        this.element = element;
+    }
+
     @Override
-    public void execute(Game game) {
+    public Status execute(Game game) {
         //TODO
+        return null;
     }
 
 
