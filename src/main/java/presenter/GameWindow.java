@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
+import model.BoardElement;
 
 
 public class GameWindow extends Application {
@@ -86,36 +87,6 @@ public class GameWindow extends Application {
         controls.getChildren().add(restart);
 
         root.getChildren().add(controls);
-        //Add elements
-        final Dalek dalek1 = new Dalek(nativeBoardWidth/tileWidth);
-        GridPane.setRowIndex(dalek1, 4);
-        GridPane.setColumnIndex(dalek1, 5);
-        gridPane.getChildren().add(dalek1);
-
-        final Dalek dalek2 = new Dalek(nativeBoardWidth/tileWidth);
-        GridPane.setRowIndex(dalek2, 3);
-        GridPane.setColumnIndex(dalek2, 3);
-        gridPane.getChildren().add(dalek2);
-
-        final Dalek dalek3 = new Dalek(nativeBoardWidth/tileWidth);
-        GridPane.setRowIndex(dalek3, 6);
-        GridPane.setColumnIndex(dalek3, 9);
-        gridPane.getChildren().add(dalek3);
-
-        final Dalek dalek4 = new Dalek(nativeBoardWidth/tileWidth);
-        GridPane.setRowIndex(dalek4, 4);
-        GridPane.setColumnIndex(dalek4, 2);
-        gridPane.getChildren().add(dalek4);
-
-        final Tardis tardis = new Tardis(nativeBoardWidth/tileWidth);
-        GridPane.setRowIndex(tardis, 1);
-        GridPane.setColumnIndex(tardis, 3);
-        gridPane.getChildren().add(tardis);
-
-        final Heart heart = new Heart(nativeBoardWidth/tileWidth);
-        GridPane.setRowIndex(heart, 8);
-        GridPane.setColumnIndex(heart, 4);
-        gridPane.getChildren().add(heart);
 
 
         return root;
@@ -134,42 +105,18 @@ public class GameWindow extends Application {
     }
 
 
+    private class PaneElement extends Pane {
 
-
-    //NOT GOOD CODING
-    private class Dalek extends Pane {
-        private Dalek(int size) {
-            Image icon = new Image("../../../images/dalek/43043-200.png");
+        private PaneElement(BoardElement boardElement, int tileSize){
+            Image icon = boardElement.image;
             double scale = icon.getWidth() / icon.getHeight();
 
             ImageView imageView = new ImageView(icon);
-            imageView.setFitHeight(size);
-            imageView.setFitWidth(size*scale);
+            imageView.setFitHeight(tileSize);
+            imageView.setFitWidth(tileSize*scale);
             this.getChildren().add(imageView);
+
         }
     }
 
-    private class Heart extends Pane {
-        private Heart(int size) {
-            Image icon = new Image("../../../images/powerup/148836.png");
-            double scale = icon.getWidth() / icon.getHeight();
-
-            ImageView imageView = new ImageView(icon);
-            imageView.setFitHeight(size);
-            imageView.setFitWidth(size*scale);
-            this.getChildren().add(imageView);
-        }
-    }
-
-    private class Tardis extends Pane {
-        private Tardis(int size) {
-            Image icon = new Image("../../../images/powerup/1472711-84.png");
-            double scale = icon.getWidth() / icon.getHeight();
-
-            ImageView imageView = new ImageView(icon);
-            imageView.setFitHeight(size);
-            imageView.setFitWidth(size*scale);
-            this.getChildren().add(imageView);
-        }
-    }
 }
