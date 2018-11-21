@@ -1,4 +1,4 @@
-package javaFX;
+package presenter;
 
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -14,7 +14,7 @@ public class GameWindow extends Application {
 
     private Parent createContent() {
 
-        //javaFX window resolution
+        //presenter window resolution
         final int nativeBoardWidth = 600;
         final int nativeHeight = 800;
 
@@ -139,7 +139,7 @@ public class GameWindow extends Application {
     //NOT GOOD CODING
     private class Dalek extends Pane {
         private Dalek(int size) {
-            Image icon = new Image("images/dalek/43043-200.png");
+            Image icon = new Image("../../../images/dalek/43043-200.png");
             double scale = icon.getWidth() / icon.getHeight();
 
             ImageView imageView = new ImageView(icon);
@@ -151,7 +151,7 @@ public class GameWindow extends Application {
 
     private class Heart extends Pane {
         private Heart(int size) {
-            Image icon = new Image("images/powerup/148836.png");
+            Image icon = new Image("../../../images/powerup/148836.png");
             double scale = icon.getWidth() / icon.getHeight();
 
             ImageView imageView = new ImageView(icon);
@@ -163,7 +163,7 @@ public class GameWindow extends Application {
 
     private class Tardis extends Pane {
         private Tardis(int size) {
-            Image icon = new Image("images/powerup/1472711-84.png");
+            Image icon = new Image("../../../images/powerup/1472711-84.png");
             double scale = icon.getWidth() / icon.getHeight();
 
             ImageView imageView = new ImageView(icon);
