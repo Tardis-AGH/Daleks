@@ -9,8 +9,9 @@ public class ElementAdditionAction implements Action {
 
     @Override
     public Status execute(Game game) {
-        //TODO
-        return null;
+        game.getBoard().getElements().put(element.getCoordinates(), element);
+
+        return Status.CONTINUE_GAME;
     }
 
 
