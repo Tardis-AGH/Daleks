@@ -3,15 +3,15 @@ package model;
 public class GameState {
 
     private int numberOfLives;
-    private int numberOfTeleports;
+    private int numberOfTeleporters;
     private int currentScore;
     private int highestScore;
     private int level;
     private int enemyCount;
 
-    public GameState(int numberOfLives, int numberOfTeleports, int currentScore, int highestScore, int level, int enemyCount) {
+    public GameState(int numberOfLives, int numberOfTeleporters, int currentScore, int highestScore, int level, int enemyCount) {
         this.numberOfLives = numberOfLives;
-        this.numberOfTeleports = numberOfTeleports;
+        this.numberOfTeleporters = numberOfTeleporters;
         this.currentScore = currentScore;
         this.highestScore = highestScore;
         this.level = level;
@@ -50,12 +50,12 @@ public class GameState {
         this.currentScore = currentScore;
     }
 
-    public int getNumberOfTeleports() {
-        return numberOfTeleports;
+    public int getNumberOfTeleporters() {
+        return numberOfTeleporters;
     }
 
-    public void setNumberOfTeleports(int numberOfTeleports) {
-        this.numberOfTeleports = numberOfTeleports;
+    public void setNumberOfTeleporters(int numberOfTeleporters) {
+        this.numberOfTeleporters = numberOfTeleporters;
     }
 
     public int getNumberOfLives() {

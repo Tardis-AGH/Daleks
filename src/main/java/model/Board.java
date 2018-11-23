@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Board {
+
     private HashMap<Coordinates, BoardElement> elements;
     private Doctor doctor;
 
@@ -23,5 +24,9 @@ public class Board {
 
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
+    }
+
+    public HashMap<Coordinates, BoardElement> getElements() {
+        return elements;
     }
 }
