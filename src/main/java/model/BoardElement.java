@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import java.util.List;
 
 public abstract class BoardElement {
+
     private Coordinates coordinates;
     private Image sprite;
 

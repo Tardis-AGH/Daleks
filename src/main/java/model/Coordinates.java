@@ -1,8 +1,8 @@
 package model;
 
-import java.util.Objects;
-
 public class Coordinates {
+
+    private final int BOARD_WIDTH;
     private int x;
     private int y;
 
@@ -17,10 +17,11 @@ public class Coordinates {
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y);
+        return y * BOARD_WIDTH + x;
     }
 
-    public Coordinates(int x, int y) {
+    public Coordinates(int x, int y, int boardWidth) {
+        BOARD_WIDTH = boardWidth;
         this.x = x;
         this.y = y;
     }
@@ -29,7 +30,20 @@ public class Coordinates {
         return y;
     }
 
-    public void setY(int y) {
+    void setY(int y) {
         this.y = y;
     }
+
+    public int getX() {
+        return x;
+    }
+
+    void setX(int x) {
+        this.x = x;
+    }
+
+    public int getBoardWidth() {
+        return BOARD_WIDTH;
+    }
+
 }

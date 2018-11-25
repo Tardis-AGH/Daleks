@@ -2,6 +2,7 @@ package model;
 
 import javafx.scene.image.Image;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Dalek extends DynamicBoardElement {
@@ -11,7 +12,41 @@ public class Dalek extends DynamicBoardElement {
     }
 
     public void makeMove(Coordinates doctorCoordinates) {
-        //TODO
+        int dalekX = getCoordinates().getX();
+        int dalekY = getCoordinates().getY();
+
+        int doctorX = doctorCoordinates.getX();
+        int doctorY = doctorCoordinates.getY();
+
+        if (dalekX == doctorX) {
+            if (dalekY < doctorY) {
+                getCoordinates().setY(dalekY + 1);
+            } else if (dalekY > doctorY) {
+                getCoordinates().setY(dalekY - 1);
+            }
+        } else if (dalekY == doctorY) {
+            if (dalekX < doctorX) {
+                getCoordinates().setX(dalekX + 1);
+            } else {
+                getCoordinates().setX(dalekX - 1);
+            }
+        } else if (dalekX < doctorX)
+            if (dalekY < doctorY) {
+                getCoordinates().setY(dalekY + 1);
+                getCoordinates().setX(dalekX + 1);
+            } else {
+                getCoordinates().setY(dalekY - 1);
+                getCoordinates().setX(dalekX + 1);
+            }
+        else {
+            if (dalekY < doctorY) {
+                getCoordinates().setY(dalekY + 1);
+                getCoordinates().setX(dalekX - 1);
+            } else {
+                getCoordinates().setY(dalekY - 1);
+                getCoordinates().setX(dalekX - 1);
+            }
+        }
     }
 
     @Override
@@ -21,20 +56,27 @@ public class Dalek extends DynamicBoardElement {
 
     @Override
     public List<Action> visit(Dalek dalek) {
-        //TODO
-        return null;
+        List<Action> actions = new LinkedList<>();
+        //TODO: sprite
+        ScrapPile scrapPile = new ScrapPile(getCoordinates(), null);
+        actions.add(new ElementAdditionAction(scrapPile));
+        actions.add(new ScoreChangeAction(2));
+        return actions;
     }
 
     @Override
     public List<Action> visit(Heart heart) {
-        //TODO
-        return null;
+        List<Action> actions = new LinkedList<>();
+        actions.add(new ElementAdditionAction(this));
+        return actions;
     }
 
     @Override
     public List<Action> visit(Doctor doctor) {
-        //TODO
-        return null;
+        List<Action> actions = new LinkedList<>();
+        actions.add(new ElementAdditionAction(this));
+        actions.add(new LivesChangeAction(-1));
+        return actions;
     }
 
     @Override
@@ -45,7 +87,9 @@ public class Dalek extends DynamicBoardElement {
 
     @Override
     public List<Action> visit(ScrapPile scrapPile) {
-        //TODO
-        return null;
+        List<Action> actions = new LinkedList<>();
+        actions.add(new ElementAdditionAction(scrapPile));
+        actions.add(new ScoreChangeAction(1));
+        return actions;
     }
 }
