@@ -10,7 +10,12 @@ public abstract class BoardElement {
     private Coordinates coordinates;
     private Image sprite;
 
-    BoardElement(Coordinates coordinates, Image sprite) {
+    public BoardElement(Coordinates coordinates) {
+        this.coordinates = coordinates;
+        // TODO: this.sprite
+    }
+
+    public BoardElement(Coordinates coordinates, Image sprite) {
         this.coordinates = coordinates;
         this.sprite = sprite;
     }

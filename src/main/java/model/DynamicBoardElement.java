@@ -6,7 +6,11 @@ import java.util.List;
 
 public abstract class DynamicBoardElement extends BoardElement {
 
-    DynamicBoardElement(Coordinates coordinates, Image sprite) {
+    public DynamicBoardElement(Coordinates coordinates) {
+        super(coordinates);
+    }
+
+    public DynamicBoardElement(Coordinates coordinates, Image sprite) {
         super(coordinates, sprite);
     }
 

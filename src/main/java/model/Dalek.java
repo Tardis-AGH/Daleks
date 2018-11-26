@@ -7,6 +7,10 @@ import java.util.List;
 
 public class Dalek extends DynamicBoardElement {
 
+    public Dalek(Coordinates coordinates) {
+        super(coordinates);
+    }
+
     public Dalek(Coordinates coordinates, Image sprite) {
         super(coordinates, sprite);
     }
@@ -18,35 +22,21 @@ public class Dalek extends DynamicBoardElement {
         int doctorX = doctorCoordinates.getX();
         int doctorY = doctorCoordinates.getY();
 
-        if (dalekX == doctorX) {
-            if (dalekY < doctorY) {
-                getCoordinates().setY(dalekY + 1);
-            } else if (dalekY > doctorY) {
-                getCoordinates().setY(dalekY - 1);
-            }
-        } else if (dalekY == doctorY) {
-            if (dalekX < doctorX) {
-                getCoordinates().setX(dalekX + 1);
-            } else {
-                getCoordinates().setX(dalekX - 1);
-            }
-        } else if (dalekX < doctorX)
-            if (dalekY < doctorY) {
-                getCoordinates().setY(dalekY + 1);
-                getCoordinates().setX(dalekX + 1);
-            } else {
-                getCoordinates().setY(dalekY - 1);
-                getCoordinates().setX(dalekX + 1);
-            }
-        else {
-            if (dalekY < doctorY) {
-                getCoordinates().setY(dalekY + 1);
-                getCoordinates().setX(dalekX - 1);
-            } else {
-                getCoordinates().setY(dalekY - 1);
-                getCoordinates().setX(dalekX - 1);
-            }
+        int newDalekX = dalekX;
+        int newDalekY = dalekY;
+
+        if (dalekX < doctorX) {
+            newDalekX++;
+        } else if (dalekX > doctorX) {
+            newDalekX--;
         }
+        if (dalekY < doctorY) {
+            newDalekY++;
+        } else if (dalekY > doctorY) {
+            newDalekY--;
+        }
+        getCoordinates().setX(newDalekX);
+        getCoordinates().setY(newDalekY);
     }
 
     @Override
@@ -57,8 +47,7 @@ public class Dalek extends DynamicBoardElement {
     @Override
     public List<Action> visit(Dalek dalek) {
         List<Action> actions = new LinkedList<>();
-        //TODO: sprite
-        ScrapPile scrapPile = new ScrapPile(getCoordinates(), null);
+        ScrapPile scrapPile = new ScrapPile(this.getCoordinates());
         actions.add(new ElementAdditionAction(scrapPile));
         actions.add(new ScoreChangeAction(2));
         return actions;
@@ -81,8 +70,9 @@ public class Dalek extends DynamicBoardElement {
 
     @Override
     public List<Action> visit(Teleporter teleporter) {
-        //TODO
-        return null;
+        List<Action> actions = new LinkedList<>();
+        actions.add(new ElementAdditionAction(this));
+        return actions;
     }
 
     @Override

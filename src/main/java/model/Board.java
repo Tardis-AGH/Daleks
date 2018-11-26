@@ -29,4 +29,5 @@ public class Board {
     public HashMap<Coordinates, BoardElement> getElements() {
         return elements;
     }
+
 }

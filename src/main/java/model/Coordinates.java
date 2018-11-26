@@ -2,7 +2,7 @@ package model;
 
 public class Coordinates {
 
-    private final int BOARD_WIDTH;
+    private static int BOARD_WIDTH;
     private int x;
     private int y;
 
@@ -46,4 +46,7 @@ public class Coordinates {
         return BOARD_WIDTH;
     }
 
+    public static void setBoardWidth(int boardWidth) {
+        BOARD_WIDTH = boardWidth;
+    }
 }
