@@ -1,13 +1,11 @@
 package model;
 
-import javafx.scene.image.Image;
-
 import java.util.List;
 
 public class ScrapPile extends StaticBoardElement {
 
-    public ScrapPile(Coordinates coordinates, Image sprite) {
-        super(coordinates, sprite);
+    public ScrapPile(Coordinates coordinates) {
+        super(coordinates);
     }
 
     @Override

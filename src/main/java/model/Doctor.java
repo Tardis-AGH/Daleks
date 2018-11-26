@@ -1,13 +1,11 @@
 package model;
 
-import javafx.scene.image.Image;
-
 import java.util.List;
 
 public class Doctor extends DynamicBoardElement {
 
-    public Doctor(Coordinates coordinates, Image sprite) {
-        super(coordinates, sprite);
+    public Doctor(Coordinates coordinates) {
+        super(coordinates);
     }
 
     public void makeMove(Move move) {
