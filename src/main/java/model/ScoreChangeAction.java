@@ -1,7 +1,17 @@
 package model;
 
+/**
+ * Action implementation that changes the score counter kept in {@link GameState};
+ */
+
 public class ScoreChangeAction implements Action {
     private int scoreChange;
+
+    /**
+     * Class constructor
+     *
+     * @param scoreChange change in score
+     */
 
     public ScoreChangeAction(int scoreChange) {
         this.scoreChange = scoreChange;

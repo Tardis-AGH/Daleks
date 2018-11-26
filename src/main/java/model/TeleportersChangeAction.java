@@ -1,19 +1,30 @@
 package model;
 
+/**
+ * Action implementation that changes the teleporters counter kept in {@link GameState};
+ * Used when the Doctor picks up a teleporter power-up or teleports.
+ */
+
 public class TeleportersChangeAction implements Action {
 
-    private boolean teleporterGained;
+    private int teleportersChange;
 
-    public TeleportersChangeAction(int teleporterChange) {
-        this.teleporterGained = teleporterChange >= 0;
+    /**
+     * Class constructor
+     *
+     * @param teleportersChange change in the number of teleporters
+     */
+
+    public TeleportersChangeAction(int teleportersChange) {
+        this.teleportersChange = teleportersChange;
     }
 
     @Override
     public Status execute(Game game) {
-        if (teleporterGained)
-            game.getGameState().setNumberOfTeleporters(game.getGameState().getNumberOfTeleporters() + 1);
-        else
-            game.getGameState().setNumberOfTeleporters(game.getGameState().getNumberOfTeleporters() + 1);
+        int newTeleporters = game.getGameState().getNumberOfTeleporters() + teleportersChange;
+
+        if (newTeleporters < 0) newTeleporters = 0;
+        game.getGameState().setNumberOfTeleporters(newTeleporters);
 
         return Status.CONTINUE_GAME;
     }
