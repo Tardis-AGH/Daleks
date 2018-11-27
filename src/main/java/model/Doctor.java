@@ -2,8 +2,12 @@ package model;
 
 import javafx.scene.image.Image;
 
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public class Doctor extends DynamicBoardElement {
 
     public Doctor(Coordinates coordinates) {
@@ -15,7 +19,43 @@ public class Doctor extends DynamicBoardElement {
     }
 
     public void makeMove(Move move) {
-        //TODO
+
+        Coordinates oldCoordinates = this.getCoordinates();
+        Coordinates newCoordinates= new Coordinates(oldCoordinates);
+
+        switch (move){
+            case UP:
+                newCoordinates.setY(oldCoordinates.getY()+1);
+                break;
+            case UPPER_RIGHT:
+                newCoordinates.setY(oldCoordinates.getY()+1);
+                newCoordinates.setX(oldCoordinates.getX()+1);
+                break;
+            case RIGHT:
+                newCoordinates.setX(oldCoordinates.getX()+1);
+                break;
+            case LOWER_RIGHT:
+                newCoordinates.setY(oldCoordinates.getY()-1);
+                newCoordinates.setX(oldCoordinates.getX()+1);
+                break;
+            case DOWN:
+                newCoordinates.setY(oldCoordinates.getY()-1);
+                break;
+            case LOWER_LEFT:
+                newCoordinates.setY(oldCoordinates.getY()-1);
+                newCoordinates.setX(oldCoordinates.getX()-1);
+                break;
+            case LEFT:
+                newCoordinates.setX(oldCoordinates.getX()-1);
+                break;
+            case UPPER_LEFT:
+                newCoordinates.setY(oldCoordinates.getY()+1);
+                newCoordinates.setX(oldCoordinates.getX()-1);
+                break;
+        }
+
+        if(this.isFieldInBounds(newCoordinates))
+            this.setCoordinates(newCoordinates);
     }
 
     @Override
@@ -25,31 +65,56 @@ public class Doctor extends DynamicBoardElement {
 
     @Override
     public List<Action> visit(Dalek dalek) {
-        //TODO
-        return null;
+        List<Action>actions = new ArrayList<>();
+        actions.add(new LivesChangeAction(-1));
+        return actions;
     }
 
     @Override
     public List<Action> visit(Heart heart) {
-        //TODO
-        return null;
+        List<Action>actions = new ArrayList<>();
+        actions.add(new LivesChangeAction(+1));
+        actions.add(new ElementAdditionAction(this));
+        return actions;
     }
 
     @Override
     public List<Action> visit(Doctor doctor) {
-        //TODO
+        //NOT GONNA HAPPEN AS WE IMPLEMENT 1 DOCTOR PER GAME
         return null;
     }
 
     @Override
     public List<Action> visit(Teleporter teleporter) {
-        //TODO
-        return null;
+        List<Action>actions = new ArrayList<>();
+        actions.add(new TeleportersChangeAction(-1));
+        Coordinates newCoordinates = getNewCoordinates();
+        this.setCoordinates(newCoordinates);
+        actions.add(new ElementAdditionAction(this));
+        return actions;
     }
 
     @Override
     public List<Action> visit(ScrapPile scrapPile) {
-        //TODO
+        List<Action>actions = new ArrayList<>();
+        actions.add(new LivesChangeAction(-1));
+        return actions;
+    }
+
+
+    private Coordinates getNewCoordinates(){
+
         return null;
     }
+
+    private boolean isFieldEmpty(Coordinates coordinates){
+
+        return true;
+    }
+
+    private boolean isFieldInBounds(Coordinates coordinates){
+
+        return true;
+    }
+
 }

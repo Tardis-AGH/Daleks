@@ -24,6 +24,11 @@ public class Coordinates {
         this.y = y;
     }
 
+    public Coordinates(Coordinates coordinates){
+        this.x = coordinates.getX();
+        this.y = coordinates.getY();
+    }
+
     public int getY() {
         return y;
     }
@@ -39,4 +44,13 @@ public class Coordinates {
     void setX(int x) {
         this.x = Math.min(Math.max(x, 0), Board.getBoardWidth() - 1);
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
 }
