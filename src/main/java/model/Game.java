@@ -6,11 +6,6 @@ public class Game {
     private GameState gameState;
     private Board board;
 
-    public Game(GameState gameState, Board board) {
-        this.gameState = gameState;
-        this.board = board;
-    }
-
     public Status makeMoves(Move move) {
         //TODO
         return null;

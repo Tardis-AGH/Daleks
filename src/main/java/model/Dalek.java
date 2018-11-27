@@ -1,11 +1,13 @@
 package model;
 
+import javafx.scene.image.Image;
+
 import java.util.List;
 
 public class Dalek extends DynamicBoardElement {
 
-    public Dalek(Coordinates coordinates) {
-        super(coordinates);
+    public Dalek(Coordinates coordinates, Image sprite) {
+        super(coordinates, sprite);
     }
 
     public void makeMove(Coordinates doctorCoordinates) {
