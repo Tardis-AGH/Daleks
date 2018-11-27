@@ -2,7 +2,7 @@ package model
 
 import spock.lang.Specification
 
-class EnemyCountChangeActionTest extends Specification {
+class EnemyCountChangeActionSpec extends Specification {
     def "Execute"(int currentCount, int change, Status expectedStatus) {
         given:
         Game game = new Game(new GameState(0, 0, 0, 0, 0, currentCount), Mock(Board))

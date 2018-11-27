@@ -2,7 +2,7 @@ package model
 
 import spock.lang.Specification
 
-class ScoreChangeActionTest extends Specification {
+class ScoreChangeActionSpec extends Specification {
     def "Execute"(int currentScore, int change, Status expectedStatus, int currentHighscore, int expectedHighscore) {
         given:
         Game game = new Game(new GameState(0, 0, currentScore, 0, 0, 0), Mock(Board))

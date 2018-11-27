@@ -2,7 +2,7 @@ package model
 
 import spock.lang.Specification
 
-class TeleportersChangeActionTest extends Specification {
+class TeleportersChangeActionSpec extends Specification {
     def "Execute"(int currentTeleporters, int change, Status expectedStatus, int expectedTeleporters) {
         given:
         Game game = new Game(new GameState(0, currentTeleporters, 0, 0, 0, 0), Mock(Board))
