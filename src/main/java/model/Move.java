@@ -8,5 +8,6 @@ public enum Move {
     DOWN,
     LOWER_LEFT,
     LEFT,
-    UPPER_LEFT
+    UPPER_LEFT,
+    TELEPORT
 }
