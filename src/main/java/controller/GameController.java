@@ -6,13 +6,12 @@ import model.Game;
 import model.Move;
 
 public class GameController {
+    private Game game;
+    private Stage primaryStage;
     public GameController(Game game, Stage primaryStage) {
         this.game = game;
         this.primaryStage = primaryStage;
     }
-
-    private Game game;
-    private Stage primaryStage;
 
     public void handleLeft(Event event) {
         //TODO
