@@ -1,9 +1,11 @@
 package model
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class ScoreChangeActionSpec extends Specification {
-    def "Execute"(int currentScore, int change, Status expectedStatus, int currentHighscore, int expectedHighscore) {
+    @Unroll
+    def "Currenct score #currentScore is changed by #change and previous highscore #currentHighscore now equals to #expectedHighscore"(int currentScore, int change, Status expectedStatus, int currentHighscore, int expectedHighscore) {
         given:
         Game game = new Game(new GameState(0, 0, currentScore, 0, 0, 0), Mock(Board))
         Action action = new ScoreChangeAction(change)

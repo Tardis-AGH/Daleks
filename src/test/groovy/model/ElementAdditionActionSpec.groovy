@@ -1,9 +1,11 @@
 package model
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class ElementAdditionActionSpec extends Specification {
-    def "Execute"(BoardElement elInMap, BoardElement element) {
+    @Unroll
+    def "#element is added to a list already containing #elInMap"(BoardElement elInMap, BoardElement element) {
         given:
         Game game = new Game(Mock(GameState), new Board())
         HashMap<Coordinates, BoardElement> els = new HashMap<>()

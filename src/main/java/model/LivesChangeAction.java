@@ -11,16 +11,10 @@ public class LivesChangeAction implements Action {
     /**
      * Class constructor
      *
-     * @param liveChange change in the number of lives
+     * @param livesChange change in the number of lives
      */
 
-    public LivesChangeAction(int liveChange) {
-        this.livesChange = liveChange;
-    }
-
-    private int livesChange;
-
-    LivesChangeAction(int livesChange) {
+    public LivesChangeAction(int livesChange) {
         this.livesChange = livesChange;
     }
 

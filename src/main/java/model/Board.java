@@ -11,6 +11,10 @@ public class Board {
     private HashMap<Coordinates, BoardElement> elements;
     private Doctor doctor;
 
+    public Board() {
+
+    }
+
     public List<DynamicBoardElement> getDynamicBoardElements() {
         //TODO
         return null;

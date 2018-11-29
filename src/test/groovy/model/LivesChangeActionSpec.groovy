@@ -1,9 +1,11 @@
 package model
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class LivesChangeActionSpec extends Specification {
-    def "Execute"(int currentLives, int change, Status expectedStatus) {
+    @Unroll
+    def "Currenct lives count #currentLives is changed by #change and #expectedStatus is expected"(int currentLives, int change, Status expectedStatus) {
         given:
         Game game = new Game(new GameState(currentLives, 0, 0, 0, 0, 0), Mock(Board))
         Action action = new LivesChangeAction(change)
