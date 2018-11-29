@@ -5,14 +5,30 @@ import java.util.List;
 
 public class Board {
 
-    private static int BOARD_WIDTH;
-    private static int BOARD_HEIGHT;
+    private static int BOARD_WIDTH = 20;
+    private static int BOARD_HEIGHT = 20;
 
     private HashMap<Coordinates, BoardElement> elements;
     private Doctor doctor;
 
     public Board() {
 
+    }
+
+    public static int getBoardHeight() {
+        return BOARD_HEIGHT;
+    }
+
+    public static void setBoardHeight(int boardHeight) {
+        BOARD_HEIGHT = boardHeight;
+    }
+
+    public static int getBoardWidth() {
+        return BOARD_WIDTH;
+    }
+
+    public static void setBoardWidth(int boardWidth) {
+        BOARD_WIDTH = boardWidth;
     }
 
     public List<DynamicBoardElement> getDynamicBoardElements() {
@@ -35,21 +51,5 @@ public class Board {
 
     public HashMap<Coordinates, BoardElement> getElements() {
         return elements;
-    }
-
-    public static int getBoardHeight() {
-        return BOARD_HEIGHT;
-    }
-
-    public static void setBoardHeight(int boardHeight) {
-        BOARD_HEIGHT = boardHeight;
-    }
-
-    public static int getBoardWidth() {
-        return BOARD_WIDTH;
-    }
-
-    public static void setBoardWidth(int boardWidth) {
-        BOARD_WIDTH = boardWidth;
     }
 }
