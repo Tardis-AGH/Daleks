@@ -5,6 +5,9 @@ import java.util.List;
 
 public class Board {
 
+    private static int BOARD_WIDTH;
+    private static int BOARD_HEIGHT;
+
     private HashMap<Coordinates, BoardElement> elements;
     private Doctor doctor;
 
@@ -30,4 +33,19 @@ public class Board {
         return elements;
     }
 
+    public static int getBoardHeight() {
+        return BOARD_HEIGHT;
+    }
+
+    public static void setBoardHeight(int boardHeight) {
+        BOARD_HEIGHT = boardHeight;
+    }
+
+    public static int getBoardWidth() {
+        return BOARD_WIDTH;
+    }
+
+    public static void setBoardWidth(int boardWidth) {
+        BOARD_WIDTH = boardWidth;
+    }
 }

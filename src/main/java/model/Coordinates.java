@@ -2,7 +2,6 @@ package model;
 
 public class Coordinates {
 
-    private static int BOARD_WIDTH;
     private int x;
     private int y;
 
@@ -17,11 +16,10 @@ public class Coordinates {
 
     @Override
     public int hashCode() {
-        return y * BOARD_WIDTH + x;
+        return y * Board.getBoardWidth() + x;
     }
 
-    public Coordinates(int x, int y, int boardWidth) {
-        BOARD_WIDTH = boardWidth;
+    public Coordinates(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -31,7 +29,7 @@ public class Coordinates {
     }
 
     void setY(int y) {
-        this.y = y;
+        this.y = Math.min(Math.max(y, 0), Board.getBoardHeight() - 1);
     }
 
     public int getX() {
@@ -39,14 +37,6 @@ public class Coordinates {
     }
 
     void setX(int x) {
-        this.x = x;
-    }
-
-    public int getBoardWidth() {
-        return BOARD_WIDTH;
-    }
-
-    public static void setBoardWidth(int boardWidth) {
-        BOARD_WIDTH = boardWidth;
+        this.x = Math.min(Math.max(x, 0), Board.getBoardWidth() - 1);
     }
 }
