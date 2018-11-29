@@ -2,16 +2,41 @@ package model;
 
 import javafx.scene.image.Image;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Dalek extends DynamicBoardElement {
+
+    public Dalek(Coordinates coordinates) {
+        super(coordinates);
+    }
 
     public Dalek(Coordinates coordinates, Image sprite) {
         super(coordinates, sprite);
     }
 
     public void makeMove(Coordinates doctorCoordinates) {
-        //TODO
+        int dalekX = getCoordinates().getX();
+        int dalekY = getCoordinates().getY();
+
+        int doctorX = doctorCoordinates.getX();
+        int doctorY = doctorCoordinates.getY();
+
+        int newDalekX = dalekX;
+        int newDalekY = dalekY;
+
+        if (dalekX < doctorX) {
+            newDalekX++;
+        } else if (dalekX > doctorX) {
+            newDalekX--;
+        }
+        if (dalekY < doctorY) {
+            newDalekY++;
+        } else if (dalekY > doctorY) {
+            newDalekY--;
+        }
+        getCoordinates().setX(newDalekX);
+        getCoordinates().setY(newDalekY);
     }
 
     @Override
@@ -21,31 +46,40 @@ public class Dalek extends DynamicBoardElement {
 
     @Override
     public List<Action> visit(Dalek dalek) {
-        //TODO
-        return null;
+        List<Action> actions = new LinkedList<>();
+        ScrapPile scrapPile = new ScrapPile(this.getCoordinates());
+        actions.add(new ElementAdditionAction(scrapPile));
+        actions.add(new ScoreChangeAction(2));
+        return actions;
     }
 
     @Override
     public List<Action> visit(Heart heart) {
-        //TODO
-        return null;
+        List<Action> actions = new LinkedList<>();
+        actions.add(new ElementAdditionAction(this));
+        return actions;
     }
 
     @Override
     public List<Action> visit(Doctor doctor) {
-        //TODO
-        return null;
+        List<Action> actions = new LinkedList<>();
+        actions.add(new ElementAdditionAction(this));
+        actions.add(new LivesChangeAction(-1));
+        return actions;
     }
 
     @Override
     public List<Action> visit(Teleporter teleporter) {
-        //TODO
-        return null;
+        List<Action> actions = new LinkedList<>();
+        actions.add(new ElementAdditionAction(this));
+        return actions;
     }
 
     @Override
     public List<Action> visit(ScrapPile scrapPile) {
-        //TODO
-        return null;
+        List<Action> actions = new LinkedList<>();
+        actions.add(new ElementAdditionAction(scrapPile));
+        actions.add(new ScoreChangeAction(1));
+        return actions;
     }
 }
