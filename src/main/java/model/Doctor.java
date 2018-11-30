@@ -56,7 +56,7 @@ public class Doctor extends DynamicBoardElement {
                 break;
             case TELEPORT:
                 setCoordinates(getNewCoordinates(collisionElements));
-                actions.add(new TeleportersChangeAction(1));
+                actions.add(new TeleportersChangeAction(-1));
                 break;
         }
 
@@ -92,7 +92,7 @@ public class Doctor extends DynamicBoardElement {
     @Override
     public List<Action> visit(Teleporter teleporter) {
         List<Action> actions = new ArrayList<>();
-        actions.add(new TeleportersChangeAction(-1));
+        actions.add(new TeleportersChangeAction(1));
         return actions;
     }
 
