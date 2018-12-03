@@ -11,17 +11,17 @@ class DalekSpec extends Specification {
     def "Dalek moves from (#dalekX, #dalekY) to (#expectedX, #expectedY) towards the Doctor"(int doctorX, int doctorY, int dalekX, int dalekY, int expectedX, int expectedY) {
 
         given:
-        Dalek dalek = new Dalek(new Coordinates(dalekX, dalekY, 10), Mock(Image))
+        Dalek dalek = new Dalek(new Coordinates(dalekX, dalekY), Mock(Image))
 
         and:
-        Coordinates newDoctorCoordinates = new Coordinates(doctorX, doctorY, 10)
+        Coordinates newDoctorCoordinates = new Coordinates(doctorX, doctorY)
 
         when:
         dalek.makeMove(newDoctorCoordinates)
 
         then:
-        dalek.getCoordinates().getX() == expectedX
-        dalek.getCoordinates().getY() == expectedY
+        dalek.coordinates.x == expectedX
+        dalek.coordinates.y == expectedY
 
         where:
         doctorX | doctorY | dalekX | dalekY | expectedX | expectedY
