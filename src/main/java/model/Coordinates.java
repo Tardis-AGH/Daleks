@@ -45,4 +45,19 @@ public class Coordinates {
         this.x = Math.min(Math.max(x, 0), Board.getBoardWidth() - 1);
     }
 
+    void addToX(int deltaX) {
+        setX(getX() + deltaX);
+    }
+
+    void addToY(int deltaY) {
+        setY(getY() + deltaY);
+    }
+
+    @Override
+    public String toString() {
+        return "Coordinates{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

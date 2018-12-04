@@ -5,6 +5,8 @@ import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import java.util.stream.IntStream
+
 class DoctorSpec extends Specification {
 
     @Shared
@@ -19,14 +21,14 @@ class DoctorSpec extends Specification {
         given:
         Coordinates doctorCoordinates = new Coordinates(oldX, oldY)
         Doctor doctor = new Doctor(doctorCoordinates, Mock(Image))
-        List<BoardElement> elementList = new LinkedList<>()
+        Map<Coordinates, BoardElement> elementMap = new HashMap<>()
 
         when:
-        doctor.makeMove(move, elementList)
+        doctor.makeMove(move, elementMap)
 
         then:
-        doctor.getCoordinates().getX() == newX
-        doctor.getCoordinates().getY() == newY
+        doctor.coordinates.x == newX
+        doctor.coordinates.y == newY
 
         where:
         oldX      | oldY       | move             | newX      | newY
@@ -48,32 +50,29 @@ class DoctorSpec extends Specification {
         width - 1 | 0          | Move.UPPER_RIGHT | width - 1 | 0
     }
 
-    @Unroll
-    "Doctor teleports correctly to free space"(int[] coordinates) {
 
+    def "Doctor teleports correctly to free space"() {
         given:
         Coordinates doctorCoordinates = new Coordinates(0, 0)
         Doctor doctor = new Doctor(doctorCoordinates, Mock(Image))
         Board.setBoardHeight(4)
         Board.setBoardWidth(4)
 
-        when:
-        List<BoardElement> elementList = new ArrayList<>()
-        for (int i = 0; i < coordinates.length; i += 2) {
-            elementList.add(new Heart(new Coordinates(coordinates[i], coordinates[i + 1]), Mock(Image)))
+        and:
+        Map<Coordinates, BoardElement> elementMap = new HashMap<>()
+        List<List<Integer>> occupiedCoordinates = [[1, 1], [2, 2], [3, 3], [1, 2], [1, 3], [2, 1],
+                                                   [2, 2], [2, 3], [3, 1], [3, 2], [0, 1], [0, 2]]
+
+        for(List<Integer>list in occupiedCoordinates){
+            elementMap.put(new Coordinates(list.get(0), list.get(1)), Mock(BoardElement))
         }
-        doctor.makeMove(Move.TELEPORT, elementList)
+
+        when:
+        doctor.makeMove(Move.TELEPORT, elementMap)
 
         then:
         doctor.getCoordinates().getX() >= 0 && doctor.getCoordinates().getX() < width
         doctor.getCoordinates().getY() >= 0 && doctor.getCoordinates().getY() < height
-        for (BoardElement boardElement : elementList) {
-            !doctor.getCoordinates().equals(boardElement.getCoordinates())
-        }
-
-        where:
-        coordinates                                                              | _
-        [1, 1, 2, 2, 3, 3, 1, 2, 1, 3, 2, 1, 2, 2, 2, 3, 3, 1, 3, 2, 0, 1, 0, 2] | _
-
+        elementMap.get(doctor.coordinates) == null
     }
 }
