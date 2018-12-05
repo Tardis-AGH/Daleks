@@ -1,7 +1,9 @@
 package model;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Board {
 
@@ -13,6 +15,10 @@ public class Board {
 
     public Board() {
 
+    }
+
+    public void setElements(HashMap<Coordinates, BoardElement> elements) {
+        this.elements = elements;
     }
 
     public static int getBoardHeight() {
@@ -31,22 +37,20 @@ public class Board {
         BOARD_WIDTH = boardWidth;
     }
 
-    public List<DynamicBoardElement> getDynamicBoardElements() {
-        //TODO
-        return null;
+    public List<Dalek> getDaleks(Collection<BoardElement> elements) {
+        return elements
+                .stream()
+                .filter(e -> e instanceof Dalek)
+                .map(e -> (Dalek) e)
+                .collect(Collectors.toList());
     }
 
-    public List<StaticBoardElement> getStaticBoardElements() {
-        //TODO
-        return null;
-    }
-
-    public void setWidth(int width){
-        Board.BOARD_WIDTH=width;
-    }
-
-    public void setHeight(int height){
-        Board.BOARD_HEIGHT=height;
+    public List<StaticBoardElement> getStaticBoardElements(Collection<BoardElement> elements) {
+        return elements
+                .stream()
+                .filter(e -> e instanceof StaticBoardElement)
+                .map(e -> (StaticBoardElement) e)
+                .collect(Collectors.toList());
     }
 
     public Doctor getDoctor() {
