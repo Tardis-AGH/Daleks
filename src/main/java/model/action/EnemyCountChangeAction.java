@@ -1,13 +1,16 @@
-package model;
+package model.action;
+
+import model.Game;
+import model.Status;
 
 /**
- * Action implementation that changes the enemy counter kept in {@link GameState};
+ * Action implementation that changes the enemy counter kept in {@link model.GameState}.
  * Used whenever the number of enemies on the board decreases
  * after any of Daleks meets its end.
  */
 public class EnemyCountChangeAction implements Action {
 
-    private int enemyCountChange;
+    private final int enemyCountChange;
 
     /**
      * Class constructor
@@ -17,19 +20,18 @@ public class EnemyCountChangeAction implements Action {
      *
      * @param enemyCountChange change in the number of enemies on the board
      */
-
     public EnemyCountChangeAction(int enemyCountChange) {
         this.enemyCountChange = enemyCountChange;
     }
 
-
     @Override
     public Status execute(Game game) {
-        int newEnemyCount = game.getGameState().getEnemyCount() + enemyCountChange;
+        final int newEnemyCount = game.getGameState().getEnemyCount() + enemyCountChange;
         game.getGameState().setEnemyCount(newEnemyCount);
 
-        if (newEnemyCount <= 0)
+        if (newEnemyCount <= 0) {
             return Status.LEVEL_UP;
+        }
 
         return Status.CONTINUE_GAME;
     }

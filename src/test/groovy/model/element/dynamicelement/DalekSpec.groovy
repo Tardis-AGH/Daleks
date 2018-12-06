@@ -1,15 +1,15 @@
-package model
+package model.element.dynamicelement
 
 import javafx.scene.image.Image
+import model.Coordinates
 import spock.lang.Specification
 import spock.lang.Unroll
-
 
 class DalekSpec extends Specification {
 
     @Unroll
-    def "Dalek moves from (#dalekX, #dalekY) to (#expectedX, #expectedY) towards the Doctor"(int doctorX, int doctorY, int dalekX, int dalekY, int expectedX, int expectedY) {
-
+    def "moves a Dalek from (#dalekX, #dalekY) to (#expectedX, #expectedY) towards the Doctor"(int doctorX, int doctorY,
+            int dalekX, int dalekY, int expectedX, int expectedY) {
         given:
         Dalek dalek = new Dalek(new Coordinates(dalekX, dalekY), Mock(Image))
 
@@ -42,6 +42,5 @@ class DalekSpec extends Specification {
         1       | 1       | 0      | 1      | 1         | 1
         1       | 1       | 1      | 2      | 1         | 1
         1       | 1       | 2      | 1      | 1         | 1
-
     }
 }

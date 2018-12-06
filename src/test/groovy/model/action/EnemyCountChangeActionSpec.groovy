@@ -1,11 +1,17 @@
-package model
+package model.action
 
+import model.Board
+import model.Game
+import model.GameState
+import model.Status
 import spock.lang.Specification
 import spock.lang.Unroll
 
 class EnemyCountChangeActionSpec extends Specification {
+
     @Unroll
-    def "Currenct enemy count #currentCount is changed by #change and #expectedStatus is expected"(int currentCount, int change, Status expectedStatus) {
+    def "changes enemy count #currentCount to #expectedStatus with #change"(int currentCount, int change,
+            Status expectedStatus) {
         given:
         Game game = new Game(new GameState(0, 0, 0, 0, 0, currentCount), Mock(Board))
         Action action = new EnemyCountChangeAction(change)
@@ -22,6 +28,5 @@ class EnemyCountChangeActionSpec extends Specification {
         10           | -5     | Status.CONTINUE_GAME
         10           | -10    | Status.LEVEL_UP
         1            | 2      | Status.CONTINUE_GAME
-
     }
 }

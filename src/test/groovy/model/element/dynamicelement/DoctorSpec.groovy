@@ -1,27 +1,29 @@
-package model
+package model.element.dynamicelement
 
 import javafx.scene.image.Image
+import model.Board
+import model.Coordinates
+import model.Move
+import model.element.BoardElement
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import java.util.stream.IntStream
-
 class DoctorSpec extends Specification {
 
     @Shared
-    def width = Board.boardWidth
+    private int width = Board.boardWidth
 
     @Shared
-    def height = Board.boardHeight
+    private int height = Board.boardHeight
 
     @Unroll
-    def "Doctor moves #move from (#oldX, #oldY) to (#newX, #newY)"(int oldX, int oldY, Move move, int newX, int newY) {
-
+    def "moves the Doctor from (#oldX, #oldY) to (#newX, #newY) using #move"(int oldX, int oldY, Move move, int newX,
+            int newY) {
         given:
         Coordinates doctorCoordinates = new Coordinates(oldX, oldY)
         Doctor doctor = new Doctor(doctorCoordinates, Mock(Image))
-        Map<Coordinates, BoardElement> elementMap = new HashMap<>()
+        Map<Coordinates, BoardElement> elementMap = [:]
 
         when:
         doctor.makeMove(move, elementMap)
@@ -50,20 +52,19 @@ class DoctorSpec extends Specification {
         width - 1 | 0          | Move.UPPER_RIGHT | width - 1 | 0
     }
 
-
-    def "Doctor teleports correctly to free space"() {
+    def "teleports the Doctor correctly to free space"() {
         given:
         Coordinates doctorCoordinates = new Coordinates(0, 0)
         Doctor doctor = new Doctor(doctorCoordinates, Mock(Image))
-        Board.setBoardHeight(4)
-        Board.setBoardWidth(4)
+        Board.boardHeight = 4
+        Board.boardWidth = 4
 
         and:
-        Map<Coordinates, BoardElement> elementMap = new HashMap<>()
+        Map<Coordinates, BoardElement> elementMap = [:]
         List<List<Integer>> occupiedCoordinates = [[1, 1], [2, 2], [3, 3], [1, 2], [1, 3], [2, 1],
-                                                   [2, 2], [2, 3], [3, 1], [3, 2], [0, 1], [0, 2]]
+                [2, 2], [2, 3], [3, 1], [3, 2], [0, 1], [0, 2]]
 
-        for(List<Integer>list in occupiedCoordinates){
+        for (List<Integer> list in occupiedCoordinates) {
             elementMap.put(new Coordinates(list.get(0), list.get(1)), Mock(BoardElement))
         }
 
@@ -71,8 +72,8 @@ class DoctorSpec extends Specification {
         doctor.makeMove(Move.TELEPORT, elementMap)
 
         then:
-        doctor.getCoordinates().getX() >= 0 && doctor.getCoordinates().getX() < width
-        doctor.getCoordinates().getY() >= 0 && doctor.getCoordinates().getY() < height
+        doctor.coordinates.x >= 0 && doctor.coordinates.x < width
+        doctor.coordinates.y >= 0 && doctor.coordinates.y < height
         elementMap.get(doctor.coordinates) == null
     }
 }

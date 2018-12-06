@@ -1,11 +1,17 @@
-package model
+package model.action
 
+import model.Board
+import model.Game
+import model.GameState
+import model.Status
 import spock.lang.Specification
 import spock.lang.Unroll
 
 class TeleportersChangeActionSpec extends Specification {
+
     @Unroll
-    def "Current teleporters count #currentTeleporters is changed by #change to #expectedTeleporters and #expectedStatus is expected"(int currentTeleporters, int change, Status expectedStatus, int expectedTeleporters) {
+    def "changes teleporter count from #currentTeleporters to #expectedTeleporters using #change"(
+            int currentTeleporters, int change, Status expectedStatus, int expectedTeleporters) {
         given:
         Game game = new Game(new GameState(0, currentTeleporters, 0, 0, 0, 0), Mock(Board))
         Action action = new TeleportersChangeAction(change)

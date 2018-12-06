@@ -1,11 +1,17 @@
-package model
+package model.action
 
+import model.Board
+import model.Game
+import model.GameState
+import model.Status
 import spock.lang.Specification
 import spock.lang.Unroll
 
 class LivesChangeActionSpec extends Specification {
+
     @Unroll
-    def "Currenct lives count #currentLives is changed by #change and #expectedStatus is expected"(int currentLives, int change, Status expectedStatus) {
+    def "changes lives count #currentLives to #expectedStatus with #change"(int currentLives, int change,
+            Status expectedStatus) {
         given:
         Game game = new Game(new GameState(currentLives, 0, 0, 0, 0, 0), Mock(Board))
         Action action = new LivesChangeAction(change)
