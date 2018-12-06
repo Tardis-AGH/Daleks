@@ -5,6 +5,16 @@ public class Coordinates {
     private int x;
     private int y;
 
+    public Coordinates(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public Coordinates(Coordinates coordinates) {
+        this.x = coordinates.getX();
+        this.y = coordinates.getY();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -17,11 +27,6 @@ public class Coordinates {
     @Override
     public int hashCode() {
         return y * Board.getBoardWidth() + x;
-    }
-
-    public Coordinates(int x, int y) {
-        this.x = x;
-        this.y = y;
     }
 
     public int getY() {
@@ -38,5 +43,21 @@ public class Coordinates {
 
     void setX(int x) {
         this.x = Math.min(Math.max(x, 0), Board.getBoardWidth() - 1);
+    }
+
+    void addToX(int deltaX) {
+        setX(getX() + deltaX);
+    }
+
+    void addToY(int deltaY) {
+        setY(getY() + deltaY);
+    }
+
+    @Override
+    public String toString() {
+        return "Coordinates{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }
