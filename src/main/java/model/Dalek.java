@@ -50,6 +50,7 @@ public class Dalek extends DynamicBoardElement {
         ScrapPile scrapPile = new ScrapPile(this.getCoordinates());
         actions.add(new ElementAdditionAction(scrapPile));
         actions.add(new ScoreChangeAction(2));
+        actions.add(new EnemyCountChangeAction(-2));
         return actions;
     }
 
@@ -80,6 +81,7 @@ public class Dalek extends DynamicBoardElement {
         List<Action> actions = new LinkedList<>();
         actions.add(new ElementAdditionAction(scrapPile));
         actions.add(new ScoreChangeAction(1));
+        actions.add(new EnemyCountChangeAction(-1));
         return actions;
     }
 }

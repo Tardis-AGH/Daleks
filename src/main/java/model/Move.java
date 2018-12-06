@@ -1,6 +1,7 @@
 package model;
 
 public enum Move {
+    WAIT(0, 0),
     UP(0, -1),
     UPPER_RIGHT(1, -1),
     RIGHT(1, 0),

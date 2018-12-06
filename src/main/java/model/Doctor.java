@@ -13,6 +13,10 @@ public class Doctor extends DynamicBoardElement {
         super(coordinates, sprite);
     }
 
+    public Doctor(Coordinates coordinates) {
+        super(coordinates);
+    }
+
     /**
      * @param move              user input
      * @param collisionElements elements for possible collision
