@@ -1,12 +1,13 @@
 package model;
 
+import model.action.Action;
+import model.element.BoardElement;
+import model.element.dynamicelement.Dalek;
+
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import model.action.Action;
-import model.element.BoardElement;
-import model.element.dynamicelement.Dalek;
 
 /**
  * Root class of the model.
@@ -37,39 +38,40 @@ public class Game {
     public Status makeMoves(Move move) {
 
         // swap maps
-        final Map<Coordinates, BoardElement> oldMap = board.getElements();
-        board.setElements(new HashMap<>());
+        final Map<Coordinates, BoardElement> collisionMap = new HashMap<>();
 
         // put all static elements into the new map
-        for (BoardElement element : board.getStaticBoardElements(oldMap.values())) {
-            board.getElements().put(element.getCoordinates(), element);
+        for (BoardElement element : board.getStaticBoardElements()) {
+            collisionMap.put(element.getCoordinates(), element);
         }
 
         // Doctor's move
-        executeActions(board.getDoctor().makeMove(move, oldMap));
-        if (board.getElements().containsKey(board.getDoctor().getCoordinates())) {
+        executeActions(board.getDoctor().makeMove(move, board.getElements()));
+        if (collisionMap.containsKey(board.getDoctor().getCoordinates())) {
             final Status actionsStatus = executeActions(
-                    board.getElements().get(board.getDoctor().getCoordinates()).accept(board.getDoctor()));
+                    collisionMap.get(board.getDoctor().getCoordinates()).accept(board.getDoctor()));
+            //TODO hashmap update
 
             if (actionsStatus != Status.CONTINUE_GAME) {
                 return actionsStatus;
             }
         } else {
-            board.getElements().put(board.getDoctor().getCoordinates(), board.getDoctor());
+            collisionMap.put(board.getDoctor().getCoordinates(), board.getDoctor());
         }
 
         // Daleks' moves
-        for (Dalek dalek : board.getDaleks(oldMap.values())) {
+        for (Dalek dalek : board.getDaleks()) {
             dalek.makeMove(board.getDoctor().getCoordinates());
-            if (board.getElements().containsKey(dalek.getCoordinates())) {
+            if (collisionMap.containsKey(dalek.getCoordinates())) {
                 final Status actionsStatus =
-                        executeActions(board.getElements().get(dalek.getCoordinates()).accept(dalek));
+                        executeActions(collisionMap.get(dalek.getCoordinates()).accept(dalek));
+                //TODO hashmap update
 
                 if (actionsStatus != Status.CONTINUE_GAME) {
                     return actionsStatus;
                 }
             } else {
-                board.getElements().put(dalek.getCoordinates(), dalek);
+                collisionMap.put(dalek.getCoordinates(), dalek);
             }
         }
 

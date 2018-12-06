@@ -1,18 +1,15 @@
 package model.element.dynamicelement;
 
-import java.util.LinkedList;
-import java.util.List;
 import javafx.scene.image.Image;
 import model.Coordinates;
-import model.action.Action;
-import model.action.ElementAdditionAction;
-import model.action.EnemyCountChangeAction;
-import model.action.LivesChangeAction;
-import model.action.ScoreChangeAction;
+import model.action.*;
 import model.element.DynamicBoardElement;
 import model.element.staticelement.Heart;
 import model.element.staticelement.ScrapPile;
 import model.element.staticelement.Teleporter;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * The type Dalek.
@@ -77,6 +74,8 @@ public class Dalek extends DynamicBoardElement {
         final List<Action> actions = new LinkedList<>();
         final ScrapPile scrapPile = new ScrapPile(this.getCoordinates());
         actions.add(new ElementAdditionAction(scrapPile));
+        actions.add(new ElementDeletionAction(this));
+        actions.add(new ElementDeletionAction(dalek));
         actions.add(new ScoreChangeAction(2));
         actions.add(new EnemyCountChangeAction(-2));
         return actions;
@@ -85,14 +84,13 @@ public class Dalek extends DynamicBoardElement {
     @Override
     public List<Action> visit(Heart heart) {
         final List<Action> actions = new LinkedList<>();
-        actions.add(new ElementAdditionAction(this));
+        actions.add(new ElementDeletionAction(heart));
         return actions;
     }
 
     @Override
     public List<Action> visit(Doctor doctor) {
         final List<Action> actions = new LinkedList<>();
-        actions.add(new ElementAdditionAction(this));
         actions.add(new LivesChangeAction(-1));
         return actions;
     }
@@ -100,14 +98,14 @@ public class Dalek extends DynamicBoardElement {
     @Override
     public List<Action> visit(Teleporter teleporter) {
         final List<Action> actions = new LinkedList<>();
-        actions.add(new ElementAdditionAction(this));
+        actions.add(new ElementDeletionAction(teleporter));
         return actions;
     }
 
     @Override
     public List<Action> visit(ScrapPile scrapPile) {
         final List<Action> actions = new LinkedList<>();
-        actions.add(new ElementAdditionAction(scrapPile));
+        actions.add(new ElementDeletionAction(this));
         actions.add(new ScoreChangeAction(1));
         actions.add(new EnemyCountChangeAction(-1));
         return actions;
