@@ -41,27 +41,23 @@ public class Dalek extends DynamicBoardElement {
      * @param doctorCoordinates the doctor coordinates
      */
     public void makeMove(Coordinates doctorCoordinates) {
-        final int dalekX = getCoordinates().getX();
-        final int dalekY = getCoordinates().getY();
+        int dalekX = getCoordinates().getX();
+        int dalekY = getCoordinates().getY();
 
         final int doctorX = doctorCoordinates.getX();
         final int doctorY = doctorCoordinates.getY();
 
-        int newDalekX = dalekX;
-        int newDalekY = dalekY;
-
         if (dalekX < doctorX) {
-            newDalekX++;
+            dalekX++;
         } else if (dalekX > doctorX) {
-            newDalekX--;
+            dalekX--;
         }
         if (dalekY < doctorY) {
-            newDalekY++;
+            dalekY++;
         } else if (dalekY > doctorY) {
-            newDalekY--;
+            dalekY--;
         }
-        getCoordinates().setX(newDalekX);
-        getCoordinates().setY(newDalekY);
+        setCoordinates(new Coordinates(dalekX, dalekY));
     }
 
     @Override

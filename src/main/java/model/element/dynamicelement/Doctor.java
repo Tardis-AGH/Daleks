@@ -54,11 +54,10 @@ public class Doctor extends DynamicBoardElement {
         final LinkedList<Action> actions = new LinkedList<>();
 
         if (move == Move.TELEPORT) {
-            setCoordinates(getNewCoordinates(collisionElements));
+            setCoordinates(getRandomCoordinates(collisionElements));
             actions.add(new TeleportersChangeAction(-1));
         } else {
-            getCoordinates().addToX(move.getDeltaX());
-            getCoordinates().addToY(move.getDeltaY());
+            setCoordinates(getCoordinates().getUpdated(move));
         }
         return actions;
     }
@@ -70,12 +69,13 @@ public class Doctor extends DynamicBoardElement {
      *
      * @return new coordinates
      */
-    private Coordinates getNewCoordinates(Set<BoardElement> elements) {
+    private Coordinates getRandomCoordinates(Set<BoardElement> elements) {
 
-        final Coordinates newCoordinates = new Coordinates(0, 0);
+        Coordinates newCoordinates;
         do {
-            newCoordinates.setX(generator.nextInt(Board.getBoardWidth()));
-            newCoordinates.setY(generator.nextInt(Board.getBoardHeight()));
+            newCoordinates = new Coordinates(
+                    generator.nextInt(Board.getBoardWidth()),
+                    generator.nextInt(Board.getBoardHeight()));
         } while (!isFieldEmpty(newCoordinates, elements));
         return newCoordinates;
     }

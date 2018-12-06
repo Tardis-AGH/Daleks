@@ -1,17 +1,19 @@
 package model.element;
 
-import java.util.List;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 import model.Coordinates;
 import model.action.Action;
+
+import java.util.List;
 
 /**
  * The type Board element.
  */
 public abstract class BoardElement {
 
-    private Coordinates coordinates;
+    private final ObjectProperty<Coordinates> coordinates = new SimpleObjectProperty<>();
     private Image sprite;
 
     /**
@@ -20,7 +22,7 @@ public abstract class BoardElement {
      * @param coordinates the coordinates
      */
     public BoardElement(Coordinates coordinates) {
-        this.coordinates = coordinates;
+        this.coordinates.setValue(coordinates);
         // TODO: this.sprite
     }
 
@@ -31,7 +33,7 @@ public abstract class BoardElement {
      * @param sprite the sprite
      */
     public BoardElement(Coordinates coordinates, Image sprite) {
-        this.coordinates = coordinates;
+        this.coordinates.setValue(coordinates);
         this.sprite = sprite;
     }
 
@@ -44,14 +46,6 @@ public abstract class BoardElement {
      */
     public abstract List<Action> accept(DynamicBoardElement visitor);
 
-    /**
-     * Render.
-     *
-     * @param graphicsContext the graphics context
-     */
-    public void render(GraphicsContext graphicsContext) {
-        //TODO
-    }
 
     /**
      * Gets sprite.
@@ -77,7 +71,7 @@ public abstract class BoardElement {
      * @return the coordinates
      */
     public Coordinates getCoordinates() {
-        return coordinates;
+        return coordinates.get();
     }
 
     /**
@@ -86,6 +80,15 @@ public abstract class BoardElement {
      * @param coordinates the coordinates
      */
     public void setCoordinates(Coordinates coordinates) {
-        this.coordinates = coordinates;
+        this.coordinates.setValue(coordinates);
+    }
+
+    /**
+     * Gets coordinates property.
+     *
+     * @return the coordinates property
+     */
+    public ObjectProperty<Coordinates> getCoordinatesProperty() {
+        return coordinates;
     }
 }
