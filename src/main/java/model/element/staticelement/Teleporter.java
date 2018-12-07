@@ -1,9 +1,8 @@
 package model.element.staticelement;
 
-import java.util.List;
 import javafx.scene.image.Image;
 import model.Coordinates;
-import model.action.Action;
+import model.InteractionResult;
 import model.element.DynamicBoardElement;
 import model.element.StaticBoardElement;
 
@@ -32,7 +31,7 @@ public class Teleporter extends StaticBoardElement {
     }
 
     @Override
-    public List<Action> accept(DynamicBoardElement visitor) {
+    public InteractionResult accept(DynamicBoardElement visitor) {
         return visitor.visit(this);
     }
 }

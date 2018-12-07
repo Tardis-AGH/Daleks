@@ -1,13 +1,14 @@
 package model;
 
-import model.action.Action;
-import model.element.BoardElement;
-import model.element.dynamicelement.Dalek;
-
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import model.action.Action;
+import model.element.BoardElement;
+import model.element.DynamicBoardElement;
+import model.element.dynamicelement.Dalek;
+import model.element.dynamicelement.Doctor;
 
 /**
  * Root class of the model.
@@ -46,35 +47,18 @@ public class Game {
         }
 
         // Doctor's move
-        executeActions(board.getDoctor().makeMove(move, board.getElements()));
-        if (collisionMap.containsKey(board.getDoctor().getCoordinates())) {
-            final Status actionsStatus = executeActions(
-                    collisionMap.get(board.getDoctor().getCoordinates()).accept(board.getDoctor()));
-            //TODO hashmap update
-
-            if (actionsStatus != Status.CONTINUE_GAME) {
-                return actionsStatus;
-            }
-        } else {
-            collisionMap.put(board.getDoctor().getCoordinates(), board.getDoctor());
-        }
+        final Doctor doctor = board.getDoctor();
+        executeActions(doctor.makeMove(move, board.getElements()));
+        processCollision(collisionMap, doctor);
 
         // Daleks' moves
         for (Dalek dalek : board.getDaleks()) {
-            dalek.makeMove(board.getDoctor().getCoordinates());
-            if (collisionMap.containsKey(dalek.getCoordinates())) {
-                final Status actionsStatus =
-                        executeActions(collisionMap.get(dalek.getCoordinates()).accept(dalek));
-                //TODO hashmap update
-
-                if (actionsStatus != Status.CONTINUE_GAME) {
-                    return actionsStatus;
-                }
-            } else {
-                collisionMap.put(dalek.getCoordinates(), dalek);
+            dalek.makeMove(doctor.getCoordinates());
+            final Status actionStatus = processCollision(collisionMap, dalek);
+            if (actionStatus != Status.CONTINUE_GAME) {
+                return actionStatus;
             }
         }
-
         return Status.CONTINUE_GAME;
     }
 
@@ -84,6 +68,22 @@ public class Game {
                 .map(a -> a.execute(this))
                 .max(Comparator.comparing(Status::ordinal))
                 .orElse(Status.CONTINUE_GAME);
+    }
+
+    private Status processCollision(Map<Coordinates, BoardElement> collisionMap, DynamicBoardElement visitor) {
+        if (collisionMap.containsKey(visitor.getCoordinates())) {
+            final BoardElement visited = collisionMap.get(visitor.getCoordinates());
+            final InteractionResult interactionResult = visited.accept(visitor);
+            final BoardElement fieldWinner = interactionResult.getFieldWinner();
+            collisionMap.put(fieldWinner.getCoordinates(), fieldWinner);
+            final Status actionsStatus = executeActions(interactionResult.getActionsToExecute());
+            if (actionsStatus != Status.CONTINUE_GAME) {
+                return actionsStatus;
+            }
+        } else {
+            collisionMap.put(visitor.getCoordinates(), visitor);
+        }
+        return Status.CONTINUE_GAME;
     }
 
     /**

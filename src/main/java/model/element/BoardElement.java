@@ -4,9 +4,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 import model.Coordinates;
-import model.action.Action;
-
-import java.util.List;
+import model.InteractionResult;
 
 /**
  * The type Board element.
@@ -44,8 +42,7 @@ public abstract class BoardElement {
      *
      * @return the list
      */
-    public abstract List<Action> accept(DynamicBoardElement visitor);
-
+    public abstract InteractionResult accept(DynamicBoardElement visitor);
 
     /**
      * Gets sprite.

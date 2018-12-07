@@ -2,14 +2,16 @@ package model.element.dynamicelement;
 
 import javafx.scene.image.Image;
 import model.Coordinates;
-import model.action.*;
+import model.InteractionResult;
+import model.action.ElementAdditionAction;
+import model.action.ElementDeletionAction;
+import model.action.EnemyCountChangeAction;
+import model.action.LivesChangeAction;
+import model.action.ScoreChangeAction;
 import model.element.DynamicBoardElement;
 import model.element.staticelement.Heart;
 import model.element.staticelement.ScrapPile;
 import model.element.staticelement.Teleporter;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * The type Dalek.
@@ -61,49 +63,49 @@ public class Dalek extends DynamicBoardElement {
     }
 
     @Override
-    public List<Action> accept(DynamicBoardElement visitor) {
+    public InteractionResult accept(DynamicBoardElement visitor) {
         return visitor.visit(this);
     }
 
     @Override
-    public List<Action> visit(Dalek dalek) {
-        final List<Action> actions = new LinkedList<>();
+    public InteractionResult visit(Dalek dalek) {
         final ScrapPile scrapPile = new ScrapPile(this.getCoordinates());
-        actions.add(new ElementAdditionAction(scrapPile));
-        actions.add(new ElementDeletionAction(this));
-        actions.add(new ElementDeletionAction(dalek));
-        actions.add(new ScoreChangeAction(2));
-        actions.add(new EnemyCountChangeAction(-2));
-        return actions;
+        final InteractionResult interactionResult = new InteractionResult(scrapPile);
+        interactionResult.addAction(new ElementAdditionAction(scrapPile));
+        interactionResult.addAction(new ElementDeletionAction(this));
+        interactionResult.addAction(new ElementDeletionAction(dalek));
+        interactionResult.addAction(new ScoreChangeAction(2));
+        interactionResult.addAction(new EnemyCountChangeAction(-2));
+        return interactionResult;
     }
 
     @Override
-    public List<Action> visit(Heart heart) {
-        final List<Action> actions = new LinkedList<>();
-        actions.add(new ElementDeletionAction(heart));
-        return actions;
+    public InteractionResult visit(Heart heart) {
+        final InteractionResult interactionResult = new InteractionResult(this);
+        interactionResult.addAction(new ElementDeletionAction(heart));
+        return interactionResult;
     }
 
     @Override
-    public List<Action> visit(Doctor doctor) {
-        final List<Action> actions = new LinkedList<>();
-        actions.add(new LivesChangeAction(-1));
-        return actions;
+    public InteractionResult visit(Doctor doctor) {
+        final InteractionResult interactionResult = new InteractionResult(this);
+        interactionResult.addAction(new LivesChangeAction(-1));
+        return interactionResult;
     }
 
     @Override
-    public List<Action> visit(Teleporter teleporter) {
-        final List<Action> actions = new LinkedList<>();
-        actions.add(new ElementDeletionAction(teleporter));
-        return actions;
+    public InteractionResult visit(Teleporter teleporter) {
+        final InteractionResult interactionResult = new InteractionResult(this);
+        interactionResult.addAction(new ElementDeletionAction(teleporter));
+        return interactionResult;
     }
 
     @Override
-    public List<Action> visit(ScrapPile scrapPile) {
-        final List<Action> actions = new LinkedList<>();
-        actions.add(new ElementDeletionAction(this));
-        actions.add(new ScoreChangeAction(1));
-        actions.add(new EnemyCountChangeAction(-1));
-        return actions;
+    public InteractionResult visit(ScrapPile scrapPile) {
+        final InteractionResult interactionResult = new InteractionResult(scrapPile);
+        interactionResult.addAction(new ElementDeletionAction(this));
+        interactionResult.addAction(new ScoreChangeAction(1));
+        interactionResult.addAction(new EnemyCountChangeAction(-1));
+        return interactionResult;
     }
 }

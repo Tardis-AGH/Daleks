@@ -1,9 +1,8 @@
 package model.element;
 
-import java.util.List;
 import javafx.scene.image.Image;
 import model.Coordinates;
-import model.action.Action;
+import model.InteractionResult;
 import model.element.dynamicelement.Dalek;
 import model.element.dynamicelement.Doctor;
 import model.element.staticelement.Heart;
@@ -41,7 +40,7 @@ public abstract class DynamicBoardElement extends BoardElement {
      *
      * @return the list
      */
-    public abstract List<Action> visit(Heart heart);
+    public abstract InteractionResult visit(Heart heart);
 
     /**
      * Visit list.
@@ -50,7 +49,7 @@ public abstract class DynamicBoardElement extends BoardElement {
      *
      * @return the list
      */
-    public abstract List<Action> visit(Teleporter teleporter);
+    public abstract InteractionResult visit(Teleporter teleporter);
 
     /**
      * Visit list.
@@ -59,7 +58,7 @@ public abstract class DynamicBoardElement extends BoardElement {
      *
      * @return the list
      */
-    public abstract List<Action> visit(ScrapPile scrapPile);
+    public abstract InteractionResult visit(ScrapPile scrapPile);
 
     /**
      * Visit list.
@@ -68,7 +67,7 @@ public abstract class DynamicBoardElement extends BoardElement {
      *
      * @return the list
      */
-    public abstract List<Action> visit(Doctor doctor);
+    public abstract InteractionResult visit(Doctor doctor);
 
     /**
      * Visit list.
@@ -77,5 +76,5 @@ public abstract class DynamicBoardElement extends BoardElement {
      *
      * @return the list
      */
-    public abstract List<Action> visit(Dalek dalek);
+    public abstract InteractionResult visit(Dalek dalek);
 }
