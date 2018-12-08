@@ -1,6 +1,6 @@
 package model;
 
-import javafx.beans.property.SimpleSetProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import model.element.BoardElement;
 import model.element.StaticBoardElement;
@@ -18,7 +18,7 @@ public class Board {
     private static int BOARD_WIDTH = 20;
     private static int BOARD_HEIGHT = 20;
 
-    private final ObservableSet<BoardElement> elements = new SimpleSetProperty<>();
+    private final ObservableSet<BoardElement> elements = FXCollections.observableSet();
     private Doctor doctor;
 
     /**

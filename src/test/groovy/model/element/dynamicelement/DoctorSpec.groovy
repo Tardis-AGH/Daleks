@@ -1,5 +1,7 @@
 package model.element.dynamicelement
 
+import javafx.beans.property.SimpleSetProperty
+import javafx.collections.ObservableSet
 import javafx.scene.image.Image
 import model.Board
 import model.Coordinates
@@ -23,10 +25,10 @@ class DoctorSpec extends Specification {
         given:
         Coordinates doctorCoordinates = new Coordinates(oldX, oldY)
         Doctor doctor = new Doctor(doctorCoordinates, Mock(Image))
-        Map<Coordinates, BoardElement> elementMap = [:]
+        ObservableSet<BoardElement> elements = new SimpleSetProperty<>();
 
         when:
-        doctor.makeMove(move, elementMap)
+        doctor.makeMove(move, elements)
 
         then:
         doctor.coordinates.x == newX

@@ -22,7 +22,7 @@ public class ElementDeletionAction implements Action {
 
     @Override
     public Status execute(Game game) {
-        game.getBoard().getElements().add(element);
+        game.getBoard().getElements().remove(element);
 
         return Status.CONTINUE_GAME;
     }
