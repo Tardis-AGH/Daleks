@@ -75,5 +75,8 @@ class DoctorSpec extends Specification {
         then:
         doctor.coordinates.x >= 0 && doctor.coordinates.x < width
         doctor.coordinates.y >= 0 && doctor.coordinates.y < height
+        occupiedCoordinates.every {
+            doctor.coordinates.x != it[0] || doctor.coordinates.y != it[1]
+        }
     }
 }
