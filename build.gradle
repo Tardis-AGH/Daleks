@@ -15,4 +15,6 @@ repositories {
 dependencies {
     testCompile group: 'org.codehaus.groovy', name: 'groovy-all', version: "${groovyVersion}"
     testCompile group: 'org.spockframework', name: 'spock-core', version: "${spockVersion}"
+    compile 'org.objenesis:objenesis:1.4'
+    compile "cglib:cglib:2.2"
 }
