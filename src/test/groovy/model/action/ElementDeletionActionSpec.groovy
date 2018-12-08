@@ -13,7 +13,7 @@ import spock.lang.Unroll
 
 class ElementDeletionActionSpec extends Specification {
     @Shared
-    BoardElement e1 = new Dalek(new Coordinates(1, 1))
+    private BoardElement e1 = new Dalek(new Coordinates(1, 1))
 
     @Unroll
     def "removes #element from a set already containing #elInMap"(BoardElement elInMap, BoardElement element) {

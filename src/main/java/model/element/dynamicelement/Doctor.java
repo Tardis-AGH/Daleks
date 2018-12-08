@@ -1,8 +1,13 @@
 package model.element.dynamicelement;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import javafx.scene.image.Image;
 import model.Board;
 import model.Coordinates;
+import model.InteractionResult;
 import model.Move;
 import model.action.Action;
 import model.action.ElementDeletionAction;
@@ -13,8 +18,6 @@ import model.element.DynamicBoardElement;
 import model.element.staticelement.Heart;
 import model.element.staticelement.ScrapPile;
 import model.element.staticelement.Teleporter;
-
-import java.util.*;
 
 /**
  * The type Doctor.
@@ -73,66 +76,66 @@ public class Doctor extends DynamicBoardElement {
 
         Coordinates newCoordinates;
         do {
-            newCoordinates = new Coordinates(
-                    generator.nextInt(Board.getBoardWidth()),
+            newCoordinates = new Coordinates(generator.nextInt(Board.getBoardWidth()),
                     generator.nextInt(Board.getBoardHeight()));
         } while (!isFieldEmpty(newCoordinates, elements));
         return newCoordinates;
     }
 
     /**
-     * Check if field determined by coordinates is not occupied by any dynamic element (dalek)
+     * Check if field determined by coordinates is not occupied by any dynamic element (dalek).
      *
      * @param coordinates coordinates to check
-     * @param elements    set of elements with possible collision
+     * @param elements set of elements with possible collision
+     *
      * @return true if given field is empty, false otherwise
      */
     private boolean isFieldEmpty(Coordinates coordinates, Set<BoardElement> elements) {
         for (BoardElement boardElement : elements) {
-            if (boardElement.getCoordinates().equals(coordinates))
+            if (boardElement.getCoordinates().equals(coordinates)) {
                 return false;
+            }
         }
         return true;
     }
 
     @Override
-    public List<Action> accept(DynamicBoardElement visitor) {
+    public InteractionResult accept(DynamicBoardElement visitor) {
         return visitor.visit(this);
     }
 
     @Override
-    public List<Action> visit(Dalek dalek) {
-        final List<Action> actions = new ArrayList<>();
-        actions.add(new LivesChangeAction(-1));
-        return actions;
-    }
-
-    @Override
-    public List<Action> visit(Heart heart) {
-        final List<Action> actions = new ArrayList<>();
-        actions.add(new LivesChangeAction(+1));
-        actions.add(new ElementDeletionAction(heart));
-        return actions;
-    }
-
-    @Override
-    public List<Action> visit(Doctor doctor) {
-        // NOT GOING TO HAPPEN AS WE IMPLEMENT 1 DOCTOR PER GAME
+    public InteractionResult visit(Dalek dalek) {
+        // the Doctor is processed before the Daleks
         return null;
     }
 
     @Override
-    public List<Action> visit(Teleporter teleporter) {
-        final List<Action> actions = new ArrayList<>();
-        actions.add(new TeleportersChangeAction(1));
-        actions.add(new ElementDeletionAction(teleporter));
-        return actions;
+    public InteractionResult visit(Heart heart) {
+        final InteractionResult interactionResult = new InteractionResult(this);
+        interactionResult.addAction(new LivesChangeAction(+1));
+        interactionResult.addAction(new ElementDeletionAction(heart));
+        return interactionResult;
     }
 
     @Override
-    public List<Action> visit(ScrapPile scrapPile) {
-        final List<Action> actions = new ArrayList<>();
-        actions.add(new LivesChangeAction(-1));
-        return actions;
+    public InteractionResult visit(Doctor doctor) {
+        // only one Doctor per game
+        return null;
+    }
+
+    @Override
+    public InteractionResult visit(Teleporter teleporter) {
+        final InteractionResult interactionResult = new InteractionResult(this);
+        interactionResult.addAction(new TeleportersChangeAction(1));
+        interactionResult.addAction(new ElementDeletionAction(teleporter));
+        return interactionResult;
+    }
+
+    @Override
+    public InteractionResult visit(ScrapPile scrapPile) {
+        final InteractionResult interactionResult = new InteractionResult(scrapPile);
+        interactionResult.addAction(new LivesChangeAction(-1));
+        return interactionResult;
     }
 }
