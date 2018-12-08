@@ -49,12 +49,15 @@ public class Game {
         // Doctor's move
         final Doctor doctor = board.getDoctor();
         executeActions(doctor.makeMove(move, board.getElements()));
-        processCollision(collisionMap, doctor);
+        Status actionStatus = processCollision(collisionMap, doctor);
+        if (actionStatus != Status.CONTINUE_GAME) {
+            return actionStatus;
+        }
 
         // Daleks' moves
         for (Dalek dalek : board.getDaleks()) {
             dalek.makeMove(doctor.getCoordinates());
-            final Status actionStatus = processCollision(collisionMap, dalek);
+            actionStatus = processCollision(collisionMap, dalek);
             if (actionStatus != Status.CONTINUE_GAME) {
                 return actionStatus;
             }
