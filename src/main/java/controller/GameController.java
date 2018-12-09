@@ -4,6 +4,7 @@ import javafx.event.Event;
 import javafx.stage.Stage;
 import model.Game;
 import model.Move;
+import presenter.GameWindow;
 
 /**
  * The type Game controller.
@@ -12,6 +13,7 @@ public class GameController {
 
     private Game game;
     private Stage primaryStage;
+    private final GameWindow gameWindow = new GameWindow(this);
 
     /**
      * Instantiates a new Game controller.
@@ -25,20 +27,11 @@ public class GameController {
     }
 
     /**
-     * Handle left.
-     *
-     * @param event the event
-     */
-    public void handleLeft(Event event) {
-        //TODO
-    }
-
-    /**
      * Handle right.
      *
      * @param event the event
      */
-    public void handleRight(Event event) {
+    public void handleRestart(Event event) {
         //TODO
     }
 
@@ -49,6 +42,7 @@ public class GameController {
      */
     public void nextTurn(Move move) {
         //TODO
+        System.out.println(move);
     }
 
     /**
@@ -85,5 +79,9 @@ public class GameController {
      */
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public GameWindow getGameWindow(){
+        return this.gameWindow;
     }
 }
