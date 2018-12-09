@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Map;
 import model.action.Action;
 import model.element.BoardElement;
+import model.element.DynamicBoardElement;
 import model.element.dynamicelement.Dalek;
+import model.element.dynamicelement.Doctor;
 
 /**
  * Root class of the model.
@@ -37,42 +39,29 @@ public class Game {
     public Status makeMoves(Move move) {
 
         // swap maps
-        final Map<Coordinates, BoardElement> oldMap = board.getElements();
-        board.setElements(new HashMap<>());
+        final Map<Coordinates, BoardElement> collisionMap = new HashMap<>();
 
         // put all static elements into the new map
-        for (BoardElement element : board.getStaticBoardElements(oldMap.values())) {
-            board.getElements().put(element.getCoordinates(), element);
+        for (BoardElement element : board.getStaticBoardElements()) {
+            collisionMap.put(element.getCoordinates(), element);
         }
 
         // Doctor's move
-        executeActions(board.getDoctor().makeMove(move, oldMap));
-        if (board.getElements().containsKey(board.getDoctor().getCoordinates())) {
-            final Status actionsStatus = executeActions(
-                    board.getElements().get(board.getDoctor().getCoordinates()).accept(board.getDoctor()));
-
-            if (actionsStatus != Status.CONTINUE_GAME) {
-                return actionsStatus;
-            }
-        } else {
-            board.getElements().put(board.getDoctor().getCoordinates(), board.getDoctor());
+        final Doctor doctor = board.getDoctor();
+        executeActions(doctor.makeMove(move, board.getElements()));
+        Status actionStatus = processCollision(collisionMap, doctor);
+        if (actionStatus != Status.CONTINUE_GAME) {
+            return actionStatus;
         }
 
         // Daleks' moves
-        for (Dalek dalek : board.getDaleks(oldMap.values())) {
-            dalek.makeMove(board.getDoctor().getCoordinates());
-            if (board.getElements().containsKey(dalek.getCoordinates())) {
-                final Status actionsStatus =
-                        executeActions(board.getElements().get(dalek.getCoordinates()).accept(dalek));
-
-                if (actionsStatus != Status.CONTINUE_GAME) {
-                    return actionsStatus;
-                }
-            } else {
-                board.getElements().put(dalek.getCoordinates(), dalek);
+        for (Dalek dalek : board.getDaleks()) {
+            dalek.makeMove(doctor.getCoordinates());
+            actionStatus = processCollision(collisionMap, dalek);
+            if (actionStatus != Status.CONTINUE_GAME) {
+                return actionStatus;
             }
         }
-
         return Status.CONTINUE_GAME;
     }
 
@@ -82,6 +71,22 @@ public class Game {
                 .map(a -> a.execute(this))
                 .max(Comparator.comparing(Status::ordinal))
                 .orElse(Status.CONTINUE_GAME);
+    }
+
+    private Status processCollision(Map<Coordinates, BoardElement> collisionMap, DynamicBoardElement visitor) {
+        if (collisionMap.containsKey(visitor.getCoordinates())) {
+            final BoardElement visited = collisionMap.get(visitor.getCoordinates());
+            final InteractionResult interactionResult = visited.accept(visitor);
+            final BoardElement fieldWinner = interactionResult.getFieldWinner();
+            collisionMap.put(fieldWinner.getCoordinates(), fieldWinner);
+            final Status actionsStatus = executeActions(interactionResult.getActionsToExecute());
+            if (actionsStatus != Status.CONTINUE_GAME) {
+                return actionsStatus;
+            }
+        } else {
+            collisionMap.put(visitor.getCoordinates(), visitor);
+        }
+        return Status.CONTINUE_GAME;
     }
 
     /**

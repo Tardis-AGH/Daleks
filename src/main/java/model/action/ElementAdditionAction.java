@@ -29,7 +29,7 @@ public class ElementAdditionAction implements Action {
 
     @Override
     public Status execute(Game game) {
-        game.getBoard().getElements().put(element.getCoordinates(), element);
+        game.getBoard().getElements().add(element);
 
         return Status.CONTINUE_GAME;
     }

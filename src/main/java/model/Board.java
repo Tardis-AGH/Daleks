@@ -1,13 +1,14 @@
 package model;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableSet;
 import model.element.BoardElement;
 import model.element.StaticBoardElement;
 import model.element.dynamicelement.Dalek;
 import model.element.dynamicelement.Doctor;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The type Board.
@@ -17,7 +18,7 @@ public class Board {
     private static int BOARD_WIDTH = 20;
     private static int BOARD_HEIGHT = 20;
 
-    private HashMap<Coordinates, BoardElement> elements;
+    private final ObservableSet<BoardElement> elements = FXCollections.observableSet();
     private Doctor doctor;
 
     /**
@@ -66,22 +67,19 @@ public class Board {
     /**
      * Gets daleks.
      *
-     * @param elements the elements
      *
      * @return the daleks
      */
-    public List<Dalek> getDaleks(Collection<BoardElement> elements) {
+    public List<Dalek> getDaleks() {
         return elements.stream().filter(e -> e instanceof Dalek).map(e -> (Dalek) e).collect(Collectors.toList());
     }
 
     /**
      * Gets static board elements.
      *
-     * @param elements the elements
-     *
      * @return the static board elements
      */
-    public List<StaticBoardElement> getStaticBoardElements(Collection<BoardElement> elements) {
+    public List<StaticBoardElement> getStaticBoardElements() {
         return elements.stream()
                 .filter(e -> e instanceof StaticBoardElement)
                 .map(e -> (StaticBoardElement) e)
@@ -111,16 +109,7 @@ public class Board {
      *
      * @return the elements
      */
-    public HashMap<Coordinates, BoardElement> getElements() {
+    public ObservableSet<BoardElement> getElements() {
         return elements;
-    }
-
-    /**
-     * Sets elements.
-     *
-     * @param elements the elements
-     */
-    public void setElements(HashMap<Coordinates, BoardElement> elements) {
-        this.elements = elements;
     }
 }
