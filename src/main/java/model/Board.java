@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableSet;
 import model.element.BoardElement;
 import model.element.StaticBoardElement;
 import model.element.dynamicelement.Dalek;
@@ -22,7 +24,7 @@ public class Board {
     private static double HEART_RATIO = 0.1;
     private static double TELEPORTER_RATIO = 0.05;
 
-    private HashMap<Coordinates, BoardElement> elements;
+    private final ObservableSet<BoardElement> elements = FXCollections.observableSet();
     private Doctor doctor;
 
     /**
@@ -34,8 +36,7 @@ public class Board {
         //Insert Daleks
         Stream.iterate(0, n->n+1)
                 .peek(e->{
-                    Coordinates coordinates = this.getNewCoordinates();
-                    this.elements.put(coordinates, new Dalek(coordinates) );
+                    this.elements.add( new Dalek(this.getNewCoordinates()) );
                 })
                 .limit(this.getDaleksNumber(level))
                 .close();
@@ -43,8 +44,7 @@ public class Board {
         //Insert Hearts
         Stream.iterate(0, n->n+1)
                 .peek(e->{
-                    Coordinates coordinates = this.getNewCoordinates();
-                    this.elements.put(coordinates, new Heart(coordinates) );
+                    this.elements.add(new Heart(this.getNewCoordinates()) );
                 })
                 .limit((int)(BOARD_HEIGHT*BOARD_WIDTH*HEART_RATIO))
                 .close();
@@ -52,8 +52,7 @@ public class Board {
         //Insert Teleporters
         Stream.iterate(0, n->n+1)
                 .peek(e->{
-                    Coordinates coordinates = this.getNewCoordinates();
-                    this.elements.put(coordinates, new Teleporter(coordinates) );
+                    this.elements.add(new Teleporter(this.getNewCoordinates()) );
                 })
                 .limit((int)(BOARD_HEIGHT*BOARD_WIDTH*TELEPORTER_RATIO))
                 .close();
@@ -65,7 +64,7 @@ public class Board {
         Stream.iterate(0, n->n+1)
                 .peek(e->{
                     Coordinates coordinates = this.getNewCoordinates();
-                    this.elements.put(coordinates, new ScrapPile(coordinates) );
+                    this.elements.add(new ScrapPile(coordinates) );
                 })
                 .limit((int)(BOARD_HEIGHT*BOARD_WIDTH*pileRatio))
                 .close();
@@ -157,19 +156,9 @@ public class Board {
      *
      * @return the elements
      */
-    public HashMap<Coordinates, BoardElement> getElements() {
+    public ObservableSet<BoardElement> getElements() {
         return elements;
     }
-
-    /**
-     * Sets elements.
-     *
-     * @param elements the elements
-     */
-    public void setElements(HashMap<Coordinates, BoardElement> elements) {
-        this.elements = elements;
-    }
-
 
     /**
      * @param level parameter to calculate number of daleks
@@ -180,16 +169,30 @@ public class Board {
     }
 
     /**
-     * @return new coordinates for new element
+     * Get new valid (not occupied) coordinates.
+     *
+     * @return new coordinates
      */
     private Coordinates getNewCoordinates() {
         Random generator = new Random();
-        final Coordinates newCoordinates = new Coordinates(0, 0);
+        Coordinates newCoordinates;
         do {
-            newCoordinates.setX(generator.nextInt(Board.getBoardWidth()));
-            newCoordinates.setY(generator.nextInt(Board.getBoardHeight()));
-        } while (elements.containsKey(newCoordinates));
+            newCoordinates = new Coordinates(generator.nextInt(Board.getBoardWidth()),
+                    generator.nextInt(Board.getBoardHeight()));
+        } while (!isFieldEmpty(newCoordinates));
         return newCoordinates;
+    }
+
+    /**
+     * @return new coordinates for new element
+     */
+    private boolean isFieldEmpty(Coordinates coordinates) {
+        for (BoardElement boardElement : elements) {
+            if (boardElement.getCoordinates().equals(coordinates)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
