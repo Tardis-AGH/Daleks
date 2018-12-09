@@ -15,6 +15,8 @@ repositories {
 dependencies {
     testCompile group: 'org.codehaus.groovy', name: 'groovy-all', version: "${groovyVersion}"
     testCompile group: 'org.spockframework', name: 'spock-core', version: "${spockVersion}"
-    compile 'org.objenesis:objenesis:1.4'
-    compile "cglib:cglib:2.2"
+    // allows mocking of classes (in addition to interfaces)
+    testRuntime group: 'net.bytebuddy', name: 'byte-buddy', version: "${byteBuddyVersion}"
+    // allows mocking of classes without default constructor (together with CGLIB)
+    testRuntime group: 'org.objenesis', name: 'objenesis', version: "${objenesisVersion}"
 }

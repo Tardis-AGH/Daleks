@@ -5,6 +5,7 @@ import model.Board
 import model.Coordinates
 import model.Move
 import model.element.BoardElement
+import model.element.staticelement.Heart
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -23,10 +24,10 @@ class DoctorSpec extends Specification {
         given:
         Coordinates doctorCoordinates = new Coordinates(oldX, oldY)
         Doctor doctor = new Doctor(doctorCoordinates, Mock(Image))
-        Map<Coordinates, BoardElement> elementMap = [:]
+        Set<BoardElement> elementSet = [] as Set
 
         when:
-        doctor.makeMove(move, elementMap)
+        doctor.makeMove(move, elementSet)
 
         then:
         doctor.coordinates.x == newX
@@ -60,20 +61,22 @@ class DoctorSpec extends Specification {
         Board.boardWidth = 4
 
         and:
-        Map<Coordinates, BoardElement> elementMap = [:]
+        Set<BoardElement> elementSet = [] as Set
         List<List<Integer>> occupiedCoordinates = [[1, 1], [2, 2], [3, 3], [1, 2], [1, 3], [2, 1],
                 [2, 2], [2, 3], [3, 1], [3, 2], [0, 1], [0, 2]]
 
         for (List<Integer> list in occupiedCoordinates) {
-            elementMap.put(new Coordinates(list.get(0), list.get(1)), Mock(BoardElement))
+            elementSet.add(new Heart(new Coordinates(list.get(0), list.get(1))))
         }
 
         when:
-        doctor.makeMove(Move.TELEPORT, elementMap)
+        doctor.makeMove(Move.TELEPORT, elementSet)
 
         then:
         doctor.coordinates.x >= 0 && doctor.coordinates.x < width
         doctor.coordinates.y >= 0 && doctor.coordinates.y < height
-        elementMap.get(doctor.coordinates) == null
+        occupiedCoordinates.every {
+            doctor.coordinates.x != it[0] || doctor.coordinates.y != it[1]
+        }
     }
 }

@@ -1,5 +1,6 @@
 package model.action
 
+
 import model.Board
 import model.Coordinates
 import model.Game
@@ -16,14 +17,12 @@ import spock.lang.Unroll
 class ElementAdditionActionSpec extends Specification {
 
     @Unroll
-    def "adds #element to a list already containing #elInMap"(BoardElement elInMap, BoardElement element) {
+    def "adds #element to a set already containing #elInMap"(BoardElement elInMap, BoardElement element) {
         given:
         Game game = new Game(Mock(GameState), new Board())
-        Map<Coordinates, BoardElement> els = [:]
         if (elInMap != null) {
-            els.put(elInMap.coordinates, elInMap)
+            game.board.elements.add(elInMap)
         }
-        game.board.elements = els
 
         Action action = new ElementAdditionAction(element)
 
@@ -31,7 +30,7 @@ class ElementAdditionActionSpec extends Specification {
         action.execute(game)
 
         then:
-        game.board.elements.get(element.coordinates) == element
+        game.board.elements.contains(element)
 
         where:
         elInMap                              | element
