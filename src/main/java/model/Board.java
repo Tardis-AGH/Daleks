@@ -1,11 +1,8 @@
 package model;
 
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
+import javafx.scene.image.Image;
 import model.element.BoardElement;
 import model.element.StaticBoardElement;
 import model.element.dynamicelement.Dalek;
@@ -14,15 +11,21 @@ import model.element.staticelement.Heart;
 import model.element.staticelement.ScrapPile;
 import model.element.staticelement.Teleporter;
 
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 /**
  * The type Board.
  */
 public class Board {
 
-    private static int BOARD_WIDTH = 21;
-    private static int BOARD_HEIGHT = 21;
-    private static double HEART_RATIO = 0.1;
-    private static double TELEPORTER_RATIO = 0.05;
+    private static int BOARD_WIDTH = 15;
+    private static int BOARD_HEIGHT = 15;
+    private static double HEART_RATIO = 0.01;
+    private static double TELEPORTER_RATIO = 0.01;
+    private static double SCRAP_PILE_RATIO = 0.00;
 
     private final ObservableSet<BoardElement> elements = FXCollections.observableSet();
     private Doctor doctor;
@@ -33,43 +36,45 @@ public class Board {
     public Board(int level) {
         this.setBoardDimensions(level);
 
-        //Insert Daleks
-        Stream.iterate(0, n->n+1)
-                .peek(e->{
-                    this.elements.add( new Dalek(this.getNewCoordinates()) );
-                })
+        Stream.iterate(1L, n -> n + 1)
                 .limit(this.getDaleksNumber(level))
-                .close();
+                .forEach(e -> {
+                    Image dalekImage = new Image((getClass().getClassLoader().getResource("images/dalek/dalek5.png")).toExternalForm());
+                    this.elements.add(new Dalek(this.getNewCoordinates(), dalekImage));
+                });
 
         //Insert Hearts
-        Stream.iterate(0, n->n+1)
-                .peek(e->{
-                    this.elements.add(new Heart(this.getNewCoordinates()) );
-                })
-                .limit((int)(BOARD_HEIGHT*BOARD_WIDTH*HEART_RATIO))
-                .close();
+        Stream.iterate(0, n -> n + 1)
+                .limit((int) (BOARD_HEIGHT * BOARD_WIDTH * HEART_RATIO))
+                .forEach(e -> {
+                    Image heartImage = new Image((getClass().getClassLoader().getResource("images/powerup/heart.png")).toExternalForm());
+                    this.elements.add(new Heart(this.getNewCoordinates(), heartImage));
+                });
 
         //Insert Teleporters
-        Stream.iterate(0, n->n+1)
-                .peek(e->{
-                    this.elements.add(new Teleporter(this.getNewCoordinates()) );
-                })
-                .limit((int)(BOARD_HEIGHT*BOARD_WIDTH*TELEPORTER_RATIO))
-                .close();
+        Stream.iterate(0, n -> n + 1)
+                .limit((int) (BOARD_HEIGHT * BOARD_WIDTH * TELEPORTER_RATIO))
+                .forEach(e -> {
+                    Image teleportImage = new Image((getClass().getClassLoader().getResource("images/powerup/tardis.png")).toExternalForm());
+                    this.elements.add(new Teleporter(this.getNewCoordinates(), teleportImage));
+                });
 
         Random generator = new Random();
-        double pileRatio = generator.nextDouble() * .05;
+        double pileRatio = generator.nextDouble() * SCRAP_PILE_RATIO;
 
         //Insert scrap piles (randomized)
-        Stream.iterate(0, n->n+1)
-                .peek(e->{
-                    Coordinates coordinates = this.getNewCoordinates();
-                    this.elements.add(new ScrapPile(coordinates) );
-                })
-                .limit((int)(BOARD_HEIGHT*BOARD_WIDTH*pileRatio))
-                .close();
+        Stream.iterate(0, n -> n + 1)
+                .limit((int) (BOARD_HEIGHT * BOARD_WIDTH * pileRatio))
+                .forEach(e -> {
+                    Image scrapImage = new Image((getClass().getClassLoader().getResource("images/misc/scrap.png")).toExternalForm());
+                    this.elements.add(new ScrapPile(this.getNewCoordinates(), scrapImage));
+                });
 
-        this.doctor = new Doctor(new Coordinates(BOARD_WIDTH/2+1, BOARD_HEIGHT/2+1 ));
+        // Image doctorImage = new Image("/images/dalek/dalek1.png");
+        // this.doctor = new Doctor(new Coordinates(BOARD_WIDTH/2+1, BOARD_HEIGHT/2+1 ), doctorImage);
+        Image doctorImage = new Image((getClass().getClassLoader().getResource("images/doctor/doctor.png")).toExternalForm());
+        this.doctor = new Doctor(new Coordinates(BOARD_WIDTH / 2, BOARD_HEIGHT / 2), doctorImage);
+        this.elements.add(doctor);
     }
 
     /**
@@ -111,22 +116,18 @@ public class Board {
     /**
      * Gets daleks.
      *
-     * @param elements the elements
-     *
      * @return the daleks
      */
-    public List<Dalek> getDaleks(Collection<BoardElement> elements) {
+    public List<Dalek> getDaleks() {
         return elements.stream().filter(e -> e instanceof Dalek).map(e -> (Dalek) e).collect(Collectors.toList());
     }
 
     /**
      * Gets static board elements.
      *
-     * @param elements the elements
-     *
      * @return the static board elements
      */
-    public List<StaticBoardElement> getStaticBoardElements(Collection<BoardElement> elements) {
+    public List<StaticBoardElement> getStaticBoardElements() {
         return elements.stream()
                 .filter(e -> e instanceof StaticBoardElement)
                 .map(e -> (StaticBoardElement) e)
@@ -164,8 +165,8 @@ public class Board {
      * @param level parameter to calculate number of daleks
      * @return number of daleks to place
      */
-    private int getDaleksNumber(int level){
-        return (int)(1.5*Math.sqrt(level-1) + 5);
+    private int getDaleksNumber(int level) {
+        return (int) (1.5 * Math.sqrt(level - 1) + 5);
     }
 
     /**
@@ -198,9 +199,9 @@ public class Board {
     /**
      * @param level parameter for board expansion
      */
-    private void setBoardDimensions(int level){
-        int factor = level/2-1;
-        BOARD_WIDTH+=factor*2;
-        BOARD_HEIGHT+=factor*2;
+    private void setBoardDimensions(int level) {
+        int factor = level / 2 - 1;
+        BOARD_WIDTH += factor * 2;
+        BOARD_HEIGHT += factor * 2;
     }
 }

@@ -1,13 +1,18 @@
-package presenter;
+package view;
 
 import controller.GameController;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import model.Board;
+import model.Coordinates;
 import model.Move;
+import model.element.BoardElement;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -33,6 +38,8 @@ public class GameWindow extends VBox {
     private Button restart = new Button();
     private Button teleport = new Button();
 
+    private GridPane tiles;
+
     public GameWindow(GameController gameController) {
         this.setPrefSize(NATIVE_BOARD_WIDTH, NATIVE_BOARD_HEIGHT);
 
@@ -54,7 +61,8 @@ public class GameWindow extends VBox {
                 .limit(Board.getBoardHeight());
         gridPane.getColumnConstraints().addAll(columns.collect(Collectors.toSet()));
         gridPane.getRowConstraints().addAll(rows.collect(Collectors.toSet()));
-        this.getChildren().add(gridPane);
+        this.tiles = gridPane;
+        this.getChildren().add(this.tiles);
 
         GridPane controls = new GridPane();
         down.setTranslateX(((double) NATIVE_BOARD_WIDTH / 2) - ((double) NAVIGATION_BUTTON_SIZE / 2));
@@ -143,6 +151,21 @@ public class GameWindow extends VBox {
         controls.getChildren().add(restart);
 
         this.getChildren().add(controls);
+
+        for (BoardElement boardElement : gameController.getGame().getBoard().getElements()) {
+            Sprite sprite = new Sprite(boardElement, this);
+        }
     }
 
+    public GridPane getTiles() {
+        return tiles;
+    }
+
+    public static int getNativeBoardWidth() {
+        return NATIVE_BOARD_WIDTH;
+    }
+
+    public static int getNativeBoardHeight() {
+        return NATIVE_BOARD_HEIGHT;
+    }
 }

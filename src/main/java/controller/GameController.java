@@ -4,7 +4,7 @@ import javafx.event.Event;
 import javafx.stage.Stage;
 import model.Game;
 import model.Move;
-import presenter.GameWindow;
+import view.GameWindow;
 
 /**
  * The type Game controller.
@@ -13,7 +13,7 @@ public class GameController {
 
     private Game game;
     private Stage primaryStage;
-    private final GameWindow gameWindow = new GameWindow(this);
+    private final GameWindow gameWindow;
 
     /**
      * Instantiates a new Game controller.
@@ -24,6 +24,7 @@ public class GameController {
     public GameController(Game game, Stage primaryStage) {
         this.game = game;
         this.primaryStage = primaryStage;
+        this.gameWindow = new GameWindow(this);
     }
 
     /**
@@ -43,6 +44,7 @@ public class GameController {
     public void nextTurn(Move move) {
         //TODO
         System.out.println(move);
+        game.makeMoves(move);
     }
 
     /**
