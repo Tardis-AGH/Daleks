@@ -32,11 +32,13 @@ class GameSpec extends Specification {
         daleksAfter.sort() == expectedDaleks.sort()
 
         where:
-        doctor | daleks           | move            | expectedDoctor | expectedDaleks
-        [0, 0] | [[0, 2], [3, 0]] | Move.RIGHT      | [1, 0]         | [[1, 1], [2, 0]]
-        [3, 3] | [[0, 0], [3, 0]] | Move.UPPER_LEFT | [2, 2]         | [[1, 1], [2, 1]]
-        [0, 0] | [[3, 0], [0, 3]] | Move.LEFT       | [0, 0]         | [[2, 0], [0, 2]]
-        [3, 0] | [[0, 0], [0, 3]] | Move.DOWN       | [3, 1]         | [[1, 1], [1, 2]]
+        doctor | daleks           | move             | expectedDoctor | expectedDaleks
+        [0, 0] | [[0, 2], [3, 0]] | Move.RIGHT       | [1, 0]         | [[1, 1], [2, 0]]
+        [3, 3] | [[0, 0], [3, 0]] | Move.UPPER_LEFT  | [2, 2]         | [[1, 1], [2, 1]]
+        [0, 0] | [[3, 0], [0, 3]] | Move.LEFT        | [0, 0]         | [[2, 0], [0, 2]]
+        [3, 0] | [[0, 0], [0, 3]] | Move.DOWN        | [3, 1]         | [[1, 1], [1, 2]]
+        [0, 0] | []               | Move.UPPER_LEFT  | [0, 0]         | []
+        [0, 0] | []               | Move.LOWER_RIGHT | [1, 1]         | []
     }
 
     @Unroll
@@ -44,7 +46,7 @@ class GameSpec extends Specification {
             List<List<Integer>> daleks, List<List<Integer>> piles, List<List<Integer>> expectedDaleks,
             List<List<Integer>> expectedPiles, Status status) {
         given:
-        Game game = new Game(Mock(GameState) { getEnemyCount() >> daleks.size() }, new Board())
+        Game game = new Game(new GameState(0, 0, 0, 0, 0, daleks.size()), new Board())
         game.board.doctor = new Doctor(new Coordinates(4, 4))
         daleks.forEach { game.board.elements.add(new Dalek(new Coordinates(it[0], it[1]))) }
         piles.forEach { game.board.elements.add(new ScrapPile(new Coordinates(it[0], it[1]))) }
@@ -71,6 +73,10 @@ class GameSpec extends Specification {
         [[3, 0], [2, 0], [1, 1]] | []       | [[2, 2]]       | [[3, 1]]         | Status.CONTINUE_GAME
         [[3, 0], [2, 0]]         | [[7, 7]] | []             | [[3, 1], [7, 7]] | Status.LEVEL_UP
         [[3, 0], [2, 0], [1, 1]] | [[7, 7]] | [[2, 2]]       | [[3, 1], [7, 7]] | Status.CONTINUE_GAME
+        [[2, 1], [3, 1], [4, 1]] | []       | []             | [[3, 2]]         | Status.LEVEL_UP
+        [[2, 1], [3, 1], [4, 1]] | [[3, 2]] | []             | [[3, 2]]         | Status.LEVEL_UP
+        [[2, 1], [3, 1], [4, 1]] | [[7, 7]] | []             | [[3, 2], [7, 7]] | Status.LEVEL_UP
+
     }
 
     @Unroll
