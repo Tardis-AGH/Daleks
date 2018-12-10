@@ -1,13 +1,13 @@
 package model.element.dynamicelement;
 
-import javafx.scene.image.Image;
-import model.Coordinates;
 import model.InteractionResult;
 import model.action.ElementAdditionAction;
 import model.action.ElementDeletionAction;
 import model.action.EnemyCountChangeAction;
 import model.action.LivesChangeAction;
 import model.action.ScoreChangeAction;
+import model.board.Coordinates;
+import model.board.Move;
 import model.element.DynamicBoardElement;
 import model.element.staticelement.Heart;
 import model.element.staticelement.ScrapPile;
@@ -18,6 +18,8 @@ import model.element.staticelement.Teleporter;
  */
 public class Dalek extends DynamicBoardElement {
 
+    private static final String SPRITE_PATH = "images/dalek/dalek5.png";
+
     /**
      * Instantiates a new Dalek.
      *
@@ -25,16 +27,6 @@ public class Dalek extends DynamicBoardElement {
      */
     public Dalek(Coordinates coordinates) {
         super(coordinates);
-    }
-
-    /**
-     * Instantiates a new Dalek.
-     *
-     * @param coordinates the coordinates
-     * @param sprite the sprite
-     */
-    public Dalek(Coordinates coordinates, Image sprite) {
-        super(coordinates, sprite);
     }
 
     /**
@@ -59,7 +51,8 @@ public class Dalek extends DynamicBoardElement {
         } else if (dalekY > doctorY) {
             dalekY--;
         }
-        setCoordinates(new Coordinates(dalekX, dalekY));
+
+        setCoordinates(getCoordinates().getUpdated(dalekX, dalekY));
     }
 
     @Override
@@ -69,7 +62,7 @@ public class Dalek extends DynamicBoardElement {
 
     @Override
     public InteractionResult visit(Dalek dalek) {
-        final ScrapPile scrapPile = new ScrapPile(this.getCoordinates());
+        final ScrapPile scrapPile = new ScrapPile(getCoordinates().getUpdated(Move.WAIT));
         final InteractionResult interactionResult = new InteractionResult(scrapPile);
         interactionResult.addAction(new ElementAdditionAction(scrapPile));
         interactionResult.addAction(new ElementDeletionAction(this));

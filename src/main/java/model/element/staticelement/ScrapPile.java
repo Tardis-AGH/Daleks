@@ -1,8 +1,7 @@
 package model.element.staticelement;
 
-import javafx.scene.image.Image;
-import model.Coordinates;
 import model.InteractionResult;
+import model.board.Coordinates;
 import model.element.DynamicBoardElement;
 import model.element.StaticBoardElement;
 
@@ -11,6 +10,8 @@ import model.element.StaticBoardElement;
  */
 public class ScrapPile extends StaticBoardElement {
 
+    private static final String SPRITE_PATH = "images/dalek/dalek5.png";
+
     /**
      * Instantiates a new Scrap pile.
      *
@@ -18,16 +19,6 @@ public class ScrapPile extends StaticBoardElement {
      */
     public ScrapPile(Coordinates coordinates) {
         super(coordinates);
-    }
-
-    /**
-     * Instantiates a new Scrap pile.
-     *
-     * @param coordinates the coordinates
-     * @param sprite the sprite
-     */
-    public ScrapPile(Coordinates coordinates, Image sprite) {
-        super(coordinates, sprite);
     }
 
     @Override

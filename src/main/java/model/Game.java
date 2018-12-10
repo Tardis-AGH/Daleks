@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import model.action.Action;
+import model.board.Board;
+import model.board.Coordinates;
+import model.board.Move;
 import model.element.BoardElement;
 import model.element.DynamicBoardElement;
 import model.element.dynamicelement.Dalek;
@@ -48,7 +51,7 @@ public class Game {
 
         // Doctor's move
         final Doctor doctor = board.getDoctor();
-        executeActions(doctor.makeMove(move, board.getElements()));
+        executeActions(doctor.makeMove(move));
         Status actionStatus = processCollision(collisionMap, doctor);
         if (actionStatus != Status.CONTINUE_GAME) {
             return actionStatus;

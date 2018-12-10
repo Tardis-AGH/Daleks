@@ -1,6 +1,6 @@
 package model.action
 
-import model.Board
+import model.board.Board
 import model.Game
 import model.GameState
 import model.Status

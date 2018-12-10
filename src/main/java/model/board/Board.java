@@ -1,5 +1,7 @@
-package model;
+package model.board;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import model.element.BoardElement;
@@ -7,66 +9,37 @@ import model.element.StaticBoardElement;
 import model.element.dynamicelement.Dalek;
 import model.element.dynamicelement.Doctor;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 /**
  * The type Board.
  */
 public class Board {
 
-    private static int BOARD_WIDTH = 20;
-    private static int BOARD_HEIGHT = 20;
-
-    private final ObservableSet<BoardElement> elements = FXCollections.observableSet();
-    private Doctor doctor;
+    private final ObservableSet<BoardElement> elements;
+    private final Doctor doctor;
 
     /**
      * Instantiates a new Board.
+     *
+     * @param doctor the doctor
      */
-    public Board() {
-
+    public Board(Doctor doctor) {
+        this.elements = FXCollections.observableSet();
+        this.doctor = doctor;
     }
 
     /**
-     * Gets board height.
+     * Instantiates a new Board.
      *
-     * @return the board height
+     * @param elements the elements
+     * @param doctor the doctor
      */
-    public static int getBoardHeight() {
-        return BOARD_HEIGHT;
-    }
-
-    /**
-     * Sets board height.
-     *
-     * @param boardHeight the board height
-     */
-    public static void setBoardHeight(int boardHeight) {
-        BOARD_HEIGHT = boardHeight;
-    }
-
-    /**
-     * Gets board width.
-     *
-     * @return the board width
-     */
-    public static int getBoardWidth() {
-        return BOARD_WIDTH;
-    }
-
-    /**
-     * Sets board width.
-     *
-     * @param boardWidth the board width
-     */
-    public static void setBoardWidth(int boardWidth) {
-        BOARD_WIDTH = boardWidth;
+    public Board(ObservableSet<BoardElement> elements, Doctor doctor) {
+        this.elements = elements;
+        this.doctor = doctor;
     }
 
     /**
      * Gets daleks.
-     *
      *
      * @return the daleks
      */
@@ -93,15 +66,6 @@ public class Board {
      */
     public Doctor getDoctor() {
         return doctor;
-    }
-
-    /**
-     * Sets doctor.
-     *
-     * @param doctor the doctor
-     */
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
     }
 
     /**

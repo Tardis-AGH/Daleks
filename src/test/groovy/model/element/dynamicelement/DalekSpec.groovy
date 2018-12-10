@@ -1,20 +1,25 @@
 package model.element.dynamicelement
 
-import javafx.scene.image.Image
-import model.Coordinates
+import model.board.Coordinates
+import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
 class DalekSpec extends Specification {
 
+    @Shared
+    private int boardWidth = 10
+    @Shared
+    private int boardHeight = 10
+
     @Unroll
     def "moves a Dalek from (#dalekX, #dalekY) to (#expectedX, #expectedY) towards the Doctor"(int doctorX, int doctorY,
             int dalekX, int dalekY, int expectedX, int expectedY) {
         given:
-        Dalek dalek = new Dalek(new Coordinates(dalekX, dalekY), Mock(Image))
+        Dalek dalek = new Dalek(new Coordinates( dalekX, dalekY, boardWidth, boardHeight,))
 
         and:
-        Coordinates newDoctorCoordinates = new Coordinates(doctorX, doctorY)
+        Coordinates newDoctorCoordinates = new Coordinates(doctorX, doctorY, boardWidth, boardHeight)
 
         when:
         dalek.makeMove(newDoctorCoordinates)

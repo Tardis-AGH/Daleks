@@ -3,7 +3,7 @@ package controller;
 import javafx.event.Event;
 import javafx.stage.Stage;
 import model.Game;
-import model.Move;
+import model.board.Move;
 
 /**
  * The type Game controller.

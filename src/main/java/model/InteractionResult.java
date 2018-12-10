@@ -13,13 +13,18 @@ public class InteractionResult {
     private final List<Action> actionsToExecute;
     private final BoardElement fieldWinner;
 
+    /**
+     * Instantiates a new Interaction result.
+     *
+     * @param fieldWinner the field winner
+     */
     public InteractionResult(BoardElement fieldWinner) {
         this.fieldWinner = fieldWinner;
         this.actionsToExecute = new LinkedList<>();
     }
 
     /**
-     * Gets the board field winner to be added to a map in {@link model.Game#makeMoves(Move)}.
+     * Gets the board field winner to be added to a map in {@link model.Game#makeMoves(model.board.Coordinates.Move)}.
      *
      * @return the field winner
      */
@@ -41,7 +46,6 @@ public class InteractionResult {
      *
      * @return the field winner
      */
-
     public List<Action> getActionsToExecute() {
         return actionsToExecute;
     }

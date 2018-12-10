@@ -1,40 +1,43 @@
 package model.action
 
-import model.Board
-import model.Coordinates
 import model.Game
 import model.GameState
+import model.board.Board
+import model.board.Coordinates
 import model.element.BoardElement
 import model.element.dynamicelement.Dalek
+import model.element.dynamicelement.Doctor
 import model.element.staticelement.ScrapPile
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
 class ElementDeletionActionSpec extends Specification {
+
     @Shared
-    private BoardElement e1 = new Dalek(new Coordinates(1, 1))
+    private int boardWidth = 10
+    @Shared
+    private int boardHeight = 10
+    @Shared
+    private BoardElement e1 = new Dalek(new Coordinates(1, 1, boardWidth, boardHeight))
 
     @Unroll
-    def "removes #element from a set already containing #elInMap"(BoardElement elInMap, BoardElement element) {
+    def "removes #element from a set already containing #elInMap"(BoardElement elInMap) {
         given:
-        Game game = new Game(Mock(GameState), new Board())
+        Game game = new Game(Mock(GameState), new Board(Mock(Doctor)))
         if (elInMap != null) {
             game.board.elements.add(elInMap)
         }
 
-        Action action = new ElementDeletionAction(element)
+        Action action = new ElementDeletionAction(e1)
 
         when:
         action.execute(game)
 
         then:
-        !game.board.elements.contains(element)
+        !game.board.elements.contains(e1)
 
         where:
-        elInMap                              | element
-        null                                 | e1
-        e1                                   | e1
-        new ScrapPile(new Coordinates(3, 3)) | e1
+        elInMap << [null, e1, new ScrapPile(new Coordinates(boardWidth, boardHeight, 3, 3))]
     }
 }

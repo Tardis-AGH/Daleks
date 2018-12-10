@@ -5,7 +5,7 @@ import model.Status;
 import model.element.BoardElement;
 
 /**
- * Action implementation that removes a board elements from the set in {@link model.Board}.
+ * Action implementation that removes a board elements from the set in {@link model.board.Board}.
  */
 public class ElementDeletionAction implements Action {
 
