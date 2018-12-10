@@ -1,5 +1,6 @@
 package model.action
 
+import javafx.collections.ObservableSet
 import model.Game
 import model.GameState
 import model.board.Board
@@ -24,7 +25,7 @@ class ElementDeletionActionSpec extends Specification {
     @Unroll
     def "removes #element from a set already containing #elInMap"(BoardElement elInMap) {
         given:
-        Game game = new Game(Mock(GameState), new Board(Mock(Doctor)))
+        Game game = new Game(Mock(GameState), new Board(Mock(ObservableSet), Mock(Doctor)))
         if (elInMap != null) {
             game.board.elements.add(elInMap)
         }

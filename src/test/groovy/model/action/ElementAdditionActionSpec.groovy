@@ -1,5 +1,7 @@
 package model.action
 
+import javafx.collections.FXCollections
+import javafx.collections.ObservableSet
 import model.Game
 import model.GameState
 import model.board.Board
@@ -25,7 +27,7 @@ class ElementAdditionActionSpec extends Specification {
     @Unroll
     def "adds #element to a set already containing #elInMap"(BoardElement elInMap, BoardElement element) {
         given:
-        Game game = new Game(Mock(GameState), new Board(Mock(Doctor)))
+        Game game = new Game(Mock(GameState), new Board(FXCollections.observableSet(), Mock(Doctor)))
         if (elInMap != null) {
             game.board.elements.add(elInMap)
         }

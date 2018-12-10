@@ -20,16 +20,6 @@ public class Board {
     /**
      * Instantiates a new Board.
      *
-     * @param doctor the doctor
-     */
-    public Board(Doctor doctor) {
-        this.elements = FXCollections.observableSet();
-        this.doctor = doctor;
-    }
-
-    /**
-     * Instantiates a new Board.
-     *
      * @param elements the elements
      * @param doctor the doctor
      */
