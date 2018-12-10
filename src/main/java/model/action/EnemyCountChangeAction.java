@@ -1,10 +1,10 @@
 package model.action;
 
-import model.Game;
-import model.Status;
+import model.game.Game;
+import model.game.Status;
 
 /**
- * Action implementation that changes the enemy counter kept in {@link model.GameState}.
+ * Action implementation that changes the enemy counter kept in {@link model.game.GameState}.
  * Used whenever the number of enemies on the board decreases
  * after any of Daleks meets its end.
  */

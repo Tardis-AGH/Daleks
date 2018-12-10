@@ -2,8 +2,8 @@ package model.element;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import model.InteractionResult;
 import model.board.Coordinates;
+import model.game.InteractionResult;
 
 /**
  * The type Board element.

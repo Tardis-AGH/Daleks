@@ -1,4 +1,4 @@
-package model
+package model.game
 
 import javafx.collections.FXCollections
 import javafx.collections.ObservableSet
@@ -12,6 +12,9 @@ import model.element.dynamicelement.Doctor
 import model.element.staticelement.Heart
 import model.element.staticelement.ScrapPile
 import model.element.staticelement.Teleporter
+import model.game.Game
+import model.game.GameState
+import model.game.Status
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll

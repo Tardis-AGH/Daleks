@@ -1,9 +1,9 @@
 package model.element.staticelement;
 
-import model.InteractionResult;
 import model.board.Coordinates;
 import model.element.DynamicBoardElement;
 import model.element.StaticBoardElement;
+import model.game.InteractionResult;
 
 /**
  * The type Teleporter.

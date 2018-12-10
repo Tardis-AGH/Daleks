@@ -1,4 +1,4 @@
-package model;
+package model.game;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class InteractionResult {
     }
 
     /**
-     * Gets the board field winner to be added to a map in {@link model.Game#makeMoves(model.board.Coordinates.Move)}.
+     * Gets the board field winner to be added to a map in {@link Game#makeMoves(model.board.Move)}.
      *
      * @return the field winner
      */
@@ -33,7 +33,7 @@ public class InteractionResult {
     }
 
     /**
-     * Adds an action to the list of actions to execute on {@link model.Game}.
+     * Adds an action to the list of actions to execute on {@link Game}.
      *
      * @param action the action
      */
@@ -42,7 +42,7 @@ public class InteractionResult {
     }
 
     /**
-     * Gets the list of actions to execute on {@link model.Game}.
+     * Gets the list of actions to execute on {@link Game}.
      *
      * @return the field winner
      */

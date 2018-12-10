@@ -1,10 +1,10 @@
 package model.action;
 
-import model.Game;
-import model.Status;
+import model.game.Game;
+import model.game.Status;
 
 /**
- * Action implementation that changes the lives counter kept in {@link model.GameState}.
+ * Action implementation that changes the lives counter kept in {@link model.game.GameState}.
  * Used when the Doctor picks up a heart power-up or dies.
  */
 public class LivesChangeAction implements Action {

@@ -16,7 +16,7 @@ class DalekSpec extends Specification {
     def "moves a Dalek from (#dalekX, #dalekY) to (#expectedX, #expectedY) towards the Doctor"(int doctorX, int doctorY,
             int dalekX, int dalekY, int expectedX, int expectedY) {
         given:
-        Dalek dalek = new Dalek(new Coordinates( dalekX, dalekY, boardWidth, boardHeight,))
+        Dalek dalek = new Dalek(new Coordinates(dalekX, dalekY, boardWidth, boardHeight))
 
         and:
         Coordinates newDoctorCoordinates = new Coordinates(doctorX, doctorY, boardWidth, boardHeight)

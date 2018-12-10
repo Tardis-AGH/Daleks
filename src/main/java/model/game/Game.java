@@ -1,4 +1,4 @@
-package model;
+package model.game;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import model.element.dynamicelement.Doctor;
  */
 public class Game {
 
-    private GameState gameState;
+    private final GameState gameState;
     private Board board;
 
     /**

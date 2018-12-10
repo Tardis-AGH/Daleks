@@ -1,7 +1,7 @@
 package model.action;
 
-import model.Game;
-import model.Status;
+import model.game.Game;
+import model.game.Status;
 
 /**
  * The interface Action.
@@ -15,8 +15,8 @@ public interface Action {
      *
      * @return status of the game after the execution of this action
      *
-     * @see model.Game
-     * @see model.Status
+     * @see model.game.Game
+     * @see model.game.Status
      */
     Status execute(Game game);
 }

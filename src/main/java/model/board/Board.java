@@ -2,7 +2,6 @@ package model.board;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import model.element.BoardElement;
 import model.element.StaticBoardElement;

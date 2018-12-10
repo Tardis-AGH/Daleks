@@ -1,9 +1,6 @@
 package model.action
 
 import javafx.collections.FXCollections
-import javafx.collections.ObservableSet
-import model.Game
-import model.GameState
 import model.board.Board
 import model.board.Coordinates
 import model.board.generator.CoordinatesGenerator
@@ -13,6 +10,8 @@ import model.element.dynamicelement.Doctor
 import model.element.staticelement.Heart
 import model.element.staticelement.ScrapPile
 import model.element.staticelement.Teleporter
+import model.game.Game
+import model.game.GameState
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll

@@ -1,6 +1,5 @@
 package model.element.dynamicelement;
 
-import model.InteractionResult;
 import model.action.ElementAdditionAction;
 import model.action.ElementDeletionAction;
 import model.action.EnemyCountChangeAction;
@@ -12,6 +11,7 @@ import model.element.DynamicBoardElement;
 import model.element.staticelement.Heart;
 import model.element.staticelement.ScrapPile;
 import model.element.staticelement.Teleporter;
+import model.game.InteractionResult;
 
 /**
  * The type Dalek.

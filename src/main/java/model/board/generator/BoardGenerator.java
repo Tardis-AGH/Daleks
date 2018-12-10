@@ -15,12 +15,12 @@ import model.element.staticelement.Teleporter;
 /**
  * The type Board generator.
  */
-
 public class BoardGenerator {
 
     private static final double HEART_RATIO = 0.01;
     private static final double TELEPORTER_RATIO = 0.01;
-    private static final double SCRAP_PILE_RATIO = 0.00;
+    private static final double DALEKS_RATIO = 1.5;
+    private static final int DALEKS_OFFSET = 5;
     private final Random random;
     private final int boardHeight = 21;
     private final int boardWidth = 21;
@@ -47,6 +47,7 @@ public class BoardGenerator {
                 new CoordinatesGenerator(this.random, elements, boardWidth, boardHeight);
         final Doctor doctor = generateDoctor(coordinatesGenerator);
         final Board board = new Board(elements, doctor);
+        board.getElements().add(doctor);
         populateWithDaleks(board, coordinatesGenerator, level);
         populateWithHearts(board, coordinatesGenerator);
         populateWithTeleporters(board, coordinatesGenerator);
@@ -59,24 +60,24 @@ public class BoardGenerator {
     }
 
     private void populateWithHearts(Board board, CoordinatesGenerator coordinatesGenerator) {
-        Stream.iterate(0, n -> n + 1).limit((int) (boardHeight * boardWidth * HEART_RATIO)).forEach(e -> {
-            board.getElements().add(new Heart(coordinatesGenerator.getRandomCoordinates()));
-        });
+        Stream.iterate(0, n -> n + 1)
+                .limit((int) (boardHeight * boardWidth * HEART_RATIO))
+                .forEach(e -> board.getElements().add(new Heart(coordinatesGenerator.getRandomCoordinates())));
     }
 
     private void populateWithDaleks(Board board, CoordinatesGenerator coordinatesGenerator, int level) {
-        Stream.iterate(1L, n -> n + 1).limit(this.getDaleksNumber(level)).forEach(e -> {
-            board.getElements().add(new Dalek(coordinatesGenerator.getRandomCoordinates()));
-        });
+        Stream.iterate(1L, n -> n + 1)
+                .limit(this.getDaleksNumber(level))
+                .forEach(e -> board.getElements().add(new Dalek(coordinatesGenerator.getRandomCoordinates())));
     }
 
     private int getDaleksNumber(int level) {
-        return (int) (1.5 * Math.sqrt(level - 1) + 5);
+        return (int) (DALEKS_RATIO * Math.sqrt(level - 1) + DALEKS_OFFSET);
     }
 
     private void populateWithTeleporters(Board board, CoordinatesGenerator coordinatesGenerator) {
-        Stream.iterate(0, n -> n + 1).limit((int) (boardHeight * boardWidth * TELEPORTER_RATIO)).forEach(e -> {
-            board.getElements().add(new Teleporter(coordinatesGenerator.getRandomCoordinates()));
-        });
+        Stream.iterate(0, n -> n + 1)
+                .limit((int) (boardHeight * boardWidth * TELEPORTER_RATIO))
+                .forEach(e -> board.getElements().add(new Teleporter(coordinatesGenerator.getRandomCoordinates())));
     }
 }

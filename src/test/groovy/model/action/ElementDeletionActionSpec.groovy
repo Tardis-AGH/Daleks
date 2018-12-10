@@ -1,14 +1,14 @@
 package model.action
 
 import javafx.collections.ObservableSet
-import model.Game
-import model.GameState
 import model.board.Board
 import model.board.Coordinates
 import model.element.BoardElement
 import model.element.dynamicelement.Dalek
 import model.element.dynamicelement.Doctor
 import model.element.staticelement.ScrapPile
+import model.game.Game
+import model.game.GameState
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll

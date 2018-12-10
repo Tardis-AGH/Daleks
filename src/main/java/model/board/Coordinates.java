@@ -7,8 +7,8 @@ public class Coordinates {
 
     private final int x;
     private final int y;
-    private final Integer boardWidth;
-    private final Integer boardHeight;
+    private final int boardWidth;
+    private final int boardHeight;
 
     /**
      * Instantiates a new Coordinates.
@@ -18,8 +18,7 @@ public class Coordinates {
      * @param boardWidth the board width
      * @param boardHeight the board height
      */
-    public Coordinates(int x, int y, Integer boardWidth, Integer boardHeight) {
-
+    public Coordinates(int x, int y, int boardWidth, int boardHeight) {
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
 

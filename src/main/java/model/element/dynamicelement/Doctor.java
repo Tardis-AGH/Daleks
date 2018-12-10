@@ -2,7 +2,6 @@ package model.element.dynamicelement;
 
 import java.util.LinkedList;
 import java.util.List;
-import model.InteractionResult;
 import model.action.Action;
 import model.action.ElementDeletionAction;
 import model.action.LivesChangeAction;
@@ -14,6 +13,7 @@ import model.element.DynamicBoardElement;
 import model.element.staticelement.Heart;
 import model.element.staticelement.ScrapPile;
 import model.element.staticelement.Teleporter;
+import model.game.InteractionResult;
 
 /**
  * The type Doctor.

@@ -1,12 +1,12 @@
 package model.element;
 
-import model.InteractionResult;
 import model.board.Coordinates;
 import model.element.dynamicelement.Dalek;
 import model.element.dynamicelement.Doctor;
 import model.element.staticelement.Heart;
 import model.element.staticelement.ScrapPile;
 import model.element.staticelement.Teleporter;
+import model.game.InteractionResult;
 
 /**
  * The type Dynamic board element.

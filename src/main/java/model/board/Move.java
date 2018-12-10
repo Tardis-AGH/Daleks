@@ -45,8 +45,8 @@ public enum Move {
      */
     TELEPORT(0, 0);
 
-    private int deltaX;
-    private int deltaY;
+    private final int deltaX;
+    private final int deltaY;
 
     Move(int deltaX, int deltaY) {
         this.deltaX = deltaX;
