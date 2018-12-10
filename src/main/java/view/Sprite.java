@@ -4,8 +4,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import model.Board;
-import model.Coordinates;
+
+import model.board.Board;
+import model.board.Coordinates;
 import model.element.BoardElement;
 
 public class Sprite extends ImageView implements ChangeListener<Coordinates> {
@@ -14,7 +15,6 @@ public class Sprite extends ImageView implements ChangeListener<Coordinates> {
 
     public Sprite(BoardElement element, GameWindow gameWindow) {
         super(element.getSprite());
-
         double scale = element.getSprite().getWidth()/element.getSprite().getHeight();
         double baseSize  = (double)(GameWindow.getNativeBoardWidth()/ Board.getBoardWidth());
 
