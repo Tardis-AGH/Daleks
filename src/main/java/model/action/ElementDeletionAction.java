@@ -1,11 +1,11 @@
 package model.action;
 
-import model.Game;
-import model.Status;
 import model.element.BoardElement;
+import model.game.Game;
+import model.game.Status;
 
 /**
- * Action implementation that removes a board elements from the set in {@link model.Board}.
+ * Action implementation that removes a board elements from the set in {@link model.board.Board}.
  */
 public class ElementDeletionAction implements Action {
 

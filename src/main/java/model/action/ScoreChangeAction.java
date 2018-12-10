@@ -1,10 +1,10 @@
 package model.action;
 
-import model.Game;
-import model.Status;
+import model.game.Game;
+import model.game.Status;
 
 /**
- * Action implementation that changes the score counter kept in {@link model.GameState}.
+ * Action implementation that changes the score counter kept in {@link model.game.GameState}.
  */
 public class ScoreChangeAction implements Action {
 

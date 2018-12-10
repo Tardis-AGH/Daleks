@@ -1,25 +1,32 @@
 package model.action
 
-
-import model.Board
-import model.Coordinates
-import model.Game
-import model.GameState
+import javafx.collections.FXCollections
+import model.board.Board
+import model.board.Coordinates
+import model.board.generator.CoordinatesGenerator
 import model.element.BoardElement
 import model.element.dynamicelement.Dalek
 import model.element.dynamicelement.Doctor
 import model.element.staticelement.Heart
 import model.element.staticelement.ScrapPile
 import model.element.staticelement.Teleporter
+import model.game.Game
+import model.game.GameState
+import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
 class ElementAdditionActionSpec extends Specification {
 
+    @Shared
+    private int boardWidth = 10
+    @Shared
+    private int boardHeight = 10
+
     @Unroll
     def "adds #element to a set already containing #elInMap"(BoardElement elInMap, BoardElement element) {
         given:
-        Game game = new Game(Mock(GameState), new Board())
+        Game game = new Game(Mock(GameState), new Board(FXCollections.observableSet(), Mock(Doctor)))
         if (elInMap != null) {
             game.board.elements.add(elInMap)
         }
@@ -33,9 +40,10 @@ class ElementAdditionActionSpec extends Specification {
         game.board.elements.contains(element)
 
         where:
-        elInMap                              | element
-        null                                 | new Doctor(new Coordinates(3, 3))
-        new Dalek(new Coordinates(1, 1))     | new Teleporter(new Coordinates(3, 3))
-        new ScrapPile(new Coordinates(3, 3)) | new Heart(new Coordinates(3, 3))
+        elInMap << [null, new Dalek(new Coordinates(1, 1, boardWidth, boardHeight)),
+                new ScrapPile(new Coordinates(3, 3, boardWidth, boardHeight))]
+        element << [new Doctor(new Coordinates(3, 3, boardWidth, boardHeight), Mock(CoordinatesGenerator)),
+                new Teleporter(new Coordinates(3, 3, boardWidth, boardHeight)),
+                new Heart(new Coordinates(3, 3, boardWidth, boardHeight))]
     }
 }

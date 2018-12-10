@@ -1,9 +1,9 @@
 package model.action
 
-import model.Board
-import model.Game
-import model.GameState
-import model.Status
+import model.board.Board
+import model.game.Game
+import model.game.GameState
+import model.game.Status
 import spock.lang.Specification
 import spock.lang.Unroll
 

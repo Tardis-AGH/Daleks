@@ -1,4 +1,4 @@
-package model;
+package model.game;
 
 /**
  * The type Game state.
