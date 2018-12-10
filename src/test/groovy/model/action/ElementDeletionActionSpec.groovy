@@ -39,6 +39,6 @@ class ElementDeletionActionSpec extends Specification {
         !game.board.elements.contains(e1)
 
         where:
-        elInMap << [null, e1, new ScrapPile(new Coordinates(boardWidth, boardHeight, 3, 3))]
+        elInMap << [null, e1, new ScrapPile(new Coordinates(3, 3, boardWidth, boardHeight))]
     }
 }

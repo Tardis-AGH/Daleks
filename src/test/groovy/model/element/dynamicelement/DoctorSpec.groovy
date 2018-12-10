@@ -61,7 +61,7 @@ class DoctorSpec extends Specification {
                 [2, 2], [2, 3], [3, 1], [3, 2], [0, 1], [0, 2]]
 
         for (List<Integer> list in occupiedCoordinates) {
-            elementSet.add(new Heart(new Coordinates(boardWidth, boardHeight, list.get(0), list.get(1))))
+            elementSet.add(new Heart(new Coordinates(list.get(0), list.get(1), boardWidth, boardHeight)))
         }
 
         and:
