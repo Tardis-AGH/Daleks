@@ -1,23 +1,43 @@
-package model
+package model.game
 
+import javafx.collections.FXCollections
+import javafx.collections.ObservableSet
+import model.board.Board
+import model.board.Coordinates
+import model.board.Move
+import model.board.generator.CoordinatesGenerator
+import model.element.BoardElement
 import model.element.dynamicelement.Dalek
 import model.element.dynamicelement.Doctor
 import model.element.staticelement.Heart
 import model.element.staticelement.ScrapPile
 import model.element.staticelement.Teleporter
+import model.game.Game
+import model.game.GameState
+import model.game.Status
+import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
 class GameSpec extends Specification {
+
+    @Shared
+    private int boardWidth = 10
+    @Shared
+    private int boardHeight = 10
 
     @Unroll
     def "executes move #move of the Doctor and moves the Daleks accordingly without any collisions occurring"(
             List<Integer> doctor, List<List<Integer>> daleks,
             Move move, List<Integer> expectedDoctor, List<List<Integer>> expectedDaleks) {
         given:
-        Game game = new Game(Mock(GameState), new Board())
-        game.board.doctor = new Doctor(new Coordinates(doctor[0], doctor[1]))
-        daleks.forEach { game.board.elements.add(new Dalek(new Coordinates(it[0], it[1]))) }
+        ObservableSet<BoardElement> elementSet = FXCollections.observableSet()
+        daleks.forEach {
+            elementSet.add(new Dalek(new Coordinates(it[0], it[1], boardWidth, boardHeight)))
+        }
+        Doctor theDoctor = new Doctor(new Coordinates(doctor[0], doctor[1], boardWidth, boardHeight),
+                new CoordinatesGenerator(new Random(), elementSet, boardWidth, boardHeight))
+        Game game = new Game(Mock(GameState), new Board(elementSet, theDoctor))
 
         when:
         Status status = game.makeMoves(move)
@@ -46,10 +66,17 @@ class GameSpec extends Specification {
             List<List<Integer>> daleks, List<List<Integer>> piles, List<List<Integer>> expectedDaleks,
             List<List<Integer>> expectedPiles, Status status) {
         given:
-        Game game = new Game(new GameState(0, 0, 0, 0, 0, daleks.size()), new Board())
-        game.board.doctor = new Doctor(new Coordinates(4, 4))
-        daleks.forEach { game.board.elements.add(new Dalek(new Coordinates(it[0], it[1]))) }
-        piles.forEach { game.board.elements.add(new ScrapPile(new Coordinates(it[0], it[1]))) }
+        ObservableSet<BoardElement> elementSet = FXCollections.observableSet()
+        daleks.forEach {
+            elementSet.add(new Dalek(new Coordinates(it[0], it[1], boardWidth, boardHeight)))
+        }
+        piles.forEach {
+            elementSet.add(new ScrapPile(new Coordinates(it[0], it[1], boardWidth, boardHeight)))
+        }
+        Doctor theDoctor = new Doctor(new Coordinates(4, 4, boardWidth, boardHeight),
+                new CoordinatesGenerator(new Random(), elementSet, boardWidth, boardHeight))
+        Game game = new Game(new GameState(0, 0, 0, 0, 0, daleks.size()),
+                new Board(elementSet, theDoctor))
 
         when:
         Status moveStatus = game.makeMoves(Move.UPPER_LEFT)
@@ -76,18 +103,27 @@ class GameSpec extends Specification {
         [[2, 1], [3, 1], [4, 1]] | []       | []             | [[3, 2]]         | Status.LEVEL_UP
         [[2, 1], [3, 1], [4, 1]] | [[3, 2]] | []             | [[3, 2]]         | Status.LEVEL_UP
         [[2, 1], [3, 1], [4, 1]] | [[7, 7]] | []             | [[3, 2], [7, 7]] | Status.LEVEL_UP
-
     }
 
     @Unroll
     def "handles collisions of Daleks at #expectedDaleks with hearts at #staticEl.h and teleporters at #staticEl.t"(
             List<List<Integer>> daleks, Map staticEl, List<List<Integer>> expectedDaleks, Map expectedStaticEl) {
         given:
-        Game game = new Game(Mock(GameState), new Board())
-        game.board.doctor = new Doctor(new Coordinates(5, 5))
-        daleks.forEach { game.board.elements.add(new Dalek(new Coordinates(it[0], it[1]))) }
-        staticEl.h.forEach { game.board.elements.add(new Heart(new Coordinates(it[0], it[1]))) }
-        staticEl.t.forEach { game.board.elements.add(new Teleporter(new Coordinates(it[0], it[1]))) }
+        ObservableSet<BoardElement> elementSet = FXCollections.observableSet()
+        daleks.forEach {
+            elementSet.add(new Dalek(new Coordinates(it[0], it[1], boardWidth, boardHeight)))
+        }
+        staticEl.h.forEach {
+            elementSet.
+                    add(new Heart(new Coordinates(it[0] as int, it[1] as int, boardWidth, boardHeight)))
+        }
+        staticEl.t.forEach {
+            elementSet.
+                    add(new Teleporter(new Coordinates(it[0] as int, it[1] as int, boardWidth, boardHeight)))
+        }
+        Doctor theDoctor = new Doctor(new Coordinates(5, 5, boardWidth, boardHeight),
+                new CoordinatesGenerator(new Random(), elementSet, boardWidth, boardHeight))
+        Game game = new Game(Mock(GameState), new Board(elementSet as ObservableSet<BoardElement>, theDoctor))
 
         when:
         Status status = game.makeMoves(Move.UPPER_LEFT)
@@ -128,13 +164,21 @@ class GameSpec extends Specification {
     def "handles move #move of the Doctor at #doctor when hearts at #staticEl.h and teleporters at #staticEl.t"(
             List<Integer> doctor, Move move, Map staticEl, Map expectedStaticEl) {
         given:
+        ObservableSet<BoardElement> elementSet = FXCollections.observableSet()
+        staticEl.h.forEach {
+            elementSet.
+                    add(new Heart(new Coordinates(it[0] as int, it[1] as int, boardWidth, boardHeight)))
+        }
+        staticEl.t.forEach {
+            elementSet.
+                    add(new Teleporter(new Coordinates(it[0] as int, it[1] as int, boardWidth, boardHeight)))
+        }
+        Doctor theDoctor = new Doctor(new Coordinates(doctor[0], doctor[1], boardWidth, boardHeight),
+                new CoordinatesGenerator(new Random(), elementSet, boardWidth, boardHeight))
         int numberOfTeleporters = 0
         int numberOfLives = 1
         GameState gameState = new GameState(numberOfLives, numberOfTeleporters, 0, 0, 0, 1)
-        Game game = new Game(gameState, new Board())
-        game.board.doctor = new Doctor(new Coordinates(doctor[0], doctor[1]))
-        staticEl.h.forEach { game.board.elements.add(new Heart(new Coordinates(it[0], it[1]))) }
-        staticEl.t.forEach { game.board.elements.add(new Teleporter(new Coordinates(it[0], it[1]))) }
+        Game game = new Game(gameState, new Board(elementSet, theDoctor))
 
         when:
         Status status = game.makeMoves(move)
@@ -173,11 +217,19 @@ class GameSpec extends Specification {
     def "handles collisions of the Doctor at #doctor with Daleks at #waysToDie.d and scrap piles at #waysToDie.s"(
             List<Integer> doctor, int lives, Move move, Map waysToDie) {
         given:
+        ObservableSet<BoardElement> elementSet = FXCollections.observableSet()
+        waysToDie.d.forEach {
+            elementSet.
+                    add(new Dalek(new Coordinates(it[0] as int, it[1] as int, boardWidth, boardHeight)))
+        }
+        waysToDie.s.forEach {
+            elementSet.add(new ScrapPile(new Coordinates(it[0] as int, it[1] as int, boardWidth, boardHeight)))
+        }
+        Doctor theDoctor = new Doctor(new Coordinates(doctor[0], doctor[1], boardWidth, boardHeight),
+                new CoordinatesGenerator(new Random(), elementSet, boardWidth, boardHeight))
         GameState gameState = new GameState(lives, 0, 0, 0, 0, 1)
-        Game game = new Game(gameState, new Board())
-        game.board.doctor = new Doctor(new Coordinates(doctor[0], doctor[1]))
-        waysToDie.d.forEach { game.board.elements.add(new Dalek(new Coordinates(it[0], it[1]))) }
-        waysToDie.s.forEach { game.board.elements.add(new ScrapPile(new Coordinates(it[0], it[1]))) }
+        Game game = new Game(gameState, new Board(elementSet, theDoctor))
+
         Status expectedStatus = Status.RESTART_GAME
         if (lives == 0) {
             expectedStatus = Status.GAME_OVER

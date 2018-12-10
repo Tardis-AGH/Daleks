@@ -1,15 +1,16 @@
 package model.element.staticelement;
 
-import javafx.scene.image.Image;
-import model.Coordinates;
-import model.InteractionResult;
+import model.board.Coordinates;
 import model.element.DynamicBoardElement;
 import model.element.StaticBoardElement;
+import model.game.InteractionResult;
 
 /**
  * The type Heart.
  */
 public class Heart extends StaticBoardElement {
+
+    private static final String SPRITE_PATH = "images/dalek/dalek5.png";
 
     /**
      * Instantiates a new Heart.
@@ -18,16 +19,6 @@ public class Heart extends StaticBoardElement {
      */
     public Heart(Coordinates coordinates) {
         super(coordinates);
-    }
-
-    /**
-     * Instantiates a new Heart.
-     *
-     * @param coordinates the coordinates
-     * @param sprite the sprite
-     */
-    public Heart(Coordinates coordinates, Image sprite) {
-        super(coordinates, sprite);
     }
 
     @Override

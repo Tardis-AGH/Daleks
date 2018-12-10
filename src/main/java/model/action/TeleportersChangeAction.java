@@ -1,10 +1,10 @@
 package model.action;
 
-import model.Game;
-import model.Status;
+import model.game.Game;
+import model.game.Status;
 
 /**
- * Action implementation that changes the teleporters counter kept in {@link model.GameState}.
+ * Action implementation that changes the teleporters counter kept in {@link model.game.GameState}.
  * Used when the Doctor picks up a teleporter power-up or teleports.
  */
 public class TeleportersChangeAction implements Action {

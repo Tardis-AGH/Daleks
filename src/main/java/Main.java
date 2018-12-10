@@ -18,9 +18,8 @@ public class Main extends Application {
     @Override
     public void start(final Stage primaryStage) throws Exception {
         GameState gameState = new GameState(3, 3, 0, 1, 1, 5);
-        Board board = new Board(1);
-        GameController gameController =new GameController(new Game(gameState, board), primaryStage);
-        final Scene scene = new Scene(gameController.getGameWindow());
+        Board board = new Board();
+        final Scene scene = new Scene(new GameController(new Game(gameState, board), primaryStage).getGameWindow());
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.setTitle("Daleks");

@@ -1,13 +1,12 @@
 package model.element;
 
-import javafx.scene.image.Image;
-import model.Coordinates;
-import model.InteractionResult;
+import model.board.Coordinates;
 import model.element.dynamicelement.Dalek;
 import model.element.dynamicelement.Doctor;
 import model.element.staticelement.Heart;
 import model.element.staticelement.ScrapPile;
 import model.element.staticelement.Teleporter;
+import model.game.InteractionResult;
 
 /**
  * The type Dynamic board element.
@@ -21,16 +20,6 @@ public abstract class DynamicBoardElement extends BoardElement {
      */
     public DynamicBoardElement(Coordinates coordinates) {
         super(coordinates);
-    }
-
-    /**
-     * Instantiates a new Dynamic board element.
-     *
-     * @param coordinates the coordinates
-     * @param sprite the sprite
-     */
-    public DynamicBoardElement(Coordinates coordinates, Image sprite) {
-        super(coordinates, sprite);
     }
 
     /**
