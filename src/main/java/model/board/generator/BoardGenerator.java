@@ -22,8 +22,8 @@ public class BoardGenerator {
     private static final double DALEKS_RATIO = 1.5;
     private static final int DALEKS_OFFSET = 5;
     private final Random random;
-    private final int boardHeight = 21;
-    private final int boardWidth = 21;
+    private static final int boardHeight = 21;
+    private static final int boardWidth = 21;
 
     /**
      * Instantiates a new Board generator.

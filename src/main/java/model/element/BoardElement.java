@@ -56,4 +56,9 @@ public abstract class BoardElement {
     public ObjectProperty<Coordinates> getCoordinatesProperty() {
         return coordinates;
     }
+
+    /**
+     * @return path to image
+     */
+    public abstract String getImagePath();
 }

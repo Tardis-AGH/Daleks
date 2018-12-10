@@ -2,8 +2,9 @@ package controller;
 
 import javafx.event.Event;
 import javafx.stage.Stage;
-import model.Game;
-import model.Move;
+
+import model.board.Move;
+import model.game.Game;
 import view.GameWindow;
 
 /**

@@ -101,4 +101,8 @@ public class Dalek extends DynamicBoardElement {
         interactionResult.addAction(new EnemyCountChangeAction(-1));
         return interactionResult;
     }
+
+    public String getImagePath(){
+        return SPRITE_PATH;
+    }
 }

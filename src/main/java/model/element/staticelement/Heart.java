@@ -25,4 +25,9 @@ public class Heart extends StaticBoardElement {
     public InteractionResult accept(DynamicBoardElement visitor) {
         return visitor.visit(this);
     }
+
+    public String getImagePath(){
+        return SPRITE_PATH;
+    }
+
 }

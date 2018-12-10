@@ -104,4 +104,8 @@ public class Doctor extends DynamicBoardElement {
         interactionResult.addAction(new LivesChangeAction(-1));
         return interactionResult;
     }
+
+    public String getImagePath(){
+        return SPRITE_PATH;
+    }
 }

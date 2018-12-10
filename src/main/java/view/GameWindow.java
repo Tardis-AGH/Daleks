@@ -4,14 +4,16 @@ import controller.GameController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+
 import javafx.scene.layout.VBox;
-import model.Board;
-import model.Coordinates;
-import model.Move;
+import model.board.Board;
+import model.board.Coordinates;
+import model.board.Move;
 import model.element.BoardElement;
 
 import java.util.stream.Collectors;
@@ -45,20 +47,20 @@ public class GameWindow extends VBox {
 
         GridPane gridPane = new GridPane();
         gridPane.setGridLinesVisible(true);
-        int prefferedTileSize = NATIVE_BOARD_WIDTH / Board.getBoardWidth();
+        int prefferedTileSize = NATIVE_BOARD_WIDTH / gameController.getBoardWidth();
         Stream<ColumnConstraints> columns = Stream
                 .generate(ColumnConstraints::new)
                 .peek(e -> {
                     e.setPrefWidth(prefferedTileSize);
                 })
-                .limit(Board.getBoardWidth());
+                .limit(gameController.getBoardWidth());
 
         Stream<RowConstraints> rows = Stream
                 .generate(RowConstraints::new)
                 .peek(e -> {
                     e.setPrefHeight(prefferedTileSize);
                 })
-                .limit(Board.getBoardHeight());
+                .limit(gameController.getBoardHeight());
         gridPane.getColumnConstraints().addAll(columns.collect(Collectors.toSet()));
         gridPane.getRowConstraints().addAll(rows.collect(Collectors.toSet()));
         this.tiles = gridPane;
@@ -153,7 +155,8 @@ public class GameWindow extends VBox {
         this.getChildren().add(controls);
 
         for (BoardElement boardElement : gameController.getGame().getBoard().getElements()) {
-            Sprite sprite = new Sprite(boardElement, this);
+            Image image = new Image(getClass().getClassLoader().getResource(boardElement.getImagePath()).toExternalForm());
+            Sprite sprite = new Sprite(boardElement,image, this);
         }
     }
 
