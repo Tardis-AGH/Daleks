@@ -28,18 +28,23 @@ public class GameController {
         gameWindow = new GameWindow(this);
 
         gameWindow.initSprites(game.getBoard().getElements(), game.getBoardWidth());
+        gameWindow.initGameStateProperties(game.getGameState());
     }
 
     /**
-     * Handle right.
+     * Handle restart.
      *
      * @param event the event
      */
     public void handleRestart(Event event) {
         gameWindow.unfreezeGame();
 
+        int previousHighScore = game.getGameState().getHighestScore();
         game = new Game();
+        game.getGameState().setHighestScore(previousHighScore);
+
         gameWindow.initSprites(game.getBoard().getElements(), game.getBoardWidth());
+        gameWindow.initGameStateProperties(game.getGameState());
     }
 
     /**
@@ -57,7 +62,7 @@ public class GameController {
                 game.nextLevel();
                 gameWindow.initSprites(game.getBoard().getElements(), game.getBoardWidth());
                 break;
-            case RESTART_GAME:
+            case RESTART_LEVEL:
                 game.restartLevel();
                 gameWindow.initSprites(game.getBoard().getElements(), game.getBoardWidth());
                 break;
