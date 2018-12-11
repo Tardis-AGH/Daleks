@@ -36,7 +36,10 @@ public class GameController {
      * @param event the event
      */
     public void handleRestart(Event event) {
+        gameWindow.unfreezeGame();
 
+        game = new Game();
+        gameWindow.initSprites(game.getBoard().getElements(), game.getBoardWidth());
     }
 
     /**

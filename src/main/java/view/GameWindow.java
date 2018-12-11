@@ -80,6 +80,7 @@ public class GameWindow extends VBox {
         left.setTranslateY((NAVIGATION_BUTTON_SIZE));
         left.setPrefWidth(NAVIGATION_BUTTON_SIZE);
         left.setPrefHeight(NAVIGATION_BUTTON_SIZE);
+        left.setOnAction(event -> gameController.nextTurn(Move.LEFT));
         left.setText("<");
 
         upperLeft.setTranslateX((int) ((NATIVE_BOARD_WIDTH / 2) - ((double) (3 * NAVIGATION_BUTTON_SIZE / 2))));
@@ -151,9 +152,7 @@ public class GameWindow extends VBox {
     }
 
     public void initSprites(ObservableSet<BoardElement> elements, int boardWidth) {
-        tiles.getChildren().removeAll(
-                tiles.getChildren().stream().filter(c -> c instanceof Sprite).collect(Collectors.toList())
-        );
+        removeSprites();
 
         for (BoardElement boardElement : elements)
             new Sprite(boardElement, tiles, boardWidth);
@@ -173,7 +172,36 @@ public class GameWindow extends VBox {
     }
 
     public void freezeGame() {
-        tiles.setDisable(true);
+        removeSprites();
 
+        down.setDisable(true);
+        lowerLeft.setDisable(true);
+        left.setDisable(true);
+        upperLeft.setDisable(true);
+        up.setDisable(true);
+        upperRight.setDisable(true);
+        right.setDisable(true);
+        lowerRight.setDisable(true);
+        wait.setDisable(true);
+        teleport.setDisable(true);
+    }
+
+    public void unfreezeGame() {
+        down.setDisable(false);
+        lowerLeft.setDisable(false);
+        left.setDisable(false);
+        upperLeft.setDisable(false);
+        up.setDisable(false);
+        upperRight.setDisable(false);
+        right.setDisable(false);
+        lowerRight.setDisable(false);
+        wait.setDisable(false);
+        teleport.setDisable(false);
+    }
+
+    private void removeSprites() {
+        tiles.getChildren().removeAll(
+                tiles.getChildren().stream().filter(c -> c instanceof Sprite).collect(Collectors.toList())
+        );
     }
 }
