@@ -3,6 +3,7 @@ package controller;
 import javafx.event.Event;
 import javafx.stage.Stage;
 import model.board.Move;
+import model.board.generator.RandomBoardGenerator;
 import model.game.Game;
 import model.game.Status;
 import view.GameWindow;
@@ -23,10 +24,8 @@ public class GameController {
      */
     public GameController(Stage primaryStage) {
         this.primaryStage = primaryStage;
-
-        game = new Game();
+        game = new Game(new RandomBoardGenerator());
         gameWindow = new GameWindow(this);
-
         gameWindow.initSprites(game.getBoard().getElements(), game.getBoardWidth());
         gameWindow.initGameStateProperties(game.getGameState());
     }
@@ -38,11 +37,9 @@ public class GameController {
      */
     public void handleRestart(Event event) {
         gameWindow.unfreezeGame();
-
         int previousHighScore = game.getGameState().getHighestScore();
-        game = new Game();
+        game = new Game(new RandomBoardGenerator());
         game.getGameState().setHighestScore(previousHighScore);
-
         gameWindow.initSprites(game.getBoard().getElements(), game.getBoardWidth());
         gameWindow.initGameStateProperties(game.getGameState());
     }

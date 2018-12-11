@@ -29,16 +29,6 @@ public class Game {
 
     /**
      * Instantiates a new Game.
-     */
-    public Game() {
-        this.boardGenerator = new RandomBoardGenerator();
-        this.board = boardGenerator.generateNewBoard(1);
-        this.gameState =
-                new GameState(DEFAULT_NUMBER_OF_LIVES, DEFAULT_NUMBER_OF_TELEPORTERS, 0, 0, board.getDaleks().size());
-    }
-
-    /**
-     * Instantiates a new Game.
      *
      * @param boardGenerator the board generator
      */
