@@ -4,15 +4,14 @@ package model.game;
  * The enum Status.
  */
 public enum Status {
-
-    /**
-     * Skip move status.
-     */
-    SKIP_MOVE,
     /**
      * Continue game status.
      */
     CONTINUE_GAME,
+    /**
+     * Skip move status.
+     */
+    SKIP_MOVE,
     /**
      * Level up status.
      */

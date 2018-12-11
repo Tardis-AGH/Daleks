@@ -7,10 +7,10 @@ import model.element.dynamicelement.Doctor;
 
 public class TestBoardGenerator implements BoardGenerator {
 
-    private ObservableSet<BoardElement> elements;
-    private Doctor doctor;
-    private int boardWidth;
-    private int boardHeight;
+    private final ObservableSet<BoardElement> elements;
+    private final Doctor doctor;
+    private final int boardWidth;
+    private final int boardHeight;
 
     public TestBoardGenerator(ObservableSet<BoardElement> elements, Doctor doctor) {
         this.elements = elements;

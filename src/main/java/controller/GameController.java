@@ -50,7 +50,7 @@ public class GameController {
      * @param move the move
      */
     public void nextTurn(Move move) {
-        Status gameStatus = game.makeMoves(move);
+        final Status gameStatus = game.makeMoves(move);
 
         switch (gameStatus) {
             case CONTINUE_GAME:

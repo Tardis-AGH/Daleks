@@ -15,7 +15,7 @@ class LivesChangeActionSpec extends Specification {
             Status expectedStatus) {
         given:
         Game game = new Game(new TestBoardGenerator(FXCollections.observableSet(), Mock(Doctor)))
-        game.getGameState().setNumberOfLives(currentLives)
+        game.gameState.numberOfLives = currentLives
 
         Action action = new LivesChangeAction(change)
 

@@ -23,47 +23,47 @@ public abstract class DynamicBoardElement extends BoardElement {
     }
 
     /**
-     * Visit list.
+     * Visit heart element upon collison.
      *
      * @param heart the heart
      *
-     * @return the list
+     * @return the results of the interaction
      */
     public abstract InteractionResult visit(Heart heart);
 
     /**
-     * Visit list.
+     * Visit teleporter element upon collision.
      *
      * @param teleporter the teleporter
      *
-     * @return the list
+     * @return the results of the interaction
      */
     public abstract InteractionResult visit(Teleporter teleporter);
 
     /**
-     * Visit list.
+     * Visit scrapPile element upon collision.
      *
      * @param scrapPile the scrap pile
      *
-     * @return the list
+     * @return the results of the interaction
      */
     public abstract InteractionResult visit(ScrapPile scrapPile);
 
     /**
-     * Visit list.
+     * Visit the Doctor upon collision.
      *
      * @param doctor the doctor
      *
-     * @return the list
+     * @return the results of the interaction
      */
     public abstract InteractionResult visit(Doctor doctor);
 
     /**
-     * Visit list.
+     * Visit a Dalek upon collision.
      *
      * @param dalek the dalek
      *
-     * @return the list
+     * @return the results of the interaction
      */
     public abstract InteractionResult visit(Dalek dalek);
 }

@@ -11,8 +11,6 @@ import model.element.dynamicelement.Doctor
 import model.element.staticelement.Heart
 import model.element.staticelement.ScrapPile
 import model.element.staticelement.Teleporter
-import model.game.Game
-import model.game.Status
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -60,7 +58,7 @@ class GameSpec extends Specification {
     }
 
     @Unroll
-    def "handles collisions of Daleks at #daleks and scrap piles at #piles when Doctor at [3, 4] ending with #status"(
+    def "handles collisions of Daleks at #daleks and scrap piles at #piles when Doctor at (3, 4) ending with #status"(
             List<List<Integer>> daleks, List<List<Integer>> piles, List<List<Integer>> expectedDaleks,
             List<List<Integer>> expectedPiles, Status status) {
         given:
@@ -175,8 +173,8 @@ class GameSpec extends Specification {
         Game game = new Game(testBoardGenerator)
         int numberOfTeleporters = 0
         int numberOfLives = 1
-        game.getGameState().setNumberOfTeleporters(numberOfTeleporters)
-        game.getGameState().setNumberOfLives(numberOfLives)
+        game.gameState.numberOfTeleporters = numberOfTeleporters
+        game.gameState.numberOfLives = numberOfLives
 
         when:
         Status status = game.makeMoves(move)
@@ -226,7 +224,7 @@ class GameSpec extends Specification {
         Doctor theDoctor = new Doctor(new Coordinates(doctor[0], doctor[1], boardWidth, boardHeight))
         TestBoardGenerator testBoardGenerator = new TestBoardGenerator(elementSet, theDoctor)
         Game game = new Game(testBoardGenerator)
-        game.getGameState().setNumberOfLives(lives)
+        game.gameState.numberOfLives = lives
 
         Status expectedStatus = Status.RESTART_LEVEL
         if (lives == 0) {

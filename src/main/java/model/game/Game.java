@@ -9,7 +9,6 @@ import model.board.Board;
 import model.board.Coordinates;
 import model.board.Move;
 import model.board.generator.BoardGenerator;
-import model.board.generator.RandomBoardGenerator;
 import model.element.BoardElement;
 import model.element.DynamicBoardElement;
 import model.element.dynamicelement.Dalek;
@@ -24,7 +23,7 @@ public class Game {
     private static final int DEFAULT_NUMBER_OF_TELEPORTERS = 3;
     private static final int LEVEL_UP_POINTS = 5;
     private final BoardGenerator boardGenerator;
-    private GameState gameState;
+    private final GameState gameState;
     private Board board;
 
     /**
@@ -36,16 +35,14 @@ public class Game {
         this.boardGenerator = boardGenerator;
         this.board = boardGenerator.generateNewBoard(1);
         this.gameState =
-                new GameState(DEFAULT_NUMBER_OF_LIVES, DEFAULT_NUMBER_OF_TELEPORTERS, 0, 0, board.getDaleks().size());
+                new GameState(DEFAULT_NUMBER_OF_LIVES, DEFAULT_NUMBER_OF_TELEPORTERS, 0, 0, 1);
     }
 
     /**
      * Sets up new level.
-     *
-     * @return the status
      */
     public void nextLevel() {
-        int newLevel = gameState.getLevel() + 1;
+        final int newLevel = gameState.getLevel() + 1;
         board = boardGenerator.generateNewBoard(newLevel);
         gameState.setLevel(newLevel);
         gameState.setCurrentScore(gameState.getCurrentScore() + LEVEL_UP_POINTS);

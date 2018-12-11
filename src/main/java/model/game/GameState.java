@@ -126,7 +126,6 @@ public class GameState {
      *
      * @return level property
      */
-
     public IntegerProperty getLevelProperty() {
         return level;
     }

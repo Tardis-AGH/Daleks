@@ -2,7 +2,6 @@ package model.element;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.image.Image;
 import model.board.Coordinates;
 import model.game.InteractionResult;
 
@@ -12,7 +11,6 @@ import model.game.InteractionResult;
 public abstract class BoardElement {
 
     private final ObjectProperty<Coordinates> coordinates = new SimpleObjectProperty<>();
-    private Image sprite;
 
     /**
      * Instantiates a new Board element.

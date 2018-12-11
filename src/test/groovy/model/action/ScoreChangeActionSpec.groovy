@@ -16,7 +16,7 @@ class ScoreChangeActionSpec extends Specification {
             int expectedHighscore) {
         given:
         Game game = new Game(new TestBoardGenerator(FXCollections.observableSet(), Mock(Doctor)))
-        game.getGameState().setCurrentScore(currentScore)
+        game.gameState.currentScore = currentScore
         Action action = new ScoreChangeAction(change)
 
         when:

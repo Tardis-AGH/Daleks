@@ -11,19 +11,19 @@ public class Coordinates {
     private final int boardHeight;
 
     /**
-     * Instantiates a new Coordinates.
+     * Instantiates new Coordinates.
      *
-     * @param x the x
-     * @param y the y
+     * @param xCoordinate the x
+     * @param yCoordinate the y
      * @param boardWidth the board width
      * @param boardHeight the board height
      */
-    public Coordinates(int x, int y, int boardWidth, int boardHeight) {
+    public Coordinates(int xCoordinate, int yCoordinate, int boardWidth, int boardHeight) {
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
 
-        this.x = Math.min(Math.max(x, 0), boardWidth - 1);
-        this.y = Math.min(Math.max(y, 0), boardHeight - 1);
+        this.x = Math.min(Math.max(xCoordinate, 0), boardWidth - 1);
+        this.y = Math.min(Math.max(yCoordinate, 0), boardHeight - 1);
     }
 
     /**
@@ -40,13 +40,13 @@ public class Coordinates {
     /**
      * Gets updated.
      *
-     * @param x the x
-     * @param y the y
+     * @param xCoordinate the x
+     * @param yCoordinate the y
      *
      * @return the updated
      */
-    public Coordinates getUpdated(int x, int y) {
-        return new Coordinates(x, y, boardWidth, boardHeight);
+    public Coordinates getUpdated(int xCoordinate, int yCoordinate) {
+        return new Coordinates(xCoordinate, yCoordinate, boardWidth, boardHeight);
     }
 
     @Override

@@ -9,7 +9,7 @@ import model.element.staticelement.Heart;
 import model.element.staticelement.Teleporter;
 
 /**
- * The type Board generator.
+ * The type random Board generator.
  */
 public class RandomBoardGenerator implements BoardGenerator {
 
@@ -17,11 +17,11 @@ public class RandomBoardGenerator implements BoardGenerator {
     private static final double TELEPORTER_RATIO = 0.01;
     private static final double DALEKS_RATIO = 1.5;
     private static final int DALEKS_OFFSET = 5;
-    private static final int boardHeight = 21;
-    private static final int boardWidth = 21;
+    private static final int BOARD_HEIGHT = 21;
+    private static final int BOARD_WIDTH = 21;
 
     /**
-     * Generate new board board.
+     * Generate new a new board randomly based on constants and the player's level.
      *
      * @param level the level
      *
@@ -29,7 +29,7 @@ public class RandomBoardGenerator implements BoardGenerator {
      */
     public Board generateNewBoard(int level) {
         final Doctor doctor = generateDoctor();
-        final Board board = new Board(doctor, boardWidth, boardHeight);
+        final Board board = new Board(doctor, BOARD_WIDTH, BOARD_HEIGHT);
         populateWithDaleks(board, level);
         populateWithHearts(board);
         populateWithTeleporters(board);
@@ -37,12 +37,12 @@ public class RandomBoardGenerator implements BoardGenerator {
     }
 
     private Doctor generateDoctor() {
-        return new Doctor(new Coordinates(boardWidth / 2, boardHeight / 2, boardWidth, boardHeight));
+        return new Doctor(new Coordinates(BOARD_WIDTH / 2, BOARD_HEIGHT / 2, BOARD_WIDTH, BOARD_HEIGHT));
     }
 
     private void populateWithHearts(Board board) {
         Stream.iterate(0, n -> n + 1)
-                .limit((int) (boardHeight * boardWidth * HEART_RATIO))
+                .limit((int) (BOARD_HEIGHT * BOARD_WIDTH * HEART_RATIO))
                 .forEach(e -> board.getElements().add(new Heart(board.getRandomCoordinates())));
     }
 
@@ -58,15 +58,15 @@ public class RandomBoardGenerator implements BoardGenerator {
 
     private void populateWithTeleporters(Board board) {
         Stream.iterate(0, n -> n + 1)
-                .limit((int) (boardHeight * boardWidth * TELEPORTER_RATIO))
+                .limit((int) (BOARD_HEIGHT * BOARD_WIDTH * TELEPORTER_RATIO))
                 .forEach(e -> board.getElements().add(new Teleporter(board.getRandomCoordinates())));
     }
 
     public int getBoardHeight() {
-        return boardHeight;
+        return BOARD_HEIGHT;
     }
 
     public int getBoardWidth() {
-        return boardWidth;
+        return BOARD_WIDTH;
     }
 }

@@ -13,7 +13,7 @@ import model.element.BoardElement;
  */
 public class Sprite extends ImageView implements ChangeListener<Coordinates> {
 
-    private GridPane tiles;
+    private final GridPane tiles;
 
     /**
      * Instantiates a new Sprite.
@@ -25,8 +25,8 @@ public class Sprite extends ImageView implements ChangeListener<Coordinates> {
      */
     public Sprite(BoardElement element, Image image, GridPane tiles, int boardWidth) {
         super(image);
-        double scale = image.getWidth() / image.getHeight();
-        double baseSize = (double) (GameWindow.getNativeBoardWidth() / boardWidth);
+        final double scale = image.getWidth() / image.getHeight();
+        final double baseSize = (double) (GameWindow.getNativeBoardWidth() / boardWidth);
 
         this.setFitHeight(baseSize * scale);
         this.setFitWidth(baseSize);

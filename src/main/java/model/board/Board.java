@@ -2,7 +2,6 @@ package model.board;
 
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
@@ -88,7 +87,7 @@ public class Board {
         do {
             newCoordinates = new Coordinates(generator.nextInt(boardWidth), generator.nextInt(boardHeight), boardWidth,
                     boardHeight);
-        } while (!isFieldEmpty(newCoordinates, elements));
+        } while (!isFieldEmpty(newCoordinates));
         return newCoordinates;
     }
 
@@ -96,11 +95,10 @@ public class Board {
      * Check if field determined by coordinates is not occupied by any dynamic element (dalek).
      *
      * @param coordinates coordinates to check
-     * @param elements set of elements with possible collision
      *
      * @return true if given field is empty, false otherwise
      */
-    private boolean isFieldEmpty(Coordinates coordinates, Set<BoardElement> elements) {
+    private boolean isFieldEmpty(Coordinates coordinates) {
         for (BoardElement boardElement : elements) {
             if (boardElement.getCoordinates().equals(coordinates)) {
                 return false;

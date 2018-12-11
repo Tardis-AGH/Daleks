@@ -3,12 +3,12 @@ package model.board.generator;
 import model.board.Board;
 
 /**
- * The type Board generator.
+ * The interface Board generator.
  */
 public interface BoardGenerator {
 
     /**
-     * Generate new board board.
+     * Generate new board based on the current level.
      *
      * @param level the level
      *

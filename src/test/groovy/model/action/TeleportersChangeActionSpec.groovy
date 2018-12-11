@@ -15,7 +15,7 @@ class TeleportersChangeActionSpec extends Specification {
             int currentTeleporters, int change, Status expectedStatus, int expectedTeleporters) {
         given:
         Game game = new Game(new TestBoardGenerator(FXCollections.observableSet(), Mock(Doctor)))
-        game.getGameState().setNumberOfTeleporters(currentTeleporters)
+        game.gameState.numberOfTeleporters = currentTeleporters
         Action action = new TeleportersChangeAction(change)
 
         when:

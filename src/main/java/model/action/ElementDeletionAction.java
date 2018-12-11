@@ -13,7 +13,7 @@ public class ElementDeletionAction implements Action {
     private final BoardElement element;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param element the element to be removed from the set
      */

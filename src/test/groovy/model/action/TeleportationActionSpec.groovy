@@ -1,10 +1,10 @@
-package model.element.dynamicelement
+package model.action
 
 import javafx.collections.FXCollections
-import model.action.Action
 import model.board.Coordinates
 import model.board.Move
 import model.board.generator.TestBoardGenerator
+import model.element.dynamicelement.Doctor
 import model.game.Game
 import model.game.Status
 import spock.lang.Specification
@@ -18,7 +18,7 @@ class TeleportationActionSpec extends Specification {
             int numberOfTeleportersAfter, Status expectedStatus) {
         given:
         Game game = new Game(new TestBoardGenerator(FXCollections.observableSet(), new Doctor(Mock(Coordinates))))
-        game.getGameState().setNumberOfTeleporters(numberOfTeleportersBefore)
+        game.gameState.numberOfTeleporters = numberOfTeleportersBefore
 
         when:
         List<Action> actions = game.board.doctor.makeMove(Move.TELEPORT)
