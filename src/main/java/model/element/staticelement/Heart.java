@@ -10,7 +10,7 @@ import model.game.InteractionResult;
  */
 public class Heart extends StaticBoardElement {
 
-    private static final String SPRITE_PATH = "images/dalek/dalek5.png";
+    private static final String SPRITE_PATH = "images/dalek/dalek.png";
 
     /**
      * Instantiates a new Heart.
