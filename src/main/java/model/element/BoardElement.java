@@ -21,7 +21,6 @@ public abstract class BoardElement {
      */
     public BoardElement(Coordinates coordinates) {
         this.coordinates.setValue(coordinates);
-        this.sprite = new Image(getClass().getClassLoader().getResource(this.getImagePath()).toExternalForm());
     }
 
     /**
@@ -64,9 +63,5 @@ public abstract class BoardElement {
      * @return path to image
      */
     public abstract String getImagePath();
-
-    public Image getSprite() {
-        return sprite;
-    }
 
 }

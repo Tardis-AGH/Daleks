@@ -2,6 +2,7 @@ package view;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import model.board.Coordinates;
@@ -11,9 +12,9 @@ public class Sprite extends ImageView implements ChangeListener<Coordinates> {
 
     private GridPane tiles;
 
-    public Sprite(BoardElement element, GridPane tiles, int boardWidth) {
-        super(element.getSprite());
-        double scale = element.getSprite().getWidth() / element.getSprite().getHeight();
+    public Sprite(BoardElement element, Image image, GridPane tiles, int boardWidth) {
+        super(image);
+        double scale = image.getWidth() / image.getHeight();
         double baseSize = (double) (GameWindow.getNativeBoardWidth() / boardWidth);
 
         this.setFitHeight(baseSize*scale);

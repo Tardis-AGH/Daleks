@@ -4,6 +4,7 @@ import controller.GameController;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -154,13 +155,17 @@ public class GameWindow extends VBox {
     public void initSprites(ObservableSet<BoardElement> elements, int boardWidth) {
         removeSprites();
 
-        for (BoardElement boardElement : elements)
-            new Sprite(boardElement, tiles, boardWidth);
+        for (BoardElement boardElement : elements) createSprite(boardElement, boardWidth);
 
         elements.addListener((SetChangeListener.Change<? extends BoardElement> change) -> {
             if (change.wasAdded())
-                new Sprite(change.getElementAdded(), tiles, boardWidth);
+                createSprite(change.getElementAdded(), boardWidth);
         });
+    }
+
+    private void createSprite(BoardElement boardElement, int boardWidth) {
+        Image image = new javafx.scene.image.Image(getClass().getClassLoader().getResource(boardElement.getImagePath()).toExternalForm());
+        new Sprite(boardElement, image, tiles, boardWidth);
     }
 
     public static int getNativeBoardWidth() {
