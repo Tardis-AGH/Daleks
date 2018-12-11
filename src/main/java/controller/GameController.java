@@ -25,6 +25,8 @@ public class GameController {
         this.game = game;
         this.primaryStage = primaryStage;
         this.gameWindow = new GameWindow(this);
+
+        gameWindow.initSprites(game.getBoard().getElements(), game.getBoardWidth());
     }
 
     /**
