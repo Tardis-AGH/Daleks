@@ -10,7 +10,7 @@ import model.game.InteractionResult;
  */
 public class ScrapPile extends StaticBoardElement {
 
-    private static final String SPRITE_PATH = "images/dalek/dalek.png";
+    private static final String SPRITE_PATH = "images/misc/scrap.png";
 
     /**
      * Instantiates a new Scrap pile.

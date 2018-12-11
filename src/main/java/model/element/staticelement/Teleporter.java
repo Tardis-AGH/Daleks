@@ -10,7 +10,7 @@ import model.game.InteractionResult;
  */
 public class Teleporter extends StaticBoardElement {
 
-    private static final String SPRITE_PATH = "images/dalek/dalek.png";
+    private static final String SPRITE_PATH = "images/powerup/tardis.png";
 
     /**
      * Instantiates a new Teleporter.
