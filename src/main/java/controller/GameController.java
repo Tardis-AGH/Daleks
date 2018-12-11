@@ -28,7 +28,7 @@ public class GameController {
         gameWindow = new GameWindow(this);
 
         gameWindow.initSprites(game.getBoard().getElements(), game.getBoardWidth());
-        gameWindow.initGameStateLabels(game.getGameState());
+        gameWindow.initGameStateProperties(game.getGameState());
     }
 
     /**
@@ -41,6 +41,7 @@ public class GameController {
 
         game = new Game();
         gameWindow.initSprites(game.getBoard().getElements(), game.getBoardWidth());
+        gameWindow.initGameStateProperties(game.getGameState());
     }
 
     /**

@@ -1,6 +1,7 @@
 package view;
 
 import controller.GameController;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
 import javafx.geometry.Insets;
@@ -159,29 +160,35 @@ public class GameWindow extends VBox {
         label = new BorderPane();
         label.setLeft(new Label("Number of teleporters:"));
         label.setRight(numberOfTeleportersLabel);
+        numberOfTeleportersLabel.setPadding(new Insets(0, 0, 0, 5));
         metrics.getChildren().add(label);
 
         label = new BorderPane();
         label.setLeft(new Label("Score:"));
         label.setRight(scoreLabel);
+        scoreLabel.setPadding(new Insets(0, 0, 0, 5));
         metrics.getChildren().add(label);
 
         label = new BorderPane();
         label.setLeft(new Label("Highest score:"));
         label.setRight(highScoreLabel);
+        highScoreLabel.setPadding(new Insets(0, 0, 0, 5));
         metrics.getChildren().add(label);
 
         label = new BorderPane();
         label.setLeft(new Label("Level:"));
         label.setRight(levelLabel);
+        levelLabel.setPadding(new Insets(0, 0, 0, 5));
         metrics.getChildren().add(label);
 
-        metrics.setPadding(new Insets(30, 30, 30, 30));
+        metrics.setPadding(new Insets(50, 30, 30, 30));
 
         lowerBar.setLeft(metrics);
         lowerBar.setCenter(controls);
-        controls.setTranslateX((double) NATIVE_BOARD_WIDTH * 0.08);
+        controls.setTranslateX((double) NATIVE_BOARD_WIDTH * 0.05);
+        controls.setTranslateY(25);
         lowerBar.setRight(specialButtons);
+        lowerBar.setTop(new Region());
 
         this.getChildren().add(lowerBar);
     }
@@ -202,14 +209,26 @@ public class GameWindow extends VBox {
         new Sprite(boardElement, image, tiles, boardWidth);
     }
 
-    public void initGameStateLabels(GameState gameState) {
+    public void initGameStateProperties(GameState gameState) {
         numberOfLivesLabel.textProperty().bind(gameState.getNumberOfLivesProperty().asString());
         numberOfTeleportersLabel.textProperty().bind(gameState.getNumberOfTeleportersProperty().asString());
         scoreLabel.textProperty().bind(gameState.getCurrentScoreProperty().asString());
         highScoreLabel.textProperty().bind(gameState.getHighestScoreProperty().asString());
         levelLabel.textProperty().bind(gameState.getLevelProperty().asString());
 
+        gameState.getNumberOfTeleportersProperty().addListener((ObservableValue<? extends Number> observableValue, Number number, Number t1) -> {
+            if (t1.intValue() == 0) teleport.setDisable(true);
+            if (number.intValue() == 0) teleport.setDisable(false);
+        });
+
+        gameState.getNumberOfLivesProperty().addListener((ObservableValue<? extends Number> observableValue, Number number, Number t1) -> {
+            if (t1.intValue() < 0) {
+                numberOfLivesLabel.textProperty().unbind();
+                numberOfLivesLabel.setText("☠");
+            }
+        });
     }
+
 
     public static int getNativeBoardWidth() {
         return NATIVE_BOARD_WIDTH;
@@ -222,29 +241,24 @@ public class GameWindow extends VBox {
     public void freezeGame() {
         removeSprites();
 
-        down.setDisable(true);
-        lowerLeft.setDisable(true);
-        left.setDisable(true);
-        upperLeft.setDisable(true);
-        up.setDisable(true);
-        upperRight.setDisable(true);
-        right.setDisable(true);
-        lowerRight.setDisable(true);
-        wait.setDisable(true);
-        teleport.setDisable(true);
+        setGameControlsDisable(true);
     }
 
     public void unfreezeGame() {
-        down.setDisable(false);
-        lowerLeft.setDisable(false);
-        left.setDisable(false);
-        upperLeft.setDisable(false);
-        up.setDisable(false);
-        upperRight.setDisable(false);
-        right.setDisable(false);
-        lowerRight.setDisable(false);
-        wait.setDisable(false);
-        teleport.setDisable(false);
+        setGameControlsDisable(false);
+    }
+
+    private void setGameControlsDisable(Boolean f) {
+        down.setDisable(f);
+        lowerLeft.setDisable(f);
+        left.setDisable(f);
+        upperLeft.setDisable(f);
+        up.setDisable(f);
+        upperRight.setDisable(f);
+        right.setDisable(f);
+        lowerRight.setDisable(f);
+        wait.setDisable(f);
+        teleport.setDisable(f);
     }
 
     private void removeSprites() {
