@@ -1,17 +1,19 @@
 package model.game;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import model.action.Action;
 import model.board.Board;
 import model.board.Coordinates;
 import model.board.Move;
+import model.board.generator.BoardGenerator;
 import model.element.BoardElement;
 import model.element.DynamicBoardElement;
 import model.element.dynamicelement.Dalek;
 import model.element.dynamicelement.Doctor;
+
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Root class of the model.
@@ -20,6 +22,8 @@ public class Game {
 
     private final GameState gameState;
     private Board board;
+
+    private BoardGenerator boardGenerator;
 
     /**
      * Instantiates a new Game.
@@ -30,6 +34,7 @@ public class Game {
     public Game(GameState gameState, Board board) {
         this.gameState = gameState;
         this.board = board;
+        this.boardGenerator = new BoardGenerator();
     }
 
     /**
@@ -117,5 +122,14 @@ public class Game {
      */
     public void setBoard(Board board) {
         this.board = board;
+    }
+
+
+    public int getBoardHeight() {
+        return boardGenerator.getBoardHeight();
+    }
+
+    public int getBoardWidth() {
+        return boardGenerator.getBoardWidth();
     }
 }
