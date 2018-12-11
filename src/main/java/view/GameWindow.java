@@ -151,6 +151,10 @@ public class GameWindow extends VBox {
     }
 
     public void initSprites(ObservableSet<BoardElement> elements, int boardWidth) {
+        tiles.getChildren().removeAll(
+                tiles.getChildren().stream().filter(c -> c instanceof Sprite).collect(Collectors.toList())
+        );
+
         for (BoardElement boardElement : elements)
             new Sprite(boardElement, tiles, boardWidth);
 
@@ -166,5 +170,10 @@ public class GameWindow extends VBox {
 
     public static int getNativeBoardHeight() {
         return NATIVE_BOARD_HEIGHT;
+    }
+
+    public void freezeGame() {
+        tiles.setDisable(true);
+
     }
 }

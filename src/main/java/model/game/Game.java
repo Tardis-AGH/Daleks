@@ -27,14 +27,36 @@ public class Game {
 
     /**
      * Instantiates a new Game.
-     *
-     * @param gameState the game state
-     * @param board the board
      */
-    public Game(GameState gameState, Board board) {
-        this.gameState = gameState;
-        this.board = board;
+    public Game() {
         this.boardGenerator = new BoardGenerator();
+        this.board = boardGenerator.generateNewBoard(1);
+
+        this.gameState = new GameState(3, 3, 0, 1, 1, board.getDaleks().size());
+    }
+
+    /**
+     * Sets up new level.
+     *
+     * @return the status
+     */
+
+    public void nextLevel() {
+        int newLevel = gameState.getLevel() + 1;
+
+        board = boardGenerator.generateNewBoard(newLevel);
+
+        gameState.setLevel(newLevel);
+        gameState.setCurrentScore(gameState.getCurrentScore() + 5);
+        gameState.setHighestScore(Math.max(gameState.getCurrentScore(), gameState.getHighestScore()));
+        gameState.setNumberOfTeleporters(gameState.getNumberOfTeleporters() + 1);
+        gameState.setNumberOfLives(gameState.getNumberOfLives() + 1);
+        gameState.setEnemyCount(board.getDaleks().size());
+
+    }
+
+    public void restartLevel() {
+        board = boardGenerator.generateNewBoard(gameState.getLevel());
     }
 
     /**

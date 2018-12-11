@@ -4,6 +4,7 @@ import javafx.event.Event;
 import javafx.stage.Stage;
 import model.board.Move;
 import model.game.Game;
+import model.game.Status;
 import view.GameWindow;
 
 /**
@@ -18,13 +19,13 @@ public class GameController {
     /**
      * Instantiates a new Game controller.
      *
-     * @param game the game
      * @param primaryStage the primary stage
      */
-    public GameController(Game game, Stage primaryStage) {
-        this.game = game;
+    public GameController(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.gameWindow = new GameWindow(this);
+
+        game = new Game();
+        gameWindow = new GameWindow(this);
 
         gameWindow.initSprites(game.getBoard().getElements(), game.getBoardWidth());
     }
@@ -35,7 +36,7 @@ public class GameController {
      * @param event the event
      */
     public void handleRestart(Event event) {
-        //TODO
+
     }
 
     /**
@@ -44,9 +45,23 @@ public class GameController {
      * @param move the move
      */
     public void nextTurn(Move move) {
-        //TODO
-        System.out.println(move);
-        game.makeMoves(move);
+        Status gameStatus = game.makeMoves(move);
+
+        switch (gameStatus) {
+            case CONTINUE_GAME:
+                break;
+            case LEVEL_UP:
+                game.nextLevel();
+                gameWindow.initSprites(game.getBoard().getElements(), game.getBoardWidth());
+                break;
+            case RESTART_GAME:
+                game.restartLevel();
+                gameWindow.initSprites(game.getBoard().getElements(), game.getBoardWidth());
+                break;
+            case GAME_OVER:
+                gameWindow.freezeGame();
+                break;
+        }
     }
 
     /**
