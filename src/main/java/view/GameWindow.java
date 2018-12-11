@@ -1,18 +1,13 @@
 package view;
 
 import controller.GameController;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableSet;
+import javafx.collections.SetChangeListener;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-
 import javafx.scene.layout.VBox;
-import model.board.Board;
-import model.board.Coordinates;
 import model.board.Move;
 import model.element.BoardElement;
 
@@ -47,20 +42,20 @@ public class GameWindow extends VBox {
 
         GridPane gridPane = new GridPane();
         gridPane.setGridLinesVisible(true);
-        int prefferedTileSize = NATIVE_BOARD_WIDTH / gameController.getBoardWidth();
+        int prefferedTileSize = NATIVE_BOARD_WIDTH / gameController.getGame().getBoardWidth();
         Stream<ColumnConstraints> columns = Stream
                 .generate(ColumnConstraints::new)
                 .peek(e -> {
                     e.setPrefWidth(prefferedTileSize);
                 })
-                .limit(gameController.getBoardWidth());
+                .limit(gameController.getGame().getBoardWidth());
 
         Stream<RowConstraints> rows = Stream
                 .generate(RowConstraints::new)
                 .peek(e -> {
                     e.setPrefHeight(prefferedTileSize);
                 })
-                .limit(gameController.getBoardHeight());
+                .limit(gameController.getGame().getBoardHeight());
         gridPane.getColumnConstraints().addAll(columns.collect(Collectors.toSet()));
         gridPane.getRowConstraints().addAll(rows.collect(Collectors.toSet()));
         this.tiles = gridPane;
@@ -85,6 +80,7 @@ public class GameWindow extends VBox {
         left.setTranslateY((NAVIGATION_BUTTON_SIZE));
         left.setPrefWidth(NAVIGATION_BUTTON_SIZE);
         left.setPrefHeight(NAVIGATION_BUTTON_SIZE);
+        left.setOnAction(event -> gameController.nextTurn(Move.LEFT));
         left.setText("<");
 
         upperLeft.setTranslateX((int) ((NATIVE_BOARD_WIDTH / 2) - ((double) (3 * NAVIGATION_BUTTON_SIZE / 2))));
@@ -153,15 +149,18 @@ public class GameWindow extends VBox {
         controls.getChildren().add(restart);
 
         this.getChildren().add(controls);
-
-        for (BoardElement boardElement : gameController.getGame().getBoard().getElements()) {
-            Image image = new Image(getClass().getClassLoader().getResource(boardElement.getImagePath()).toExternalForm());
-            Sprite sprite = new Sprite(boardElement,image, this);
-        }
     }
 
-    public GridPane getTiles() {
-        return tiles;
+    public void initSprites(ObservableSet<BoardElement> elements, int boardWidth) {
+        removeSprites();
+
+        for (BoardElement boardElement : elements)
+            new Sprite(boardElement, tiles, boardWidth);
+
+        elements.addListener((SetChangeListener.Change<? extends BoardElement> change) -> {
+            if (change.wasAdded())
+                new Sprite(change.getElementAdded(), tiles, boardWidth);
+        });
     }
 
     public static int getNativeBoardWidth() {
@@ -170,5 +169,39 @@ public class GameWindow extends VBox {
 
     public static int getNativeBoardHeight() {
         return NATIVE_BOARD_HEIGHT;
+    }
+
+    public void freezeGame() {
+        removeSprites();
+
+        down.setDisable(true);
+        lowerLeft.setDisable(true);
+        left.setDisable(true);
+        upperLeft.setDisable(true);
+        up.setDisable(true);
+        upperRight.setDisable(true);
+        right.setDisable(true);
+        lowerRight.setDisable(true);
+        wait.setDisable(true);
+        teleport.setDisable(true);
+    }
+
+    public void unfreezeGame() {
+        down.setDisable(false);
+        lowerLeft.setDisable(false);
+        left.setDisable(false);
+        upperLeft.setDisable(false);
+        up.setDisable(false);
+        upperRight.setDisable(false);
+        right.setDisable(false);
+        lowerRight.setDisable(false);
+        wait.setDisable(false);
+        teleport.setDisable(false);
+    }
+
+    private void removeSprites() {
+        tiles.getChildren().removeAll(
+                tiles.getChildren().stream().filter(c -> c instanceof Sprite).collect(Collectors.toList())
+        );
     }
 }

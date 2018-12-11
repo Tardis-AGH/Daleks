@@ -1,7 +1,5 @@
 package model.board.generator;
 
-import java.util.Random;
-import java.util.stream.Stream;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import model.board.Board;
@@ -11,6 +9,9 @@ import model.element.dynamicelement.Dalek;
 import model.element.dynamicelement.Doctor;
 import model.element.staticelement.Heart;
 import model.element.staticelement.Teleporter;
+
+import java.util.Random;
+import java.util.stream.Stream;
 
 /**
  * The type Board generator.
@@ -28,10 +29,9 @@ public class BoardGenerator {
     /**
      * Instantiates a new Board generator.
      *
-     * @param random the random
      */
-    public BoardGenerator(Random random) {
-        this.random = random;
+    public BoardGenerator() {
+        this.random = new Random();
     }
 
     /**
@@ -79,5 +79,14 @@ public class BoardGenerator {
         Stream.iterate(0, n -> n + 1)
                 .limit((int) (boardHeight * boardWidth * TELEPORTER_RATIO))
                 .forEach(e -> board.getElements().add(new Teleporter(coordinatesGenerator.getRandomCoordinates())));
+    }
+
+
+    public int getBoardHeight() {
+        return boardHeight;
+    }
+
+    public int getBoardWidth() {
+        return boardWidth;
     }
 }

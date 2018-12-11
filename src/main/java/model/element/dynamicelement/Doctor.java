@@ -1,7 +1,5 @@
 package model.element.dynamicelement;
 
-import java.util.LinkedList;
-import java.util.List;
 import model.action.Action;
 import model.action.ElementDeletionAction;
 import model.action.LivesChangeAction;
@@ -15,12 +13,15 @@ import model.element.staticelement.ScrapPile;
 import model.element.staticelement.Teleporter;
 import model.game.InteractionResult;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * The type Doctor.
  */
 public class Doctor extends DynamicBoardElement {
 
-    private static final String SPRITE_PATH = "images/dalek/dalek.png";
+    private static final String SPRITE_PATH = "images/doctor/doctor.png";
     private final CoordinatesGenerator coordinatesGenerator;
 
     /**

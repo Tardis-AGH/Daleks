@@ -1,12 +1,13 @@
 package model.board;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import javafx.collections.ObservableSet;
 import model.element.BoardElement;
 import model.element.StaticBoardElement;
 import model.element.dynamicelement.Dalek;
 import model.element.dynamicelement.Doctor;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The type Board.
@@ -26,6 +27,7 @@ public class Board {
         this.elements = elements;
         this.doctor = doctor;
     }
+
 
     /**
      * Gets daleks.
