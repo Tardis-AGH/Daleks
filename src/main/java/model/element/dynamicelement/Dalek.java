@@ -18,7 +18,7 @@ import model.game.InteractionResult;
  */
 public class Dalek extends DynamicBoardElement {
 
-    private static final String SPRITE_PATH = "images/dalek/dalek5.png";
+    private static final String SPRITE_PATH = "images/dalek/dalek.png";
 
     /**
      * Instantiates a new Dalek.
@@ -100,5 +100,9 @@ public class Dalek extends DynamicBoardElement {
         interactionResult.addAction(new ScoreChangeAction(1));
         interactionResult.addAction(new EnemyCountChangeAction(-1));
         return interactionResult;
+    }
+
+    public String getImagePath(){
+        return SPRITE_PATH;
     }
 }

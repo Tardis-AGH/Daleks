@@ -20,7 +20,7 @@ import model.game.InteractionResult;
  */
 public class Doctor extends DynamicBoardElement {
 
-    private static final String SPRITE_PATH = "images/dalek/dalek5.png";
+    private static final String SPRITE_PATH = "images/dalek/dalek.png";
     private final CoordinatesGenerator coordinatesGenerator;
 
     /**
@@ -103,5 +103,9 @@ public class Doctor extends DynamicBoardElement {
         final InteractionResult interactionResult = new InteractionResult(scrapPile);
         interactionResult.addAction(new LivesChangeAction(-1));
         return interactionResult;
+    }
+
+    public String getImagePath(){
+        return SPRITE_PATH;
     }
 }

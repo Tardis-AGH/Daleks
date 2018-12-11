@@ -10,7 +10,7 @@ import model.game.InteractionResult;
  */
 public class ScrapPile extends StaticBoardElement {
 
-    private static final String SPRITE_PATH = "images/dalek/dalek5.png";
+    private static final String SPRITE_PATH = "images/dalek/dalek.png";
 
     /**
      * Instantiates a new Scrap pile.
@@ -24,5 +24,9 @@ public class ScrapPile extends StaticBoardElement {
     @Override
     public InteractionResult accept(DynamicBoardElement visitor) {
         return visitor.visit(this);
+    }
+
+    public String getImagePath(){
+        return SPRITE_PATH;
     }
 }
