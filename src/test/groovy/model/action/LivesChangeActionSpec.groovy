@@ -25,7 +25,7 @@ class LivesChangeActionSpec extends Specification {
 
         where:
         currentLives | change | expectedStatus
-        3            | -1     | Status.RESTART_GAME
+        3            | -1     | Status.RESTART_LEVEL
         0            | -1     | Status.GAME_OVER
         3            | 1      | Status.CONTINUE_GAME
     }

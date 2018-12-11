@@ -30,7 +30,7 @@ public class LivesChangeAction implements Action {
         }
 
         if (currentNumberOfLives > 0) {
-            return Status.RESTART_GAME;
+            return Status.RESTART_LEVEL;
         }
 
         return Status.GAME_OVER;

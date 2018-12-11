@@ -12,9 +12,6 @@ import model.element.dynamicelement.Doctor
 import model.element.staticelement.Heart
 import model.element.staticelement.ScrapPile
 import model.element.staticelement.Teleporter
-import model.game.Game
-import model.game.GameState
-import model.game.Status
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -230,7 +227,7 @@ class GameSpec extends Specification {
         GameState gameState = new GameState(lives, 0, 0, 0, 0, 1)
         Game game = new Game(gameState, new Board(elementSet, theDoctor))
 
-        Status expectedStatus = Status.RESTART_GAME
+        Status expectedStatus = Status.RESTART_LEVEL
         if (lives == 0) {
             expectedStatus = Status.GAME_OVER
         }

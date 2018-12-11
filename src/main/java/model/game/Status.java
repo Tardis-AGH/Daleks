@@ -15,7 +15,7 @@ public enum Status {
     /**
      * Restart game status.
      */
-    RESTART_GAME,
+    RESTART_LEVEL,
     /**
      * Game over status.
      */

@@ -7,12 +7,8 @@ import javafx.collections.SetChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
 import javafx.scene.image.Image;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import model.board.Move;
 import model.element.BoardElement;
 import model.game.GameState;
@@ -41,11 +37,11 @@ public class GameWindow extends VBox {
     private Button restart = new Button();
     private Button teleport = new Button();
 
-    Label numberOfLivesLabel = new Label();
-    Label numberOfTeleportersLabel = new Label();
-    Label scoreLabel = new Label();
-    Label highScoreLabel = new Label();
-    Label levelLabel = new Label();
+    private Label numberOfLivesLabel = new Label();
+    private Label numberOfTeleportersLabel = new Label();
+    private Label scoreLabel = new Label();
+    private Label highScoreLabel = new Label();
+    private Label levelLabel = new Label();
 
     private GridPane tiles;
 
@@ -79,46 +75,55 @@ public class GameWindow extends VBox {
         down.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         down.setOnAction(event -> gameController.nextTurn(Move.DOWN));
         down.setText("⬇");
+        down.setStyle("-fx-font: 20 calibri;");
 
         lowerLeft.setPrefWidth(NAVIGATION_BUTTON_SIZE);
         lowerLeft.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         lowerLeft.setOnAction(event -> gameController.nextTurn(Move.LOWER_LEFT));
         lowerLeft.setText("⬋");
+        lowerLeft.setStyle("-fx-font: 20 calibri;");
 
         left.setPrefWidth(NAVIGATION_BUTTON_SIZE);
         left.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         left.setOnAction(event -> gameController.nextTurn(Move.LEFT));
         left.setText("⬅");
+        left.setStyle("-fx-font: 20 calibri;");
 
         upperLeft.setPrefWidth(NAVIGATION_BUTTON_SIZE);
         upperLeft.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         upperLeft.setOnAction(event -> gameController.nextTurn(Move.UPPER_LEFT));
         upperLeft.setText("⬉");
+        upperLeft.setStyle("-fx-font: 20 calibri;");
 
         up.setPrefWidth(NAVIGATION_BUTTON_SIZE);
         up.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         up.setOnAction(event -> gameController.nextTurn(Move.UP));
         up.setText("⬆");
+        up.setStyle("-fx-font: 20 calibri;");
 
         upperRight.setPrefWidth(NAVIGATION_BUTTON_SIZE);
         upperRight.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         upperRight.setOnAction(event -> gameController.nextTurn(Move.UPPER_RIGHT));
         upperRight.setText("⬈");
+        upperRight.setStyle("-fx-font: 20 calibri;");
 
         right.setPrefWidth(NAVIGATION_BUTTON_SIZE);
         right.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         right.setOnAction(event -> gameController.nextTurn(Move.RIGHT));
         right.setText("➡");
+        right.setStyle("-fx-font: 20 calibri;");
 
         lowerRight.setPrefWidth(NAVIGATION_BUTTON_SIZE);
         lowerRight.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         lowerRight.setOnAction(event -> gameController.nextTurn(Move.LOWER_RIGHT));
         lowerRight.setText("⬊");
+        lowerRight.setStyle("-fx-font: 20 calibri;");
 
         wait.setPrefWidth(NAVIGATION_BUTTON_SIZE);
         wait.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         wait.setOnAction(event -> gameController.nextTurn(Move.WAIT));
-        wait.setText("W");
+        wait.setText("●");
+        wait.setStyle("-fx-font: 20 calibri;");
 
         teleport.setPrefWidth(1.5 * NAVIGATION_BUTTON_SIZE);
         teleport.setPrefHeight(1.5 * NAVIGATION_BUTTON_SIZE);
@@ -150,36 +155,11 @@ public class GameWindow extends VBox {
         specialButtons.setPadding(new Insets(30, 30, 30, 30));
         specialButtons.setSpacing(30);
 
-        BorderPane label;
-
-        label = new BorderPane();
-        label.setLeft(new Label("Number of lives:"));
-        label.setRight(numberOfLivesLabel);
-        metrics.getChildren().add(label);
-
-        label = new BorderPane();
-        label.setLeft(new Label("Number of teleporters:"));
-        label.setRight(numberOfTeleportersLabel);
-        numberOfTeleportersLabel.setPadding(new Insets(0, 0, 0, 5));
-        metrics.getChildren().add(label);
-
-        label = new BorderPane();
-        label.setLeft(new Label("Score:"));
-        label.setRight(scoreLabel);
-        scoreLabel.setPadding(new Insets(0, 0, 0, 5));
-        metrics.getChildren().add(label);
-
-        label = new BorderPane();
-        label.setLeft(new Label("Highest score:"));
-        label.setRight(highScoreLabel);
-        highScoreLabel.setPadding(new Insets(0, 0, 0, 5));
-        metrics.getChildren().add(label);
-
-        label = new BorderPane();
-        label.setLeft(new Label("Level:"));
-        label.setRight(levelLabel);
-        levelLabel.setPadding(new Insets(0, 0, 0, 5));
-        metrics.getChildren().add(label);
+        setLabel(levelLabel, "Level:", metrics);
+        setLabel(numberOfLivesLabel, "Number of lives:", metrics);
+        setLabel(numberOfTeleportersLabel, "Number of teleporters:", metrics);
+        setLabel(scoreLabel, "Score:", metrics);
+        setLabel(highScoreLabel, "Highest score:", metrics);
 
         metrics.setPadding(new Insets(50, 30, 30, 30));
 
@@ -191,6 +171,14 @@ public class GameWindow extends VBox {
         lowerBar.setTop(new Region());
 
         this.getChildren().add(lowerBar);
+    }
+
+    private void setLabel(Label numericLabel, String labelText, VBox metrics) {
+        BorderPane label = new BorderPane();
+        label.setLeft(new Label(labelText));
+        label.setRight(numericLabel);
+        numericLabel.setPadding(new Insets(0, 0, 0, 5));
+        metrics.getChildren().add(label);
     }
 
     public void initSprites(ObservableSet<BoardElement> elements, int boardWidth) {
