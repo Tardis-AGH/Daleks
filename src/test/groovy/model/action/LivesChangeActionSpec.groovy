@@ -1,8 +1,9 @@
 package model.action
 
-import model.board.Board
+import javafx.collections.FXCollections
+import model.board.generator.TestBoardGenerator
+import model.element.dynamicelement.Doctor
 import model.game.Game
-import model.game.GameState
 import model.game.Status
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -13,7 +14,9 @@ class LivesChangeActionSpec extends Specification {
     def "changes lives count #currentLives to #expectedStatus with #change"(int currentLives, int change,
             Status expectedStatus) {
         given:
-        Game game = new Game(new GameState(currentLives, 0, 0, 0, 0, 0), Mock(Board))
+        Game game = new Game(new TestBoardGenerator(FXCollections.observableSet(), Mock(Doctor)))
+        game.getGameState().setNumberOfLives(currentLives)
+
         Action action = new LivesChangeAction(change)
 
         when:

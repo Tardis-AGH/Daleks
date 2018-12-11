@@ -2,7 +2,6 @@ package model.element.dynamicelement
 
 import model.board.Coordinates
 import model.board.Move
-import model.board.generator.CoordinatesGenerator
 import model.element.BoardElement
 import model.element.staticelement.Heart
 import spock.lang.Shared
@@ -21,8 +20,7 @@ class DoctorSpec extends Specification {
             int newY) {
         given:
         Coordinates doctorCoordinates = new Coordinates(oldX, oldY, boardWidth, boardHeight)
-        Doctor doctor = new Doctor(doctorCoordinates, Mock(CoordinatesGenerator))
-        //Set<BoardElement> elementSet = [] as Set
+        Doctor doctor = new Doctor(doctorCoordinates)
 
         when:
         doctor.makeMove(move)
@@ -65,9 +63,7 @@ class DoctorSpec extends Specification {
         }
 
         and:
-        CoordinatesGenerator coordinatesGenerator = new CoordinatesGenerator(new Random(), elementSet, boardWidth,
-                boardHeight)
-        Doctor doctor = new Doctor(doctorCoordinates, coordinatesGenerator)
+        Doctor doctor = new Doctor(doctorCoordinates)
 
         and:
 

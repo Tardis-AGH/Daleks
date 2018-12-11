@@ -1,14 +1,14 @@
 package model.action
 
+import javafx.collections.FXCollections
 import javafx.collections.ObservableSet
-import model.board.Board
 import model.board.Coordinates
+import model.board.generator.TestBoardGenerator
 import model.element.BoardElement
 import model.element.dynamicelement.Dalek
 import model.element.dynamicelement.Doctor
 import model.element.staticelement.ScrapPile
 import model.game.Game
-import model.game.GameState
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -25,10 +25,13 @@ class ElementDeletionActionSpec extends Specification {
     @Unroll
     def "removes #element from a set already containing #elInMap"(BoardElement elInMap) {
         given:
-        Game game = new Game(Mock(GameState), new Board(Mock(ObservableSet), Mock(Doctor)))
+
+        ObservableSet<BoardElement> elements = FXCollections.observableSet()
         if (elInMap != null) {
-            game.board.elements.add(elInMap)
+            elements.add(elInMap)
         }
+        TestBoardGenerator testBoardGenerator = new TestBoardGenerator(elements, Mock(Doctor), boardWidth, boardHeight)
+        Game game = new Game(testBoardGenerator)
 
         Action action = new ElementDeletionAction(e1)
 
