@@ -1,6 +1,7 @@
 package model.action;
 
 import model.element.BoardElement;
+import model.element.dynamicelement.Dalek;
 import model.game.Game;
 import model.game.Status;
 
@@ -24,7 +25,9 @@ public class ElementDeletionAction implements Action {
     public Status execute(Game game) {
         element.setCoordinates(null);
         game.getBoard().getElements().remove(element);
-
+        if (element instanceof Dalek && game.getBoard().getDaleks().size() == 0) {
+            return Status.LEVEL_UP;
+        }
         return Status.CONTINUE_GAME;
     }
 }

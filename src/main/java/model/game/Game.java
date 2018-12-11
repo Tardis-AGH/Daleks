@@ -1,38 +1,52 @@
 package model.game;
 
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import model.action.Action;
 import model.board.Board;
 import model.board.Coordinates;
 import model.board.Move;
 import model.board.generator.BoardGenerator;
+import model.board.generator.RandomBoardGenerator;
 import model.element.BoardElement;
 import model.element.DynamicBoardElement;
 import model.element.dynamicelement.Dalek;
 import model.element.dynamicelement.Doctor;
-
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Root class of the model.
  */
 public class Game {
 
-    private final GameState gameState;
+    private static final int DEFAULT_NUMBER_OF_LIVES = 3;
+    private static final int DEFAULT_NUMBER_OF_TELEPORTERS = 3;
+    private static final int LEVEL_UP_POINTS = 5;
+    private final BoardGenerator boardGenerator;
+    private GameState gameState;
     private Board board;
-
-    private BoardGenerator boardGenerator;
 
     /**
      * Instantiates a new Game.
      */
     public Game() {
-        this.boardGenerator = new BoardGenerator();
+        this.boardGenerator = new RandomBoardGenerator();
         this.board = boardGenerator.generateNewBoard(1);
+        this.gameState =
+                new GameState(DEFAULT_NUMBER_OF_LIVES, DEFAULT_NUMBER_OF_TELEPORTERS, 0, 0, board.getDaleks().size());
+    }
 
-        this.gameState = new GameState(3, 3, 0, 1, 1, board.getDaleks().size());
+    /**
+     * Instantiates a new Game.
+     *
+     * @param boardGenerator the board generator
+     */
+    public Game(BoardGenerator boardGenerator) {
+        this.boardGenerator = boardGenerator;
+        this.board = boardGenerator.generateNewBoard(1);
+        this.gameState =
+                new GameState(DEFAULT_NUMBER_OF_LIVES, DEFAULT_NUMBER_OF_TELEPORTERS, 0, 0, board.getDaleks().size());
     }
 
     /**
@@ -40,21 +54,19 @@ public class Game {
      *
      * @return the status
      */
-
     public void nextLevel() {
         int newLevel = gameState.getLevel() + 1;
-
         board = boardGenerator.generateNewBoard(newLevel);
-
         gameState.setLevel(newLevel);
-        gameState.setCurrentScore(gameState.getCurrentScore() + 5);
+        gameState.setCurrentScore(gameState.getCurrentScore() + LEVEL_UP_POINTS);
         gameState.setHighestScore(Math.max(gameState.getCurrentScore(), gameState.getHighestScore()));
         gameState.setNumberOfTeleporters(gameState.getNumberOfTeleporters() + 1);
         gameState.setNumberOfLives(gameState.getNumberOfLives() + 1);
-        gameState.setEnemyCount(board.getDaleks().size());
-
     }
 
+    /**
+     * Restart level.
+     */
     public void restartLevel() {
         board = boardGenerator.generateNewBoard(gameState.getLevel());
     }
@@ -78,8 +90,11 @@ public class Game {
 
         // Doctor's move
         final Doctor doctor = board.getDoctor();
-        executeActions(doctor.makeMove(move));
-        Status actionStatus = processCollision(collisionMap, doctor);
+        Status actionStatus = executeActions(doctor.makeMove(move));
+        if (actionStatus == Status.SKIP_MOVE) {
+            return Status.CONTINUE_GAME;
+        }
+        actionStatus = processCollision(collisionMap, doctor);
         if (actionStatus != Status.CONTINUE_GAME) {
             return actionStatus;
         }
@@ -146,11 +161,20 @@ public class Game {
         this.board = board;
     }
 
-
+    /**
+     * Gets board height.
+     *
+     * @return the board height
+     */
     public int getBoardHeight() {
         return boardGenerator.getBoardHeight();
     }
 
+    /**
+     * Gets board width.
+     *
+     * @return the board width
+     */
     public int getBoardWidth() {
         return boardGenerator.getBoardWidth();
     }

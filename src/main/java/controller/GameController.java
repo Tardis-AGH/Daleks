@@ -12,9 +12,9 @@ import view.GameWindow;
  */
 public class GameController {
 
+    private final GameWindow gameWindow;
     private Game game;
     private Stage primaryStage;
-    private final GameWindow gameWindow;
 
     /**
      * Instantiates a new Game controller.
@@ -108,7 +108,12 @@ public class GameController {
         this.game = game;
     }
 
-    public GameWindow getGameWindow(){
+    /**
+     * Gets game window.
+     *
+     * @return the game window
+     */
+    public GameWindow getGameWindow() {
         return this.gameWindow;
     }
 }

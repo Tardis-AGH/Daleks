@@ -1,50 +1,38 @@
 package model.element.dynamicelement;
 
+import java.util.LinkedList;
+import java.util.List;
 import model.action.Action;
 import model.action.ElementDeletionAction;
 import model.action.LivesChangeAction;
+import model.action.TeleportationAction;
 import model.action.TeleportersChangeAction;
 import model.board.Coordinates;
 import model.board.Move;
-import model.board.generator.CoordinatesGenerator;
 import model.element.DynamicBoardElement;
 import model.element.staticelement.Heart;
 import model.element.staticelement.ScrapPile;
 import model.element.staticelement.Teleporter;
 import model.game.InteractionResult;
 
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * The type Doctor.
  */
 public class Doctor extends DynamicBoardElement {
 
-    private static final String SPRITE_PATH = "images/doctor/doctor.png";
-    private final CoordinatesGenerator coordinatesGenerator;
+    private static String SPRITE_PATH = "images/doctor/doctor.png";
 
     /**
      * Instantiates a new Doctor.
      *
      * @param coordinates the coordinates
-     * @param coordinatesGenerator the coordinates generator
      */
-    public Doctor(Coordinates coordinates, CoordinatesGenerator coordinatesGenerator) {
+    public Doctor(Coordinates coordinates) {
         super(coordinates);
-        this.coordinatesGenerator = coordinatesGenerator;
     }
 
-    /**
-     * Instantiates a new Doctor.
-     *
-     * @param coordinates the coordinates
-     * @param coordinatesGenerator the coordinates generator
-     * @param newSpritePath the new sprite path
-     */
-    public Doctor(Coordinates coordinates, CoordinatesGenerator coordinatesGenerator, String newSpritePath) {
-        super(coordinates);
-        this.coordinatesGenerator = coordinatesGenerator;
+    private static void setSpritePath(String spritePath) {
+        SPRITE_PATH = spritePath;
     }
 
     /**
@@ -56,10 +44,8 @@ public class Doctor extends DynamicBoardElement {
      */
     public List<Action> makeMove(Move move) {
         final LinkedList<Action> actions = new LinkedList<>();
-
         if (move == Move.TELEPORT) {
-            setCoordinates(coordinatesGenerator.getRandomCoordinates());
-            actions.add(new TeleportersChangeAction(-1));
+            actions.add(new TeleportationAction());
         } else {
             setCoordinates(getCoordinates().getUpdated(move));
         }
@@ -106,7 +92,7 @@ public class Doctor extends DynamicBoardElement {
         return interactionResult;
     }
 
-    public String getImagePath(){
+    public String getImagePath() {
         return SPRITE_PATH;
     }
 }

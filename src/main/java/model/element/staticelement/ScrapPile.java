@@ -26,7 +26,7 @@ public class ScrapPile extends StaticBoardElement {
         return visitor.visit(this);
     }
 
-    public String getImagePath(){
+    public String getImagePath() {
         return SPRITE_PATH;
     }
 }

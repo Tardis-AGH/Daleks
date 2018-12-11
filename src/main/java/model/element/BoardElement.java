@@ -60,6 +60,8 @@ public abstract class BoardElement {
     }
 
     /**
+     * Gets image path.
+     *
      * @return path to image
      */
     public abstract String getImagePath();
