@@ -3,7 +3,10 @@ package view;
 import controller.GameController;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -11,6 +14,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import model.board.Move;
 import model.element.BoardElement;
+import model.game.GameState;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,6 +39,12 @@ public class GameWindow extends VBox {
     private Button wait = new Button();
     private Button restart = new Button();
     private Button teleport = new Button();
+
+    Label numberOfLivesLabel = new Label();
+    Label numberOfTeleportersLabel = new Label();
+    Label scoreLabel = new Label();
+    Label highScoreLabel = new Label();
+    Label levelLabel = new Label();
 
     private GridPane tiles;
 
@@ -63,93 +73,117 @@ public class GameWindow extends VBox {
         this.getChildren().add(this.tiles);
 
         GridPane controls = new GridPane();
-        down.setTranslateX(((double) NATIVE_BOARD_WIDTH / 2) - ((double) NAVIGATION_BUTTON_SIZE / 2));
-        down.setTranslateY(2 * NAVIGATION_BUTTON_SIZE);
+
         down.setPrefWidth(NAVIGATION_BUTTON_SIZE);
         down.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         down.setOnAction(event -> gameController.nextTurn(Move.DOWN));
-        down.setText("v");
+        down.setText("⬇");
 
-        lowerLeft.setTranslateX((int) ((NATIVE_BOARD_WIDTH / 2) - ((double) (3 * NAVIGATION_BUTTON_SIZE / 2))));
-        lowerLeft.setTranslateY(2 * NAVIGATION_BUTTON_SIZE);
         lowerLeft.setPrefWidth(NAVIGATION_BUTTON_SIZE);
         lowerLeft.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         lowerLeft.setOnAction(event -> gameController.nextTurn(Move.LOWER_LEFT));
-        lowerLeft.setText("LL");
+        lowerLeft.setText("⬋");
 
-        left.setTranslateX((int) ((NATIVE_BOARD_WIDTH / 2) - ((double) (3 * NAVIGATION_BUTTON_SIZE / 2))));
-        left.setTranslateY((NAVIGATION_BUTTON_SIZE));
         left.setPrefWidth(NAVIGATION_BUTTON_SIZE);
         left.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         left.setOnAction(event -> gameController.nextTurn(Move.LEFT));
-        left.setText("<");
+        left.setText("⬅");
 
-        upperLeft.setTranslateX((int) ((NATIVE_BOARD_WIDTH / 2) - ((double) (3 * NAVIGATION_BUTTON_SIZE / 2))));
         upperLeft.setPrefWidth(NAVIGATION_BUTTON_SIZE);
         upperLeft.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         upperLeft.setOnAction(event -> gameController.nextTurn(Move.UPPER_LEFT));
-        upperLeft.setText("UL");
+        upperLeft.setText("⬉");
 
-        up.setTranslateX(((double) NATIVE_BOARD_WIDTH / 2) - ((double) NAVIGATION_BUTTON_SIZE / 2));
         up.setPrefWidth(NAVIGATION_BUTTON_SIZE);
         up.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         up.setOnAction(event -> gameController.nextTurn(Move.UP));
-        up.setText("^");
+        up.setText("⬆");
 
-        upperRight.setTranslateX(((double) NATIVE_BOARD_WIDTH / 2) + ((double) NAVIGATION_BUTTON_SIZE / 2));
         upperRight.setPrefWidth(NAVIGATION_BUTTON_SIZE);
         upperRight.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         upperRight.setOnAction(event -> gameController.nextTurn(Move.UPPER_RIGHT));
-        upperRight.setText("UR");
+        upperRight.setText("⬈");
 
-        right.setTranslateX(((double) NATIVE_BOARD_WIDTH / 2) + ((double) NAVIGATION_BUTTON_SIZE / 2));
-        right.setTranslateY((NAVIGATION_BUTTON_SIZE));
         right.setPrefWidth(NAVIGATION_BUTTON_SIZE);
         right.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         right.setOnAction(event -> gameController.nextTurn(Move.RIGHT));
-        right.setText(">");
+        right.setText("➡");
 
-        lowerRight.setTranslateX(((double) NATIVE_BOARD_WIDTH / 2) + ((double) NAVIGATION_BUTTON_SIZE / 2));
-        lowerRight.setTranslateY(2 * NAVIGATION_BUTTON_SIZE);
         lowerRight.setPrefWidth(NAVIGATION_BUTTON_SIZE);
         lowerRight.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         lowerRight.setOnAction(event -> gameController.nextTurn(Move.LOWER_RIGHT));
-        lowerRight.setText("LR");
+        lowerRight.setText("⬊");
 
-        wait.setTranslateX(((double) NATIVE_BOARD_WIDTH / 2) - ((double) NAVIGATION_BUTTON_SIZE / 2));
-        wait.setTranslateY((NAVIGATION_BUTTON_SIZE));
         wait.setPrefWidth(NAVIGATION_BUTTON_SIZE);
         wait.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         wait.setOnAction(event -> gameController.nextTurn(Move.WAIT));
         wait.setText("W");
 
-        teleport.setTranslateX(((double) NATIVE_BOARD_WIDTH / 6));
-        teleport.setTranslateY((NAVIGATION_BUTTON_SIZE));
         teleport.setPrefWidth(1.5 * NAVIGATION_BUTTON_SIZE);
         teleport.setPrefHeight(1.5 * NAVIGATION_BUTTON_SIZE);
         teleport.setOnAction(event -> gameController.nextTurn(Move.TELEPORT));
         teleport.setText("TELEPORT");
 
-        restart.setTranslateX(((double) 5 * NATIVE_BOARD_WIDTH / 6));
-        restart.setTranslateY((NAVIGATION_BUTTON_SIZE));
         restart.setPrefWidth(1.5 * NAVIGATION_BUTTON_SIZE);
         restart.setPrefHeight(NAVIGATION_BUTTON_SIZE);
-        restart.setText("REST");
+        restart.setText("RESET");
         restart.setOnAction(gameController::handleRestart);
 
-        controls.getChildren().add(down);
-        controls.getChildren().add(left);
-        controls.getChildren().add(right);
-        controls.getChildren().add(up);
-        controls.getChildren().add(lowerLeft);
-        controls.getChildren().add(lowerRight);
-        controls.getChildren().add(upperLeft);
-        controls.getChildren().add(upperRight);
-        controls.getChildren().add(wait);
-        controls.getChildren().add(teleport);
-        controls.getChildren().add(restart);
+        controls.add(down, 1, 2);
+        controls.add(left, 0, 1);
+        controls.add(right, 2, 1);
+        controls.add(up, 1, 0);
+        controls.add(lowerLeft, 0, 2);
+        controls.add(lowerRight, 2, 2);
+        controls.add(upperLeft, 0, 0);
+        controls.add(upperRight, 2, 0);
+        controls.add(wait, 1, 1);
 
-        this.getChildren().add(controls);
+        BorderPane lowerBar = new BorderPane();
+
+        VBox metrics = new VBox(10);
+        VBox specialButtons = new VBox();
+
+        specialButtons.getChildren().add(teleport);
+        specialButtons.getChildren().add(restart);
+        specialButtons.setPadding(new Insets(30, 30, 30, 30));
+        specialButtons.setSpacing(30);
+
+        BorderPane label;
+
+        label = new BorderPane();
+        label.setLeft(new Label("Number of lives:"));
+        label.setRight(numberOfLivesLabel);
+        metrics.getChildren().add(label);
+
+        label = new BorderPane();
+        label.setLeft(new Label("Number of teleporters:"));
+        label.setRight(numberOfTeleportersLabel);
+        metrics.getChildren().add(label);
+
+        label = new BorderPane();
+        label.setLeft(new Label("Score:"));
+        label.setRight(scoreLabel);
+        metrics.getChildren().add(label);
+
+        label = new BorderPane();
+        label.setLeft(new Label("Highest score:"));
+        label.setRight(highScoreLabel);
+        metrics.getChildren().add(label);
+
+        label = new BorderPane();
+        label.setLeft(new Label("Level:"));
+        label.setRight(levelLabel);
+        metrics.getChildren().add(label);
+
+        metrics.setPadding(new Insets(30, 30, 30, 30));
+
+        lowerBar.setLeft(metrics);
+        lowerBar.setCenter(controls);
+        controls.setTranslateX((double) NATIVE_BOARD_WIDTH * 0.08);
+        lowerBar.setRight(specialButtons);
+
+        this.getChildren().add(lowerBar);
     }
 
     public void initSprites(ObservableSet<BoardElement> elements, int boardWidth) {
@@ -166,6 +200,15 @@ public class GameWindow extends VBox {
     private void createSprite(BoardElement boardElement, int boardWidth) {
         Image image = new javafx.scene.image.Image(getClass().getClassLoader().getResource(boardElement.getImagePath()).toExternalForm());
         new Sprite(boardElement, image, tiles, boardWidth);
+    }
+
+    public void initGameStateLabels(GameState gameState) {
+        numberOfLivesLabel.textProperty().bind(gameState.getNumberOfLivesProperty().asString());
+        numberOfTeleportersLabel.textProperty().bind(gameState.getNumberOfTeleportersProperty().asString());
+        scoreLabel.textProperty().bind(gameState.getCurrentScoreProperty().asString());
+        highScoreLabel.textProperty().bind(gameState.getHighestScoreProperty().asString());
+        levelLabel.textProperty().bind(gameState.getLevelProperty().asString());
+
     }
 
     public static int getNativeBoardWidth() {

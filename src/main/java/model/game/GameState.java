@@ -1,15 +1,18 @@
 package model.game;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 /**
  * The type Game state.
  */
 public class GameState {
 
-    private int numberOfLives;
-    private int numberOfTeleporters;
-    private int currentScore;
-    private int highestScore;
-    private int level;
+    private final IntegerProperty numberOfLives;
+    private final IntegerProperty numberOfTeleporters;
+    private final IntegerProperty currentScore;
+    private final IntegerProperty highestScore;
+    private final IntegerProperty level;
     private int enemyCount;
 
     /**
@@ -24,11 +27,11 @@ public class GameState {
      */
     public GameState(int numberOfLives, int numberOfTeleporters, int currentScore, int highestScore, int level,
             int enemyCount) {
-        this.numberOfLives = numberOfLives;
-        this.numberOfTeleporters = numberOfTeleporters;
-        this.currentScore = currentScore;
-        this.highestScore = highestScore;
-        this.level = level;
+        this.numberOfLives = new SimpleIntegerProperty(numberOfLives);
+        this.numberOfTeleporters = new SimpleIntegerProperty(numberOfTeleporters);
+        this.currentScore = new SimpleIntegerProperty(currentScore);
+        this.highestScore = new SimpleIntegerProperty(highestScore);
+        this.level = new SimpleIntegerProperty(level);
         this.enemyCount = enemyCount;
     }
 
@@ -56,7 +59,7 @@ public class GameState {
      * @return the level
      */
     public int getLevel() {
-        return level;
+        return level.getValue();
     }
 
     /**
@@ -65,7 +68,7 @@ public class GameState {
      * @param level the level
      */
     public void setLevel(int level) {
-        this.level = level;
+        this.level.setValue(level);
     }
 
     /**
@@ -74,7 +77,7 @@ public class GameState {
      * @return the highest score
      */
     public int getHighestScore() {
-        return highestScore;
+        return highestScore.getValue();
     }
 
     /**
@@ -83,7 +86,7 @@ public class GameState {
      * @param highestScore the highest score
      */
     public void setHighestScore(int highestScore) {
-        this.highestScore = highestScore;
+        this.highestScore.setValue(highestScore);
     }
 
     /**
@@ -92,7 +95,7 @@ public class GameState {
      * @return the current score
      */
     public int getCurrentScore() {
-        return currentScore;
+        return currentScore.getValue();
     }
 
     /**
@@ -101,7 +104,7 @@ public class GameState {
      * @param currentScore the current score
      */
     public void setCurrentScore(int currentScore) {
-        this.currentScore = currentScore;
+        this.currentScore.setValue(currentScore);
     }
 
     /**
@@ -110,7 +113,7 @@ public class GameState {
      * @return the number of teleporters
      */
     public int getNumberOfTeleporters() {
-        return numberOfTeleporters;
+        return numberOfTeleporters.getValue();
     }
 
     /**
@@ -119,7 +122,7 @@ public class GameState {
      * @param numberOfTeleporters the number of teleporters
      */
     public void setNumberOfTeleporters(int numberOfTeleporters) {
-        this.numberOfTeleporters = numberOfTeleporters;
+        this.numberOfTeleporters.setValue(numberOfTeleporters);
     }
 
     /**
@@ -128,7 +131,7 @@ public class GameState {
      * @return the number of lives
      */
     public int getNumberOfLives() {
-        return numberOfLives;
+        return numberOfLives.getValue();
     }
 
     /**
@@ -137,6 +140,52 @@ public class GameState {
      * @param numberOfLives the number of lives
      */
     public void setNumberOfLives(int numberOfLives) {
-        this.numberOfLives = numberOfLives;
+        this.numberOfLives.setValue(numberOfLives);
+    }
+
+    /**
+     * Gets level property.
+     *
+     * @return level property
+     */
+
+    public IntegerProperty getLevelProperty() {
+        return level;
+    }
+
+    /**
+     * Gets highest score property.
+     *
+     * @return the highest score property
+     */
+    public IntegerProperty getHighestScoreProperty() {
+        return highestScore;
+    }
+
+    /**
+     * Gets current score property.
+     *
+     * @return the current score property
+     */
+    public IntegerProperty getCurrentScoreProperty() {
+        return currentScore;
+    }
+
+    /**
+     * Gets number of teleporters property.
+     *
+     * @return the number of teleporters property
+     */
+    public IntegerProperty getNumberOfTeleportersProperty() {
+        return numberOfTeleporters;
+    }
+
+    /**
+     * Gets number of lives property.
+     *
+     * @return the number of lives property
+     */
+    public IntegerProperty getNumberOfLivesProperty() {
+        return numberOfLives;
     }
 }
