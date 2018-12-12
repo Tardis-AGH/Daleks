@@ -1,5 +1,6 @@
 package model.element.dynamicelement;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 import model.action.Action;
@@ -36,7 +37,7 @@ public class Doctor extends DynamicBoardElement {
             "doctor12.png",
             "doctor13.png",
     };
-    private static String SPRITE__BASE_PATH = "images/doctor/";
+    private static String SPRITE_BASE_PATH = "images/doctor/";
     private String SPRITE_PATH;
 
     /**
@@ -111,6 +112,6 @@ public class Doctor extends DynamicBoardElement {
     }
 
     public void setImage(int doctorDeaths){
-        SPRITE_PATH = SPRITE__BASE_PATH + SPRITES[doctorDeaths%SPRITES.length];
+        SPRITE_PATH = new File(SPRITE_BASE_PATH, SPRITES[doctorDeaths%SPRITES.length]).getPath();
     }
 }
