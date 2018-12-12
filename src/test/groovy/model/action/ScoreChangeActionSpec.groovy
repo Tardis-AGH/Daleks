@@ -1,7 +1,7 @@
 package model.action
 
 import javafx.collections.FXCollections
-import model.board.generator.TestBoardGenerator
+import model.board.factory.TestBoardFactory
 import model.element.dynamicelement.Doctor
 import model.game.Game
 import model.game.Status
@@ -15,7 +15,7 @@ class ScoreChangeActionSpec extends Specification {
             int currentScore, int change, Status expectedStatus, int currentHighscore,
             int expectedHighscore) {
         given:
-        Game game = new Game(new TestBoardGenerator(FXCollections.observableSet(), Mock(Doctor)))
+        Game game = new Game(new TestBoardFactory(FXCollections.observableSet(), Mock(Doctor)))
         game.gameState.currentScore = currentScore
         Action action = new ScoreChangeAction(change)
 

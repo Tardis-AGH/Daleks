@@ -8,7 +8,7 @@ import model.action.Action;
 import model.board.Board;
 import model.board.Coordinates;
 import model.board.Move;
-import model.board.generator.BoardGenerator;
+import model.board.factory.BoardFactory;
 import model.element.BoardElement;
 import model.element.DynamicBoardElement;
 import model.element.dynamicelement.Dalek;
@@ -22,20 +22,19 @@ public class Game {
     private static final int DEFAULT_NUMBER_OF_LIVES = 3;
     private static final int DEFAULT_NUMBER_OF_TELEPORTERS = 3;
     private static final int LEVEL_UP_POINTS = 5;
-    private final BoardGenerator boardGenerator;
+    private final BoardFactory boardFactory;
     private final GameState gameState;
     private Board board;
 
     /**
      * Instantiates a new Game.
      *
-     * @param boardGenerator the board generator
+     * @param boardFactory the board generator
      */
-    public Game(BoardGenerator boardGenerator) {
-        this.boardGenerator = boardGenerator;
-        this.board = boardGenerator.generateNewBoard(1);
-        this.gameState =
-                new GameState(DEFAULT_NUMBER_OF_LIVES, DEFAULT_NUMBER_OF_TELEPORTERS, 0, 0, 1);
+    public Game(BoardFactory boardFactory) {
+        this.boardFactory = boardFactory;
+        this.board = boardFactory.generateNewBoard(1);
+        this.gameState = new GameState(DEFAULT_NUMBER_OF_LIVES, DEFAULT_NUMBER_OF_TELEPORTERS, 0, 0, 1);
     }
 
     /**
@@ -43,7 +42,7 @@ public class Game {
      */
     public void nextLevel() {
         final int newLevel = gameState.getLevel() + 1;
-        board = boardGenerator.generateNewBoard(newLevel);
+        board = boardFactory.generateNewBoard(newLevel);
         gameState.setLevel(newLevel);
         gameState.setCurrentScore(gameState.getCurrentScore() + LEVEL_UP_POINTS);
         gameState.setHighestScore(Math.max(gameState.getCurrentScore(), gameState.getHighestScore()));
@@ -55,7 +54,7 @@ public class Game {
      * Restart level.
      */
     public void restartLevel() {
-        board = boardGenerator.generateNewBoard(gameState.getLevel());
+        board = boardFactory.generateNewBoard(gameState.getLevel());
     }
 
     /**
@@ -154,7 +153,7 @@ public class Game {
      * @return the board height
      */
     public int getBoardHeight() {
-        return boardGenerator.getBoardHeight();
+        return boardFactory.getBoardHeight();
     }
 
     /**
@@ -163,6 +162,6 @@ public class Game {
      * @return the board width
      */
     public int getBoardWidth() {
-        return boardGenerator.getBoardWidth();
+        return boardFactory.getBoardWidth();
     }
 }

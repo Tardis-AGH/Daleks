@@ -227,7 +227,8 @@ public class GameWindow extends VBox {
 
     private void createSprite(BoardElement boardElement, int boardWidth) {
         Image image = new javafx.scene.image.Image(
-                Objects.requireNonNull(getClass().getClassLoader().getResource(boardElement.getImagePath())).toExternalForm());
+                Objects.requireNonNull(getClass().getClassLoader().getResource(boardElement.getImagePath()))
+                        .toExternalForm());
         new Sprite(boardElement, image, tiles, boardWidth);
     }
 

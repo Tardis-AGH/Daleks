@@ -1,7 +1,7 @@
 package model.action
 
 import javafx.collections.FXCollections
-import model.board.generator.TestBoardGenerator
+import model.board.factory.TestBoardFactory
 import model.element.dynamicelement.Doctor
 import model.game.Game
 import model.game.Status
@@ -14,7 +14,7 @@ class TeleportersChangeActionSpec extends Specification {
     def "changes teleporter count from #currentTeleporters to #expectedTeleporters using #change"(
             int currentTeleporters, int change, Status expectedStatus, int expectedTeleporters) {
         given:
-        Game game = new Game(new TestBoardGenerator(FXCollections.observableSet(), Mock(Doctor)))
+        Game game = new Game(new TestBoardFactory(FXCollections.observableSet(), Mock(Doctor)))
         game.gameState.numberOfTeleporters = currentTeleporters
         Action action = new TeleportersChangeAction(change)
 

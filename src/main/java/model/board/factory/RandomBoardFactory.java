@@ -1,4 +1,4 @@
-package model.board.generator;
+package model.board.factory;
 
 import java.util.stream.Stream;
 import model.board.Board;
@@ -9,9 +9,9 @@ import model.element.staticelement.Heart;
 import model.element.staticelement.Teleporter;
 
 /**
- * The type random Board generator.
+ * The type random Board factory.
  */
-public class RandomBoardGenerator implements BoardGenerator {
+public class RandomBoardFactory implements BoardFactory {
 
     private static final double HEART_RATIO = 0.01;
     private static final double TELEPORTER_RATIO = 0.01;

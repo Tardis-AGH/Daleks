@@ -1,11 +1,11 @@
-package model.board.generator;
+package model.board.factory;
 
 import model.board.Board;
 
 /**
- * The interface Board generator.
+ * The interface Board factory.
  */
-public interface BoardGenerator {
+public interface BoardFactory {
 
     /**
      * Generate new board based on the current level.
