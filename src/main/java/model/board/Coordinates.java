@@ -63,7 +63,7 @@ public class Coordinates {
 
     @Override
     public int hashCode() {
-        return y * boardHeight + x;
+        return y * boardWidth + x;
     }
 
     /**
