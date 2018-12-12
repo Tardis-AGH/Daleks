@@ -1,6 +1,9 @@
 package view;
 
 import controller.GameController;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
@@ -8,15 +11,19 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import model.board.Move;
 import model.element.BoardElement;
 import model.game.GameState;
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-
+/**
+ * The type Game window.
+ */
 public class GameWindow extends VBox {
 
     //presenter window resolution
@@ -25,44 +32,43 @@ public class GameWindow extends VBox {
 
     private static final int NAVIGATION_BUTTON_SIZE = 60;
 
-    private Button down = new Button();
-    private Button lowerLeft = new Button();
-    private Button left = new Button();
-    private Button upperLeft = new Button();
-    private Button up = new Button();
-    private Button upperRight = new Button();
-    private Button right = new Button();
-    private Button lowerRight = new Button();
-    private Button wait = new Button();
-    private Button restart = new Button();
-    private Button teleport = new Button();
+    private final Button down = new Button();
+    private final Button lowerLeft = new Button();
+    private final Button left = new Button();
+    private final Button upperLeft = new Button();
+    private final Button up = new Button();
+    private final Button upperRight = new Button();
+    private final Button right = new Button();
+    private final Button lowerRight = new Button();
+    private final Button wait = new Button();
+    private final Button restart = new Button();
+    private final Button teleport = new Button();
 
-    private Label numberOfLivesLabel = new Label();
-    private Label numberOfTeleportersLabel = new Label();
-    private Label scoreLabel = new Label();
-    private Label highScoreLabel = new Label();
-    private Label levelLabel = new Label();
+    private final Label numberOfLivesLabel = new Label();
+    private final Label numberOfTeleportersLabel = new Label();
+    private final Label scoreLabel = new Label();
+    private final Label highScoreLabel = new Label();
+    private final Label levelLabel = new Label();
 
-    private GridPane tiles;
+    private final GridPane tiles;
 
+    /**
+     * Instantiates a new Game window.
+     *
+     * @param gameController the game controller
+     */
     public GameWindow(GameController gameController) {
         this.setPrefSize(NATIVE_BOARD_WIDTH, NATIVE_BOARD_HEIGHT);
 
         GridPane gridPane = new GridPane();
         gridPane.setGridLinesVisible(true);
         int prefferedTileSize = NATIVE_BOARD_WIDTH / gameController.getGame().getBoardWidth();
-        Stream<ColumnConstraints> columns = Stream
-                .generate(ColumnConstraints::new)
-                .peek(e -> {
-                    e.setPrefWidth(prefferedTileSize);
-                })
+        Stream<ColumnConstraints> columns = Stream.generate(ColumnConstraints::new)
+                .peek(e -> e.setPrefWidth(prefferedTileSize))
                 .limit(gameController.getGame().getBoardWidth());
 
-        Stream<RowConstraints> rows = Stream
-                .generate(RowConstraints::new)
-                .peek(e -> {
-                    e.setPrefHeight(prefferedTileSize);
-                })
+        Stream<RowConstraints> rows = Stream.generate(RowConstraints::new)
+                .peek(e -> e.setPrefHeight(prefferedTileSize))
                 .limit(gameController.getGame().getBoardHeight());
         gridPane.getColumnConstraints().addAll(columns.collect(Collectors.toSet()));
         gridPane.getRowConstraints().addAll(rows.collect(Collectors.toSet()));
@@ -181,22 +187,61 @@ public class GameWindow extends VBox {
         metrics.getChildren().add(label);
     }
 
+    /**
+     * Gets native board width.
+     *
+     * @return the native board width
+     */
+    public static int getNativeBoardWidth() {
+        return NATIVE_BOARD_WIDTH;
+    }
+
+    /**
+     * Gets native board height.
+     *
+     * @return the native board height
+     */
+    public static int getNativeBoardHeight() {
+        return NATIVE_BOARD_HEIGHT;
+    }
+
+    /**
+     * Init sprites.
+     *
+     * @param elements the elements
+     * @param boardWidth the board width
+     */
     public void initSprites(ObservableSet<BoardElement> elements, int boardWidth) {
         removeSprites();
 
-        for (BoardElement boardElement : elements) createSprite(boardElement, boardWidth);
+        for (BoardElement boardElement : elements) {
+            createSprite(boardElement, boardWidth);
+        }
 
         elements.addListener((SetChangeListener.Change<? extends BoardElement> change) -> {
-            if (change.wasAdded())
+            if (change.wasAdded()) {
                 createSprite(change.getElementAdded(), boardWidth);
+            }
         });
     }
 
     private void createSprite(BoardElement boardElement, int boardWidth) {
-        Image image = new javafx.scene.image.Image(getClass().getClassLoader().getResource(boardElement.getImagePath()).toExternalForm());
+        Image image = new javafx.scene.image.Image(
+                Objects.requireNonNull(getClass().getClassLoader().getResource(boardElement.getImagePath()))
+                        .toExternalForm());
         new Sprite(boardElement, image, tiles, boardWidth);
     }
 
+    private void removeSprites() {
+        tiles.getChildren()
+                .removeAll(tiles.getChildren().stream().filter(c -> c instanceof Sprite).collect(Collectors.toList()));
+    }
+
+    /**
+     * Init game state properties.
+     *
+     * @param gameState the game state
+     */
     public void initGameStateProperties(GameState gameState) {
         numberOfLivesLabel.textProperty().bind(gameState.getNumberOfLivesProperty().asString());
         numberOfTeleportersLabel.textProperty().bind(gameState.getNumberOfTeleportersProperty().asString());
@@ -204,36 +249,32 @@ public class GameWindow extends VBox {
         highScoreLabel.textProperty().bind(gameState.getHighestScoreProperty().asString());
         levelLabel.textProperty().bind(gameState.getLevelProperty().asString());
 
-        gameState.getNumberOfTeleportersProperty().addListener((ObservableValue<? extends Number> observableValue, Number number, Number t1) -> {
-            if (t1.intValue() == 0) teleport.setDisable(true);
-            if (number.intValue() == 0) teleport.setDisable(false);
-        });
+        gameState.getNumberOfTeleportersProperty()
+                .addListener((ObservableValue<? extends Number> observableValue, Number number, Number t1) -> {
+                    if (t1.intValue() == 0) {
+                        teleport.setDisable(true);
+                    }
+                    if (number.intValue() == 0) {
+                        teleport.setDisable(false);
+                    }
+                });
 
-        gameState.getNumberOfLivesProperty().addListener((ObservableValue<? extends Number> observableValue, Number number, Number t1) -> {
-            if (t1.intValue() < 0) {
-                numberOfLivesLabel.textProperty().unbind();
-                numberOfLivesLabel.setText("☠");
-            }
-        });
+        gameState.getNumberOfLivesProperty()
+                .addListener((ObservableValue<? extends Number> observableValue, Number number, Number t1) -> {
+                    if (t1.intValue() < 0) {
+                        numberOfLivesLabel.textProperty().unbind();
+                        numberOfLivesLabel.setText("☠");
+                    }
+                });
     }
 
-
-    public static int getNativeBoardWidth() {
-        return NATIVE_BOARD_WIDTH;
-    }
-
-    public static int getNativeBoardHeight() {
-        return NATIVE_BOARD_HEIGHT;
-    }
-
+    /**
+     * Freeze game.
+     */
     public void freezeGame() {
         removeSprites();
 
         setGameControlsDisable(true);
-    }
-
-    public void unfreezeGame() {
-        setGameControlsDisable(false);
     }
 
     private void setGameControlsDisable(Boolean f) {
@@ -249,9 +290,10 @@ public class GameWindow extends VBox {
         teleport.setDisable(f);
     }
 
-    private void removeSprites() {
-        tiles.getChildren().removeAll(
-                tiles.getChildren().stream().filter(c -> c instanceof Sprite).collect(Collectors.toList())
-        );
+    /**
+     * Unfreeze game.
+     */
+    public void unfreezeGame() {
+        setGameControlsDisable(false);
     }
 }

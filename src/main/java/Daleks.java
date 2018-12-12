@@ -3,8 +3,16 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
+/**
+ * The type Daleks.
+ */
 public class Daleks extends Application {
+
+    /**
+     * Main.
+     *
+     * @param args the args
+     */
     public static void main(final String[] args) {
         launch();
     }

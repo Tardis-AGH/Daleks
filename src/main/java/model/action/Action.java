@@ -9,7 +9,7 @@ import model.game.Status;
 public interface Action {
 
     /**
-     * Executes one of the specified objects-game API actions.
+     * Executes one of the specified API actions.
      *
      * @param game the context of execution passed by itself
      *

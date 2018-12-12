@@ -3,6 +3,7 @@ package controller;
 import javafx.event.Event;
 import javafx.stage.Stage;
 import model.board.Move;
+import model.board.factory.RandomBoardFactory;
 import model.game.Game;
 import model.game.Status;
 import view.GameWindow;
@@ -12,9 +13,9 @@ import view.GameWindow;
  */
 public class GameController {
 
+    private final GameWindow gameWindow;
     private Game game;
     private Stage primaryStage;
-    private final GameWindow gameWindow;
 
     /**
      * Instantiates a new Game controller.
@@ -23,10 +24,8 @@ public class GameController {
      */
     public GameController(Stage primaryStage) {
         this.primaryStage = primaryStage;
-
-        game = new Game();
+        game = new Game(new RandomBoardFactory());
         gameWindow = new GameWindow(this);
-
         gameWindow.initSprites(game.getBoard().getElements(), game.getBoardWidth());
         gameWindow.initGameStateProperties(game.getGameState());
     }
@@ -38,11 +37,9 @@ public class GameController {
      */
     public void handleRestart(Event event) {
         gameWindow.unfreezeGame();
-
         int previousHighScore = game.getGameState().getHighestScore();
-        game = new Game();
+        game = new Game(new RandomBoardFactory());
         game.getGameState().setHighestScore(previousHighScore);
-
         gameWindow.initSprites(game.getBoard().getElements(), game.getBoardWidth());
         gameWindow.initGameStateProperties(game.getGameState());
     }
@@ -53,7 +50,7 @@ public class GameController {
      * @param move the move
      */
     public void nextTurn(Move move) {
-        Status gameStatus = game.makeMoves(move);
+        final Status gameStatus = game.makeMoves(move);
 
         switch (gameStatus) {
             case CONTINUE_GAME:
@@ -108,7 +105,12 @@ public class GameController {
         this.game = game;
     }
 
-    public GameWindow getGameWindow(){
+    /**
+     * Gets game window.
+     *
+     * @return the game window
+     */
+    public GameWindow getGameWindow() {
         return this.gameWindow;
     }
 }

@@ -2,10 +2,9 @@ package model.game
 
 import javafx.collections.FXCollections
 import javafx.collections.ObservableSet
-import model.board.Board
 import model.board.Coordinates
 import model.board.Move
-import model.board.generator.CoordinatesGenerator
+import model.board.factory.TestBoardFactory
 import model.element.BoardElement
 import model.element.dynamicelement.Dalek
 import model.element.dynamicelement.Doctor
@@ -32,20 +31,20 @@ class GameSpec extends Specification {
         daleks.forEach {
             elementSet.add(new Dalek(new Coordinates(it[0], it[1], boardWidth, boardHeight)))
         }
-        Doctor theDoctor = new Doctor(new Coordinates(doctor[0], doctor[1], boardWidth, boardHeight),
-                new CoordinatesGenerator(new Random(), elementSet, boardWidth, boardHeight))
-        Game game = new Game(Mock(GameState), new Board(elementSet, theDoctor))
+        Doctor theDoctor = new Doctor(new Coordinates(doctor[0], doctor[1], boardWidth, boardHeight))
+        TestBoardFactory testBoardGenerator = new TestBoardFactory(elementSet, theDoctor)
+        Game game = new Game(testBoardGenerator)
 
         when:
         Status status = game.makeMoves(move)
         List<List<Integer>> daleksAfter = []
-        game.board.elements.forEach { daleksAfter.add([it.coordinates.x, it.coordinates.y]) }
+        game.board.daleks.forEach { daleksAfter.add([it.coordinates.x, it.coordinates.y]) }
 
         then:
         status == Status.CONTINUE_GAME
         game.board.doctor.coordinates.x == expectedDoctor[0]
         game.board.doctor.coordinates.y == expectedDoctor[1]
-        game.board.elements.size() == expectedDaleks.size()
+        game.board.daleks.size() == expectedDaleks.size()
         daleksAfter.sort() == expectedDaleks.sort()
 
         where:
@@ -59,7 +58,7 @@ class GameSpec extends Specification {
     }
 
     @Unroll
-    def "handles collisions of Daleks at #daleks and scrap piles at #piles when Doctor at [3, 4] ending with #status"(
+    def "handles collisions of Daleks at #daleks and scrap piles at #piles when Doctor at (3, 4) ending with #status"(
             List<List<Integer>> daleks, List<List<Integer>> piles, List<List<Integer>> expectedDaleks,
             List<List<Integer>> expectedPiles, Status status) {
         given:
@@ -70,10 +69,9 @@ class GameSpec extends Specification {
         piles.forEach {
             elementSet.add(new ScrapPile(new Coordinates(it[0], it[1], boardWidth, boardHeight)))
         }
-        Doctor theDoctor = new Doctor(new Coordinates(4, 4, boardWidth, boardHeight),
-                new CoordinatesGenerator(new Random(), elementSet, boardWidth, boardHeight))
-        Game game = new Game(new GameState(0, 0, 0, 0, 0, daleks.size()),
-                new Board(elementSet, theDoctor))
+        Doctor theDoctor = new Doctor(new Coordinates(4, 4, boardWidth, boardHeight))
+        TestBoardFactory testBoardGenerator = new TestBoardFactory(elementSet, theDoctor)
+        Game game = new Game(testBoardGenerator)
 
         when:
         Status moveStatus = game.makeMoves(Move.UPPER_LEFT)
@@ -118,9 +116,9 @@ class GameSpec extends Specification {
             elementSet.
                     add(new Teleporter(new Coordinates(it[0] as int, it[1] as int, boardWidth, boardHeight)))
         }
-        Doctor theDoctor = new Doctor(new Coordinates(5, 5, boardWidth, boardHeight),
-                new CoordinatesGenerator(new Random(), elementSet, boardWidth, boardHeight))
-        Game game = new Game(Mock(GameState), new Board(elementSet as ObservableSet<BoardElement>, theDoctor))
+        Doctor theDoctor = new Doctor(new Coordinates(5, 5, boardWidth, boardHeight))
+        TestBoardFactory testBoardGenerator = new TestBoardFactory(elementSet, theDoctor)
+        Game game = new Game(testBoardGenerator)
 
         when:
         Status status = game.makeMoves(Move.UPPER_LEFT)
@@ -170,12 +168,13 @@ class GameSpec extends Specification {
             elementSet.
                     add(new Teleporter(new Coordinates(it[0] as int, it[1] as int, boardWidth, boardHeight)))
         }
-        Doctor theDoctor = new Doctor(new Coordinates(doctor[0], doctor[1], boardWidth, boardHeight),
-                new CoordinatesGenerator(new Random(), elementSet, boardWidth, boardHeight))
+        Doctor theDoctor = new Doctor(new Coordinates(doctor[0], doctor[1], boardWidth, boardHeight))
+        TestBoardFactory testBoardGenerator = new TestBoardFactory(elementSet, theDoctor)
+        Game game = new Game(testBoardGenerator)
         int numberOfTeleporters = 0
         int numberOfLives = 1
-        GameState gameState = new GameState(numberOfLives, numberOfTeleporters, 0, 0, 0, 1)
-        Game game = new Game(gameState, new Board(elementSet, theDoctor))
+        game.gameState.numberOfTeleporters = numberOfTeleporters
+        game.gameState.numberOfLives = numberOfLives
 
         when:
         Status status = game.makeMoves(move)
@@ -222,10 +221,10 @@ class GameSpec extends Specification {
         waysToDie.s.forEach {
             elementSet.add(new ScrapPile(new Coordinates(it[0] as int, it[1] as int, boardWidth, boardHeight)))
         }
-        Doctor theDoctor = new Doctor(new Coordinates(doctor[0], doctor[1], boardWidth, boardHeight),
-                new CoordinatesGenerator(new Random(), elementSet, boardWidth, boardHeight))
-        GameState gameState = new GameState(lives, 0, 0, 0, 0, 1)
-        Game game = new Game(gameState, new Board(elementSet, theDoctor))
+        Doctor theDoctor = new Doctor(new Coordinates(doctor[0], doctor[1], boardWidth, boardHeight))
+        TestBoardFactory testBoardGenerator = new TestBoardFactory(elementSet, theDoctor)
+        Game game = new Game(testBoardGenerator)
+        game.gameState.numberOfLives = lives
 
         Status expectedStatus = Status.RESTART_LEVEL
         if (lives == 0) {

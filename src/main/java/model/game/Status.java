@@ -9,6 +9,10 @@ public enum Status {
      */
     CONTINUE_GAME,
     /**
+     * Skip move status.
+     */
+    SKIP_MOVE,
+    /**
      * Level up status.
      */
     LEVEL_UP,

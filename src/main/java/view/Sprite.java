@@ -8,16 +8,27 @@ import javafx.scene.layout.GridPane;
 import model.board.Coordinates;
 import model.element.BoardElement;
 
+/**
+ * The type Sprite.
+ */
 public class Sprite extends ImageView implements ChangeListener<Coordinates> {
 
-    private GridPane tiles;
+    private final GridPane tiles;
 
+    /**
+     * Instantiates a new Sprite.
+     *
+     * @param element the element
+     * @param image the image
+     * @param tiles the tiles
+     * @param boardWidth the board width
+     */
     public Sprite(BoardElement element, Image image, GridPane tiles, int boardWidth) {
         super(image);
-        double scale = image.getWidth() / image.getHeight();
-        double baseSize = (double) (GameWindow.getNativeBoardWidth() / boardWidth);
+        final double scale = image.getWidth() / image.getHeight();
+        final double baseSize = (double) (GameWindow.getNativeBoardWidth() / boardWidth);
 
-        this.setFitHeight(baseSize*scale);
+        this.setFitHeight(baseSize * scale);
         this.setFitWidth(baseSize);
 
         element.getCoordinatesProperty().addListener(this);
@@ -26,11 +37,13 @@ public class Sprite extends ImageView implements ChangeListener<Coordinates> {
     }
 
     @Override
-    public void changed(ObservableValue<? extends Coordinates> observableValue, Coordinates coordinates, Coordinates t1) {
+    public void changed(ObservableValue<? extends Coordinates> observableValue, Coordinates coordinates,
+            Coordinates t1) {
 
         tiles.getChildren().remove(this);
 
-        if (t1 != null)
+        if (t1 != null) {
             tiles.add(this, t1.getX(), t1.getY());
+        }
     }
 }

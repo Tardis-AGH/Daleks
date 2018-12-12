@@ -13,7 +13,6 @@ public class GameState {
     private final IntegerProperty currentScore;
     private final IntegerProperty highestScore;
     private final IntegerProperty level;
-    private int enemyCount;
 
     /**
      * Instantiates a new Game state.
@@ -23,34 +22,13 @@ public class GameState {
      * @param currentScore the current score
      * @param highestScore the highest score
      * @param level the level
-     * @param enemyCount the enemy count
      */
-    public GameState(int numberOfLives, int numberOfTeleporters, int currentScore, int highestScore, int level,
-            int enemyCount) {
+    public GameState(int numberOfLives, int numberOfTeleporters, int currentScore, int highestScore, int level) {
         this.numberOfLives = new SimpleIntegerProperty(numberOfLives);
         this.numberOfTeleporters = new SimpleIntegerProperty(numberOfTeleporters);
         this.currentScore = new SimpleIntegerProperty(currentScore);
         this.highestScore = new SimpleIntegerProperty(highestScore);
         this.level = new SimpleIntegerProperty(level);
-        this.enemyCount = enemyCount;
-    }
-
-    /**
-     * Gets enemy count.
-     *
-     * @return the enemy count
-     */
-    public int getEnemyCount() {
-        return enemyCount;
-    }
-
-    /**
-     * Sets enemy count.
-     *
-     * @param enemyCount the enemy count
-     */
-    public void setEnemyCount(int enemyCount) {
-        this.enemyCount = enemyCount;
     }
 
     /**
@@ -148,7 +126,6 @@ public class GameState {
      *
      * @return level property
      */
-
     public IntegerProperty getLevelProperty() {
         return level;
     }

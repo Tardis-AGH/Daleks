@@ -2,7 +2,6 @@ package model.element.dynamicelement;
 
 import model.action.ElementAdditionAction;
 import model.action.ElementDeletionAction;
-import model.action.EnemyCountChangeAction;
 import model.action.LivesChangeAction;
 import model.action.ScoreChangeAction;
 import model.board.Coordinates;
@@ -68,7 +67,6 @@ public class Dalek extends DynamicBoardElement {
         interactionResult.addAction(new ElementDeletionAction(this));
         interactionResult.addAction(new ElementDeletionAction(dalek));
         interactionResult.addAction(new ScoreChangeAction(2));
-        interactionResult.addAction(new EnemyCountChangeAction(-2));
         return interactionResult;
     }
 
@@ -98,11 +96,10 @@ public class Dalek extends DynamicBoardElement {
         final InteractionResult interactionResult = new InteractionResult(scrapPile);
         interactionResult.addAction(new ElementDeletionAction(this));
         interactionResult.addAction(new ScoreChangeAction(1));
-        interactionResult.addAction(new EnemyCountChangeAction(-1));
         return interactionResult;
     }
 
-    public String getImagePath(){
+    public String getImagePath() {
         return SPRITE_PATH;
     }
 }

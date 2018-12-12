@@ -1,8 +1,9 @@
 package model.action
 
-import model.board.Board
+import javafx.collections.FXCollections
+import model.board.factory.TestBoardFactory
+import model.element.dynamicelement.Doctor
 import model.game.Game
-import model.game.GameState
 import model.game.Status
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -14,7 +15,8 @@ class ScoreChangeActionSpec extends Specification {
             int currentScore, int change, Status expectedStatus, int currentHighscore,
             int expectedHighscore) {
         given:
-        Game game = new Game(new GameState(0, 0, currentScore, 0, 0, 0), Mock(Board))
+        Game game = new Game(new TestBoardFactory(FXCollections.observableSet(), Mock(Doctor)))
+        game.gameState.currentScore = currentScore
         Action action = new ScoreChangeAction(change)
 
         when:
