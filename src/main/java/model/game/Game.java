@@ -56,7 +56,7 @@ public class Game {
      */
     public void restartLevel() {
         board = boardFactory.generateNewBoard(gameState.getLevel());
-        gameState.setDoctorDeaths(gameState.getDoctorDeaths()+1);
+        gameState.setDoctorDeaths(gameState.getDoctorDeaths() + 1);
         board.getDoctor().setImage(gameState.getDoctorDeaths());
     }
 

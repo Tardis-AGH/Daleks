@@ -5,21 +5,25 @@ import model.board.Board;
 import model.element.BoardElement;
 import model.element.dynamicelement.Doctor;
 
-public class TestBoardFactory implements BoardFactory {
+/**
+ * The type Concrete board factory.
+ */
+public class ConcreteBoardFactory implements BoardFactory {
 
     private final ObservableSet<BoardElement> elements;
     private final Doctor doctor;
     private final int boardWidth;
     private final int boardHeight;
 
-    public TestBoardFactory(ObservableSet<BoardElement> elements, Doctor doctor) {
-        this.elements = elements;
-        this.doctor = doctor;
-        this.boardWidth = 10;
-        this.boardHeight = 10;
-    }
-
-    public TestBoardFactory(ObservableSet<BoardElement> elements, Doctor doctor, int boardWidth, int boardHeight) {
+    /**
+     * Instantiates a new Concrete board factory.
+     *
+     * @param elements the elements
+     * @param doctor the doctor
+     * @param boardWidth the board width
+     * @param boardHeight the board height
+     */
+    public ConcreteBoardFactory(ObservableSet<BoardElement> elements, Doctor doctor, int boardWidth, int boardHeight) {
         this.elements = elements;
         this.doctor = doctor;
         this.boardWidth = boardWidth;

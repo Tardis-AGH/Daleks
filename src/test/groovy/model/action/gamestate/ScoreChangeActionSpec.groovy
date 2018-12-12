@@ -1,7 +1,8 @@
-package model.action
+package model.action.gamestate
 
 import javafx.collections.FXCollections
-import model.board.factory.TestBoardFactory
+import model.action.Action
+import model.board.factory.ConcreteBoardFactory
 import model.element.dynamicelement.Doctor
 import model.game.Game
 import model.game.Status
@@ -15,7 +16,7 @@ class ScoreChangeActionSpec extends Specification {
             int currentScore, int change, Status expectedStatus, int currentHighscore,
             int expectedHighscore) {
         given:
-        Game game = new Game(new TestBoardFactory(FXCollections.observableSet(), Mock(Doctor)))
+        Game game = new Game(new ConcreteBoardFactory(FXCollections.observableSet(), Mock(Doctor), 10, 10))
         game.gameState.currentScore = currentScore
         Action action = new ScoreChangeAction(change)
 

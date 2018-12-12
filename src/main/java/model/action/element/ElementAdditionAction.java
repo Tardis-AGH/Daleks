@@ -1,5 +1,6 @@
-package model.action;
+package model.action.element;
 
+import model.action.Action;
 import model.element.BoardElement;
 import model.game.Game;
 import model.game.Status;

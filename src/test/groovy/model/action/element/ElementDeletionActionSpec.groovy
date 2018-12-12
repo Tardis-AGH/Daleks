@@ -1,9 +1,10 @@
-package model.action
+package model.action.element
 
 import javafx.collections.FXCollections
 import javafx.collections.ObservableSet
+import model.action.Action
 import model.board.Coordinates
-import model.board.factory.TestBoardFactory
+import model.board.factory.ConcreteBoardFactory
 import model.element.BoardElement
 import model.element.dynamicelement.Dalek
 import model.element.dynamicelement.Doctor
@@ -30,7 +31,8 @@ class ElementDeletionActionSpec extends Specification {
         if (elInMap != null) {
             elements.add(elInMap)
         }
-        TestBoardFactory testBoardGenerator = new TestBoardFactory(elements, Mock(Doctor), boardWidth, boardHeight)
+        ConcreteBoardFactory testBoardGenerator = new ConcreteBoardFactory(elements, Mock(Doctor), boardWidth,
+                boardHeight)
         Game game = new Game(testBoardGenerator)
 
         Action action = new ElementDeletionAction(e1)

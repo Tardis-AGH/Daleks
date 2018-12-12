@@ -4,7 +4,7 @@ import javafx.collections.FXCollections
 import javafx.collections.ObservableSet
 import model.board.Coordinates
 import model.board.Move
-import model.board.factory.TestBoardFactory
+import model.board.factory.ConcreteBoardFactory
 import model.element.BoardElement
 import model.element.dynamicelement.Dalek
 import model.element.dynamicelement.Doctor
@@ -32,7 +32,8 @@ class GameSpec extends Specification {
             elementSet.add(new Dalek(new Coordinates(it[0], it[1], boardWidth, boardHeight)))
         }
         Doctor theDoctor = new Doctor(new Coordinates(doctor[0], doctor[1], boardWidth, boardHeight))
-        TestBoardFactory testBoardGenerator = new TestBoardFactory(elementSet, theDoctor)
+        ConcreteBoardFactory testBoardGenerator = new ConcreteBoardFactory(elementSet, theDoctor, boardWidth,
+                boardHeight)
         Game game = new Game(testBoardGenerator)
 
         when:
@@ -70,7 +71,8 @@ class GameSpec extends Specification {
             elementSet.add(new ScrapPile(new Coordinates(it[0], it[1], boardWidth, boardHeight)))
         }
         Doctor theDoctor = new Doctor(new Coordinates(4, 4, boardWidth, boardHeight))
-        TestBoardFactory testBoardGenerator = new TestBoardFactory(elementSet, theDoctor)
+        ConcreteBoardFactory testBoardGenerator = new ConcreteBoardFactory(elementSet, theDoctor, boardWidth,
+                boardHeight)
         Game game = new Game(testBoardGenerator)
 
         when:
@@ -117,7 +119,8 @@ class GameSpec extends Specification {
                     add(new Teleporter(new Coordinates(it[0] as int, it[1] as int, boardWidth, boardHeight)))
         }
         Doctor theDoctor = new Doctor(new Coordinates(5, 5, boardWidth, boardHeight))
-        TestBoardFactory testBoardGenerator = new TestBoardFactory(elementSet, theDoctor)
+        ConcreteBoardFactory testBoardGenerator = new ConcreteBoardFactory(elementSet, theDoctor, boardWidth,
+                boardHeight)
         Game game = new Game(testBoardGenerator)
 
         when:
@@ -169,7 +172,8 @@ class GameSpec extends Specification {
                     add(new Teleporter(new Coordinates(it[0] as int, it[1] as int, boardWidth, boardHeight)))
         }
         Doctor theDoctor = new Doctor(new Coordinates(doctor[0], doctor[1], boardWidth, boardHeight))
-        TestBoardFactory testBoardGenerator = new TestBoardFactory(elementSet, theDoctor)
+        ConcreteBoardFactory testBoardGenerator = new ConcreteBoardFactory(elementSet, theDoctor, boardWidth,
+                boardHeight)
         Game game = new Game(testBoardGenerator)
         int numberOfTeleporters = 0
         int numberOfLives = 1
@@ -222,7 +226,8 @@ class GameSpec extends Specification {
             elementSet.add(new ScrapPile(new Coordinates(it[0] as int, it[1] as int, boardWidth, boardHeight)))
         }
         Doctor theDoctor = new Doctor(new Coordinates(doctor[0], doctor[1], boardWidth, boardHeight))
-        TestBoardFactory testBoardGenerator = new TestBoardFactory(elementSet, theDoctor)
+        ConcreteBoardFactory testBoardGenerator = new ConcreteBoardFactory(elementSet, theDoctor, boardWidth,
+                boardHeight)
         Game game = new Game(testBoardGenerator)
         game.gameState.numberOfLives = lives
 

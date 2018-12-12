@@ -1,5 +1,6 @@
-package model.action;
+package model.action.gamestate;
 
+import model.action.Action;
 import model.game.Game;
 import model.game.Status;
 

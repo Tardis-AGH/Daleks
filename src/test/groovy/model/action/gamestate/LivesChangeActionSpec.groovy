@@ -1,7 +1,8 @@
-package model.action
+package model.action.gamestate
 
 import javafx.collections.FXCollections
-import model.board.factory.TestBoardFactory
+import model.action.Action
+import model.board.factory.ConcreteBoardFactory
 import model.element.dynamicelement.Doctor
 import model.game.Game
 import model.game.Status
@@ -14,7 +15,7 @@ class LivesChangeActionSpec extends Specification {
     def "changes lives count #currentLives to #expectedStatus with #change"(int currentLives, int change,
             Status expectedStatus) {
         given:
-        Game game = new Game(new TestBoardFactory(FXCollections.observableSet(), Mock(Doctor)))
+        Game game = new Game(new ConcreteBoardFactory(FXCollections.observableSet(), Mock(Doctor), 10, 10))
         game.gameState.numberOfLives = currentLives
 
         Action action = new LivesChangeAction(change)

@@ -1,9 +1,10 @@
-package model.action
+package model.action.move
 
 import javafx.collections.FXCollections
+import model.action.Action
 import model.board.Coordinates
 import model.board.Move
-import model.board.factory.TestBoardFactory
+import model.board.factory.ConcreteBoardFactory
 import model.element.dynamicelement.Doctor
 import model.game.Game
 import model.game.Status
@@ -17,7 +18,8 @@ class TeleportationActionSpec extends Specification {
             int numberOfTeleportersBefore,
             int numberOfTeleportersAfter, Status expectedStatus) {
         given:
-        Game game = new Game(new TestBoardFactory(FXCollections.observableSet(), new Doctor(Mock(Coordinates))))
+        Game game = new Game(
+                new ConcreteBoardFactory(FXCollections.observableSet(), new Doctor(Mock(Coordinates)), 10, 10))
         game.gameState.numberOfTeleporters = numberOfTeleportersBefore
 
         when:

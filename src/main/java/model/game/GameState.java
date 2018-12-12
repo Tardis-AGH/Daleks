@@ -18,13 +18,14 @@ public class GameState {
     /**
      * Instantiates a new Game state.
      *
-     * @param numberOfLives       the number of lives
+     * @param numberOfLives the number of lives
      * @param numberOfTeleporters the number of teleporters
-     * @param currentScore        the current score
-     * @param highestScore        the highest score
-     * @param level               the level
+     * @param currentScore the current score
+     * @param highestScore the highest score
+     * @param level the level
      */
-    public GameState(int numberOfLives, int numberOfTeleporters, int currentScore, int highestScore, int level, int doctorDeaths) {
+    public GameState(int numberOfLives, int numberOfTeleporters, int currentScore, int highestScore, int level,
+            int doctorDeaths) {
         this.numberOfLives = new SimpleIntegerProperty(numberOfLives);
         this.numberOfTeleporters = new SimpleIntegerProperty(numberOfTeleporters);
         this.currentScore = new SimpleIntegerProperty(currentScore);

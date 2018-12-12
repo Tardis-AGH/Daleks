@@ -1,9 +1,9 @@
 package model.element.dynamicelement;
 
-import model.action.ElementAdditionAction;
-import model.action.ElementDeletionAction;
-import model.action.LivesChangeAction;
-import model.action.ScoreChangeAction;
+import model.action.element.ElementAdditionAction;
+import model.action.element.ElementDeletionAction;
+import model.action.gamestate.LivesChangeAction;
+import model.action.gamestate.ScoreChangeAction;
 import model.board.Coordinates;
 import model.board.Move;
 import model.element.DynamicBoardElement;

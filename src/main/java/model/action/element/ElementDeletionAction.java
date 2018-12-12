@@ -1,5 +1,6 @@
-package model.action;
+package model.action.element;
 
+import model.action.Action;
 import model.element.BoardElement;
 import model.element.dynamicelement.Dalek;
 import model.game.Game;

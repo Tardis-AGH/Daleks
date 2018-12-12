@@ -4,10 +4,10 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 import model.action.Action;
-import model.action.ElementDeletionAction;
-import model.action.LivesChangeAction;
-import model.action.TeleportationAction;
-import model.action.TeleportersChangeAction;
+import model.action.element.ElementDeletionAction;
+import model.action.gamestate.LivesChangeAction;
+import model.action.gamestate.TeleportersChangeAction;
+import model.action.move.TeleportationAction;
 import model.board.Coordinates;
 import model.board.Move;
 import model.element.DynamicBoardElement;
@@ -21,23 +21,11 @@ import model.game.InteractionResult;
  */
 public class Doctor extends DynamicBoardElement {
 
-    private static final String[] SPRITES = {
-            "doctor1.png",
-            "doctor2.png",
-            "doctor3.png",
-            "doctor4.png",
-            "doctor5.png",
-            "doctor6.png",
-            "doctor7.png",
-            "doctor8.png",
-            "warDoctor.png",
-            "doctor9.png",
-            "doctor10.png",
-            "doctor11.png",
-            "doctor12.png",
-            "doctor13.png",
-    };
-    private static String SPRITE_BASE_PATH = "images/doctor/";
+    private static final String[] SPRITES =
+            {"doctor1.png", "doctor2.png", "doctor3.png", "doctor4.png", "doctor5.png", "doctor6.png", "doctor7.png",
+                    "doctor8.png", "warDoctor.png", "doctor9.png", "doctor10.png", "doctor11.png", "doctor12.png",
+                    "doctor13.png",};
+    private static final String SPRITE_BASE_PATH = "images/doctor/";
     private String SPRITE_PATH;
 
     /**
@@ -48,6 +36,10 @@ public class Doctor extends DynamicBoardElement {
     public Doctor(Coordinates coordinates) {
         super(coordinates);
         setImage(0);
+    }
+
+    public void setImage(int doctorDeaths) {
+        SPRITE_PATH = new File(SPRITE_BASE_PATH, SPRITES[doctorDeaths % SPRITES.length]).getPath();
     }
 
     /**
@@ -109,9 +101,5 @@ public class Doctor extends DynamicBoardElement {
 
     public String getImagePath() {
         return SPRITE_PATH;
-    }
-
-    public void setImage(int doctorDeaths){
-        SPRITE_PATH = new File(SPRITE_BASE_PATH, SPRITES[doctorDeaths%SPRITES.length]).getPath();
     }
 }
