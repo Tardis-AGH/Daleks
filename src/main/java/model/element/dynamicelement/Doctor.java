@@ -1,5 +1,6 @@
 package model.element.dynamicelement;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 import model.action.Action;
@@ -20,7 +21,24 @@ import model.game.InteractionResult;
  */
 public class Doctor extends DynamicBoardElement {
 
-    private static String SPRITE_PATH = "images/doctor/doctor.png";
+    private static final String[] SPRITES = {
+            "doctor1.png",
+            "doctor2.png",
+            "doctor3.png",
+            "doctor4.png",
+            "doctor5.png",
+            "doctor6.png",
+            "doctor7.png",
+            "doctor8.png",
+            "warDoctor.png",
+            "doctor9.png",
+            "doctor10.png",
+            "doctor11.png",
+            "doctor12.png",
+            "doctor13.png",
+    };
+    private static String SPRITE_BASE_PATH = "images/doctor/";
+    private String SPRITE_PATH;
 
     /**
      * Instantiates a new Doctor.
@@ -29,10 +47,7 @@ public class Doctor extends DynamicBoardElement {
      */
     public Doctor(Coordinates coordinates) {
         super(coordinates);
-    }
-
-    private static void setSpritePath(String spritePath) {
-        SPRITE_PATH = spritePath;
+        setImage(0);
     }
 
     /**
@@ -94,5 +109,9 @@ public class Doctor extends DynamicBoardElement {
 
     public String getImagePath() {
         return SPRITE_PATH;
+    }
+
+    public void setImage(int doctorDeaths){
+        SPRITE_PATH = new File(SPRITE_BASE_PATH, SPRITES[doctorDeaths%SPRITES.length]).getPath();
     }
 }
