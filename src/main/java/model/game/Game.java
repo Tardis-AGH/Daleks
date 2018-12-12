@@ -34,7 +34,7 @@ public class Game {
     public Game(BoardFactory boardFactory) {
         this.boardFactory = boardFactory;
         this.board = boardFactory.generateNewBoard(1);
-        this.gameState = new GameState(DEFAULT_NUMBER_OF_LIVES, DEFAULT_NUMBER_OF_TELEPORTERS, 0, 0, 1);
+        this.gameState = new GameState(DEFAULT_NUMBER_OF_LIVES, DEFAULT_NUMBER_OF_TELEPORTERS, 0, 0, 1, 0);
     }
 
     /**
@@ -43,6 +43,7 @@ public class Game {
     public void nextLevel() {
         final int newLevel = gameState.getLevel() + 1;
         board = boardFactory.generateNewBoard(newLevel);
+        board.getDoctor().setImage(gameState.getDoctorDeaths());
         gameState.setLevel(newLevel);
         gameState.setCurrentScore(gameState.getCurrentScore() + LEVEL_UP_POINTS);
         gameState.setHighestScore(Math.max(gameState.getCurrentScore(), gameState.getHighestScore()));
@@ -55,6 +56,8 @@ public class Game {
      */
     public void restartLevel() {
         board = boardFactory.generateNewBoard(gameState.getLevel());
+        gameState.setDoctorDeaths(gameState.getDoctorDeaths()+1);
+        board.getDoctor().setImage(gameState.getDoctorDeaths());
     }
 
     /**
