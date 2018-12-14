@@ -2,7 +2,9 @@ package model.board;
 
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import model.element.BoardElement;
@@ -33,9 +35,15 @@ public class Board {
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
         this.elements = FXCollections.observableSet();
-        //this.coordinatesGenerator = new CoordinatesGenerator(elements, boardWidth, boardHeight);
         this.doctor = doctor;
         elements.add(doctor);
+    }
+
+    private <T extends BoardElement> List<T> filterBoardElements(Class<T> boardElementType) {
+        return elements.stream()
+                .filter(boardElementType::isInstance)
+                .map(boardElementType::cast)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -44,7 +52,7 @@ public class Board {
      * @return the daleks
      */
     public List<Dalek> getDaleks() {
-        return elements.stream().filter(e -> e instanceof Dalek).map(e -> (Dalek) e).collect(Collectors.toList());
+        return filterBoardElements(Dalek.class);
     }
 
     /**
@@ -53,10 +61,7 @@ public class Board {
      * @return the static board elements
      */
     public List<StaticBoardElement> getStaticBoardElements() {
-        return elements.stream()
-                .filter(e -> e instanceof StaticBoardElement)
-                .map(e -> (StaticBoardElement) e)
-                .collect(Collectors.toList());
+        return filterBoardElements(StaticBoardElement.class);
     }
 
     /**
@@ -83,27 +88,12 @@ public class Board {
      * @return new coordinates
      */
     public Coordinates getRandomCoordinates() {
-        Coordinates newCoordinates;
-        do {
-            newCoordinates = new Coordinates(generator.nextInt(boardWidth), generator.nextInt(boardHeight), boardWidth,
-                    boardHeight);
-        } while (!isFieldEmpty(newCoordinates));
-        return newCoordinates;
-    }
-
-    /**
-     * Check if field determined by coordinates is not occupied by any dynamic element (dalek).
-     *
-     * @param coordinates coordinates to check
-     *
-     * @return true if given field is empty, false otherwise
-     */
-    private boolean isFieldEmpty(Coordinates coordinates) {
-        for (BoardElement boardElement : elements) {
-            if (boardElement.getCoordinates().equals(coordinates)) {
-                return false;
-            }
-        }
-        return true;
+        final Set<Coordinates> occupiedCoordinates =
+                elements.stream().map(BoardElement::getCoordinates).collect(Collectors.toSet());
+        final List<Coordinates> availableCoordinates = IntStream.range(0, boardHeight * boardWidth)
+                .mapToObj(e -> new Coordinates(e % boardWidth, e / boardWidth, boardWidth, boardHeight))
+                .filter(e -> !occupiedCoordinates.contains(e))
+                .collect(Collectors.toList());
+        return availableCoordinates.get(generator.nextInt(availableCoordinates.size()));
     }
 }
