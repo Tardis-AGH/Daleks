@@ -1,9 +1,10 @@
 package model.game;
 
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import model.action.Action;
 import model.board.Board;
 import model.board.Coordinates;
@@ -60,6 +61,28 @@ public class Game {
         board.getDoctor().setImage(gameState.getDoctorDeaths());
     }
 
+    private Status makeDoctorsMove(Move move, Map<Coordinates, BoardElement> collisionMap) {
+        final Doctor doctor = board.getDoctor();
+        final List<Action> actions = doctor.makeMove(move);
+        final Status actionStatus = executeActions(actions);
+        if (actionStatus != Status.CONTINUE_GAME) {
+            return actionStatus;
+        }
+        return processCollision(collisionMap, doctor);
+    }
+
+    private Status makeDaleksMoves(Map<Coordinates, BoardElement> collisionMap) {
+        final Doctor doctor = board.getDoctor();
+        for (Dalek dalek : board.getDaleks()) {
+            dalek.makeMove(doctor.getCoordinates());
+            final Status actionStatus = processCollision(collisionMap, dalek);
+            if (actionStatus != Status.CONTINUE_GAME) {
+                return actionStatus;
+            }
+        }
+        return Status.CONTINUE_GAME;
+    }
+
     /**
      * Make moves status.
      *
@@ -68,39 +91,20 @@ public class Game {
      * @return the status
      */
     public Status makeMoves(Move move) {
+        final Map<Coordinates, BoardElement> collisionMap = board.getStaticBoardElements()
+                .stream()
+                .collect(Collectors.toMap(BoardElement::getCoordinates, Function.identity()));
 
-        // swap maps
-        final Map<Coordinates, BoardElement> collisionMap = new HashMap<>();
+        final Status actionStatus = makeDoctorsMove(move, collisionMap);
 
-        // put all static elements into the new map
-        for (BoardElement element : board.getStaticBoardElements()) {
-            collisionMap.put(element.getCoordinates(), element);
-        }
-
-        // Doctor's move
-        final Doctor doctor = board.getDoctor();
-        Status actionStatus = executeActions(doctor.makeMove(move));
-        if (actionStatus == Status.SKIP_MOVE) {
-            return Status.CONTINUE_GAME;
-        }
-        actionStatus = processCollision(collisionMap, doctor);
         if (actionStatus != Status.CONTINUE_GAME) {
-            return actionStatus;
+            return actionStatus == Status.SKIP_MOVE ? Status.CONTINUE_GAME : actionStatus;
         }
 
-        // Daleks' moves
-        for (Dalek dalek : board.getDaleks()) {
-            dalek.makeMove(doctor.getCoordinates());
-            actionStatus = processCollision(collisionMap, dalek);
-            if (actionStatus != Status.CONTINUE_GAME) {
-                return actionStatus;
-            }
-        }
-        return Status.CONTINUE_GAME;
+        return makeDaleksMoves(collisionMap);
     }
 
     private Status executeActions(List<Action> actionList) {
-
         return actionList.stream()
                 .map(a -> a.execute(this))
                 .max(Comparator.comparing(Status::ordinal))
