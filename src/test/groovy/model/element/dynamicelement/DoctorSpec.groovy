@@ -77,4 +77,23 @@ class DoctorSpec extends Specification {
             doctor.coordinates.x != it[0] || doctor.coordinates.y != it[1]
         }
     }
+
+    @Unroll
+    def "throws RuntimeException when the Doctor encounters a #otherElement.class.name element out of order"(
+            BoardElement otherElement) {
+        given:
+        Coordinates doctorCoordinates = new Coordinates(1, 1, boardWidth, boardHeight)
+        Doctor doctor = new Doctor(doctorCoordinates)
+
+        when:
+        otherElement.accept(doctor)
+
+        then:
+        thrown RuntimeException
+
+        where:
+        otherElement << [new Dalek(new Coordinates(1, 1, boardWidth, boardHeight)),
+                new Dalek(new Coordinates(5, 5, boardWidth, boardHeight)),
+                new Doctor(new Coordinates(1, 1, boardWidth, boardHeight))]
+    }
 }

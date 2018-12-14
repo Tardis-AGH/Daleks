@@ -66,8 +66,7 @@ public class Doctor extends DynamicBoardElement {
 
     @Override
     public InteractionResult visit(Dalek dalek) {
-        // the Doctor is processed before the Daleks
-        return null;
+        throw new RuntimeException("The Doctor should be processed before the Daleks");
     }
 
     @Override
@@ -80,8 +79,7 @@ public class Doctor extends DynamicBoardElement {
 
     @Override
     public InteractionResult visit(Doctor doctor) {
-        // only one Doctor per game
-        return null;
+        throw new RuntimeException("Only one Doctor is allowed per game");
     }
 
     @Override
