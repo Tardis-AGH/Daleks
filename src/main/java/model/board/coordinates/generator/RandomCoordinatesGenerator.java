@@ -2,7 +2,6 @@ package model.board.coordinates.generator;
 
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import model.board.Board;
@@ -27,12 +26,12 @@ public class RandomCoordinatesGenerator {
     public Coordinates getRandomCoordinates() {
         final int boardWidth = board.getWidth();
         final int boardHeight = board.getHeight();
-        final Set<Coordinates> occupiedCoordinates =
-                board.getElements().stream().map(BoardElement::getCoordinates).collect(Collectors.toSet());
+        final List<Coordinates> occupiedCoordinates =
+                board.getElements().stream().map(BoardElement::getCoordinates).collect(Collectors.toList());
         final List<Coordinates> availableCoordinates = IntStream.range(0, boardHeight * boardWidth)
-                .mapToObj(e -> new Coordinates(e % boardWidth, e / boardWidth, boardWidth, boardHeight))
-                .filter(e -> !occupiedCoordinates.contains(e))
+                .mapToObj(xy -> new Coordinates(xy % boardWidth, xy / boardWidth, boardWidth, boardHeight))
                 .collect(Collectors.toList());
+        availableCoordinates.removeAll(occupiedCoordinates);
         return availableCoordinates.get(generator.nextInt(availableCoordinates.size()));
     }
 }
