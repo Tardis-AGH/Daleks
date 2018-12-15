@@ -43,13 +43,15 @@ public class RandomBoardFactory implements BoardFactory {
     private void populateWithHearts(Board board) {
         Stream.iterate(0, n -> n + 1)
                 .limit((int) (BOARD_HEIGHT * BOARD_WIDTH * HEART_RATIO))
-                .forEach(e -> board.getElements().add(new Heart(board.getRandomCoordinates())));
+                .forEach(
+                        e -> board.getElements().add(new Heart(board.getCoordinateGenerator().getRandomCoordinates())));
     }
 
     private void populateWithDaleks(Board board, int level) {
         Stream.iterate(1L, n -> n + 1)
                 .limit(this.getDaleksNumber(level))
-                .forEach(e -> board.getElements().add(new Dalek(board.getRandomCoordinates())));
+                .forEach(
+                        e -> board.getElements().add(new Dalek(board.getCoordinateGenerator().getRandomCoordinates())));
     }
 
     private int getDaleksNumber(int level) {
@@ -59,7 +61,8 @@ public class RandomBoardFactory implements BoardFactory {
     private void populateWithTeleporters(Board board) {
         Stream.iterate(0, n -> n + 1)
                 .limit((int) (BOARD_HEIGHT * BOARD_WIDTH * TELEPORTER_RATIO))
-                .forEach(e -> board.getElements().add(new Teleporter(board.getRandomCoordinates())));
+                .forEach(e -> board.getElements()
+                        .add(new Teleporter(board.getCoordinateGenerator().getRandomCoordinates())));
     }
 
     public int getBoardHeight() {

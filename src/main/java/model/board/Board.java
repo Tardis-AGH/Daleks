@@ -1,10 +1,10 @@
 package model.board;
 
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
+import model.board.coordinates.generator.RandomCoordinatesGenerator;
 import model.element.BoardElement;
 import model.element.StaticBoardElement;
 import model.element.dynamicelement.Dalek;
@@ -19,7 +19,7 @@ public class Board {
     private final Doctor doctor;
     private final Integer boardHeight;
     private final Integer boardWidth;
-    private final Random generator;
+    private final RandomCoordinatesGenerator coordinateGenerator;
 
     /**
      * Instantiates a new Board.
@@ -29,13 +29,12 @@ public class Board {
      * @param boardHeight the board height
      */
     public Board(Doctor doctor, int boardWidth, int boardHeight) {
-        this.generator = new Random();
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
         this.elements = FXCollections.observableSet();
-        //this.coordinatesGenerator = new CoordinatesGenerator(elements, boardWidth, boardHeight);
         this.doctor = doctor;
         elements.add(doctor);
+        this.coordinateGenerator = new RandomCoordinatesGenerator(this);
     }
 
     /**
@@ -44,7 +43,14 @@ public class Board {
      * @return the daleks
      */
     public List<Dalek> getDaleks() {
-        return elements.stream().filter(e -> e instanceof Dalek).map(e -> (Dalek) e).collect(Collectors.toList());
+        return filterBoardElements(Dalek.class);
+    }
+
+    private <T extends BoardElement> List<T> filterBoardElements(Class<T> boardElementType) {
+        return elements.stream()
+                .filter(boardElementType::isInstance)
+                .map(boardElementType::cast)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -53,10 +59,7 @@ public class Board {
      * @return the static board elements
      */
     public List<StaticBoardElement> getStaticBoardElements() {
-        return elements.stream()
-                .filter(e -> e instanceof StaticBoardElement)
-                .map(e -> (StaticBoardElement) e)
-                .collect(Collectors.toList());
+        return filterBoardElements(StaticBoardElement.class);
     }
 
     /**
@@ -77,33 +80,15 @@ public class Board {
         return elements;
     }
 
-    /**
-     * Get new valid (not occupied) coordinates.
-     *
-     * @return new coordinates
-     */
-    public Coordinates getRandomCoordinates() {
-        Coordinates newCoordinates;
-        do {
-            newCoordinates = new Coordinates(generator.nextInt(boardWidth), generator.nextInt(boardHeight), boardWidth,
-                    boardHeight);
-        } while (!isFieldEmpty(newCoordinates));
-        return newCoordinates;
+    public Integer getWidth() {
+        return boardWidth;
     }
 
-    /**
-     * Check if field determined by coordinates is not occupied by any dynamic element (dalek).
-     *
-     * @param coordinates coordinates to check
-     *
-     * @return true if given field is empty, false otherwise
-     */
-    private boolean isFieldEmpty(Coordinates coordinates) {
-        for (BoardElement boardElement : elements) {
-            if (boardElement.getCoordinates().equals(coordinates)) {
-                return false;
-            }
-        }
-        return true;
+    public Integer getHeight() {
+        return boardHeight;
+    }
+
+    public RandomCoordinatesGenerator getCoordinateGenerator() {
+        return coordinateGenerator;
     }
 }
