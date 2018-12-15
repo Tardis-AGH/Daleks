@@ -17,7 +17,7 @@ public class TeleportationAction implements Action {
         } else {
             final int currentNumber = game.getGameState().getNumberOfTeleporters();
             game.getGameState().setNumberOfTeleporters(currentNumber - 1);
-            game.getBoard().getDoctor().setCoordinates(game.getBoard().getRandomCoordinates());
+            game.getBoard().getDoctor().setCoordinates(game.getBoard().getCoordinateGenerator().getRandomCoordinates());
             return Status.CONTINUE_GAME;
         }
     }

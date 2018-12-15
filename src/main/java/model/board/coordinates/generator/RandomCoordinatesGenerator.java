@@ -1,0 +1,38 @@
+package model.board.coordinates.generator;
+
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import model.board.Board;
+import model.board.Coordinates;
+import model.element.BoardElement;
+
+public class RandomCoordinatesGenerator {
+
+    private final Random generator;
+    private final Board board;
+
+    public RandomCoordinatesGenerator(Board board) {
+        this.generator = new Random();
+        this.board = board;
+    }
+
+    /**
+     * Get new valid (not occupied) coordinates.
+     *
+     * @return new coordinates
+     */
+    public Coordinates getRandomCoordinates() {
+        final int boardWidth = board.getWidth();
+        final int boardHeight = board.getHeight();
+        final Set<Coordinates> occupiedCoordinates =
+                board.getElements().stream().map(BoardElement::getCoordinates).collect(Collectors.toSet());
+        final List<Coordinates> availableCoordinates = IntStream.range(0, boardHeight * boardWidth)
+                .mapToObj(e -> new Coordinates(e % boardWidth, e / boardWidth, boardWidth, boardHeight))
+                .filter(e -> !occupiedCoordinates.contains(e))
+                .collect(Collectors.toList());
+        return availableCoordinates.get(generator.nextInt(availableCoordinates.size()));
+    }
+}

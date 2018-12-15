@@ -1,12 +1,10 @@
 package model.board;
 
 import java.util.List;
-import java.util.Random;
-import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
+import model.board.coordinates.generator.RandomCoordinatesGenerator;
 import model.element.BoardElement;
 import model.element.StaticBoardElement;
 import model.element.dynamicelement.Dalek;
@@ -21,7 +19,7 @@ public class Board {
     private final Doctor doctor;
     private final Integer boardHeight;
     private final Integer boardWidth;
-    private final Random generator;
+    private final RandomCoordinatesGenerator coordinateGenerator;
 
     /**
      * Instantiates a new Board.
@@ -31,19 +29,12 @@ public class Board {
      * @param boardHeight the board height
      */
     public Board(Doctor doctor, int boardWidth, int boardHeight) {
-        this.generator = new Random();
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
         this.elements = FXCollections.observableSet();
         this.doctor = doctor;
         elements.add(doctor);
-    }
-
-    private <T extends BoardElement> List<T> filterBoardElements(Class<T> boardElementType) {
-        return elements.stream()
-                .filter(boardElementType::isInstance)
-                .map(boardElementType::cast)
-                .collect(Collectors.toList());
+        this.coordinateGenerator = new RandomCoordinatesGenerator(this);
     }
 
     /**
@@ -53,6 +44,13 @@ public class Board {
      */
     public List<Dalek> getDaleks() {
         return filterBoardElements(Dalek.class);
+    }
+
+    private <T extends BoardElement> List<T> filterBoardElements(Class<T> boardElementType) {
+        return elements.stream()
+                .filter(boardElementType::isInstance)
+                .map(boardElementType::cast)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -82,18 +80,15 @@ public class Board {
         return elements;
     }
 
-    /**
-     * Get new valid (not occupied) coordinates.
-     *
-     * @return new coordinates
-     */
-    public Coordinates getRandomCoordinates() {
-        final Set<Coordinates> occupiedCoordinates =
-                elements.stream().map(BoardElement::getCoordinates).collect(Collectors.toSet());
-        final List<Coordinates> availableCoordinates = IntStream.range(0, boardHeight * boardWidth)
-                .mapToObj(e -> new Coordinates(e % boardWidth, e / boardWidth, boardWidth, boardHeight))
-                .filter(e -> !occupiedCoordinates.contains(e))
-                .collect(Collectors.toList());
-        return availableCoordinates.get(generator.nextInt(availableCoordinates.size()));
+    public Integer getWidth() {
+        return boardWidth;
+    }
+
+    public Integer getHeight() {
+        return boardHeight;
+    }
+
+    public RandomCoordinatesGenerator getCoordinateGenerator() {
+        return coordinateGenerator;
     }
 }
