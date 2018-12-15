@@ -24,7 +24,7 @@ class ElementAdditionActionSpec extends Specification {
     private int boardHeight = 10
 
     @Unroll
-    def "adds #element to a set already containing #elInMap"(BoardElement elInMap, BoardElement element) {
+    def "adds #element.class to a set already containing #elInMap"(BoardElement element, BoardElement elInMap) {
         given:
         ObservableSet<BoardElement> elements = FXCollections.observableSet()
         if (elInMap != null) {
@@ -44,11 +44,11 @@ class ElementAdditionActionSpec extends Specification {
         game.board.elements.contains(element)
 
         where:
-        elInMap << [null, new Dalek(new Coordinates(1, 1, boardWidth, boardHeight)),
-                new ScrapPile(new Coordinates(3, 3, boardWidth, boardHeight))]
         element << [new Doctor(new Coordinates(3, 3, boardWidth, boardHeight)),
                 new Teleporter(new Coordinates(3, 3, boardWidth, boardHeight)),
                 new Heart(new Coordinates(3, 3, boardWidth, boardHeight))]
+        elInMap << [null, new Dalek(new Coordinates(1, 1, boardWidth, boardHeight)),
+                new ScrapPile(new Coordinates(3, 3, boardWidth, boardHeight))]
     }
 
 }

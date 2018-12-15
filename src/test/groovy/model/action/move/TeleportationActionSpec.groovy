@@ -14,13 +14,12 @@ import spock.lang.Unroll
 class TeleportationActionSpec extends Specification {
 
     @Unroll
-    def "teleports the Doctor and continues the move when #numberOfTeleportersBefore is greater than zero"(
-            int numberOfTeleportersBefore,
-            int numberOfTeleportersAfter, Status expectedStatus) {
+    def "teleports the Doctor and continues the move when enough teleporters are left (#teleportersBefore)"(
+            int teleportersBefore, int teleportersAfter, Status expectedStatus) {
         given:
         Game game = new Game(
                 new ConcreteBoardFactory(FXCollections.observableSet(), new Doctor(Mock(Coordinates)), 10, 10))
-        game.gameState.numberOfTeleporters = numberOfTeleportersBefore
+        game.gameState.numberOfTeleporters = teleportersBefore
 
         when:
         List<Action> actions = game.board.doctor.makeMove(Move.TELEPORT)
@@ -29,12 +28,12 @@ class TeleportationActionSpec extends Specification {
         actions.size() == 1
         Status status = actions.get(0).execute(game)
         status == expectedStatus
-        game.gameState.numberOfTeleporters == numberOfTeleportersAfter
+        game.gameState.numberOfTeleporters == teleportersAfter
 
         where:
-        numberOfTeleportersBefore | numberOfTeleportersAfter | expectedStatus
-        0                         | 0                        | Status.SKIP_MOVE
-        1                         | 0                        | Status.CONTINUE_GAME
-        2                         | 1                        | Status.CONTINUE_GAME
+        teleportersBefore | teleportersAfter | expectedStatus
+        0                 | 0                | Status.SKIP_MOVE
+        1                 | 0                | Status.CONTINUE_GAME
+        2                 | 1                | Status.CONTINUE_GAME
     }
 }

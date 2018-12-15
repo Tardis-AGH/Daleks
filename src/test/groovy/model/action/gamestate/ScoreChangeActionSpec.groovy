@@ -12,12 +12,12 @@ import spock.lang.Unroll
 class ScoreChangeActionSpec extends Specification {
 
     @Unroll
-    def "changes score from #currentScore and updates #currentHighscore to #expectedHighscore with #change"(
-            int currentScore, int change, Status expectedStatus, int currentHighscore,
-            int expectedHighscore) {
+    def "changes score from #currentScore by #change and updates high score #currentHighscore to #expectedHighscore"(
+            int currentScore, int change, int currentHighscore, int expectedHighscore) {
         given:
         Game game = new Game(new ConcreteBoardFactory(FXCollections.observableSet(), Mock(Doctor), 10, 10))
         game.gameState.currentScore = currentScore
+        game.gameState.highestScore = currentHighscore
         Action action = new ScoreChangeAction(change)
 
         when:
@@ -25,12 +25,13 @@ class ScoreChangeActionSpec extends Specification {
 
         then:
         game.gameState.currentScore == currentScore + change
-        status == expectedStatus
+        game.gameState.highestScore == expectedHighscore
+        status == Status.CONTINUE_GAME
 
         where:
-        currentScore | change | expectedStatus       | currentHighscore | expectedHighscore
-        3            | 1      | Status.CONTINUE_GAME | 6                | 6
-        3            | 1      | Status.CONTINUE_GAME | 4                | 4
-        3            | 3      | Status.CONTINUE_GAME | 2                | 4
+        currentScore | change | currentHighscore | expectedHighscore
+        3            | 1      | 6                | 6
+        3            | 1      | 4                | 4
+        3            | 3      | 2                | 6
     }
 }

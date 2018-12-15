@@ -24,9 +24,8 @@ class ElementDeletionActionSpec extends Specification {
     private BoardElement e1 = new Dalek(new Coordinates(1, 1, boardWidth, boardHeight))
 
     @Unroll
-    def "removes #element from a set already containing #elInMap"(BoardElement elInMap) {
+    def "removes a Dalek from a set already containing #elInMap"(BoardElement elInMap) {
         given:
-
         ObservableSet<BoardElement> elements = FXCollections.observableSet()
         if (elInMap != null) {
             elements.add(elInMap)

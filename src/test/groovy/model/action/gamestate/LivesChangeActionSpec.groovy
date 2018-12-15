@@ -12,8 +12,8 @@ import spock.lang.Unroll
 class LivesChangeActionSpec extends Specification {
 
     @Unroll
-    def "changes lives count #currentLives to #expectedStatus with #change"(int currentLives, int change,
-            Status expectedStatus) {
+    def "changes lives count #currentLives by #change and returns status #expectedStatus"(int currentLives,
+            int change, Status expectedStatus) {
         given:
         Game game = new Game(new ConcreteBoardFactory(FXCollections.observableSet(), Mock(Doctor), 10, 10))
         game.gameState.numberOfLives = currentLives
