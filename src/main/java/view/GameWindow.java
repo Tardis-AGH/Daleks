@@ -243,13 +243,13 @@ public class GameWindow extends VBox {
      * @param gameState the game state
      */
     public void initGameStateProperties(GameState gameState) {
-        numberOfLivesLabel.textProperty().bind(gameState.getNumberOfLivesProperty().asString());
-        numberOfTeleportersLabel.textProperty().bind(gameState.getNumberOfTeleportersProperty().asString());
-        scoreLabel.textProperty().bind(gameState.getCurrentScoreProperty().asString());
-        highScoreLabel.textProperty().bind(gameState.getHighestScoreProperty().asString());
-        levelLabel.textProperty().bind(gameState.getLevelProperty().asString());
+        numberOfLivesLabel.textProperty().bind(gameState.numberOfLivesProperty().asString());
+        numberOfTeleportersLabel.textProperty().bind(gameState.numberOfTeleportersProperty().asString());
+        scoreLabel.textProperty().bind(gameState.currentScoreProperty().asString());
+        highScoreLabel.textProperty().bind(gameState.highestScoreProperty().asString());
+        levelLabel.textProperty().bind(gameState.levelProperty().asString());
 
-        gameState.getNumberOfTeleportersProperty()
+        gameState.numberOfTeleportersProperty()
                 .addListener((ObservableValue<? extends Number> observableValue, Number number, Number t1) -> {
                     if (t1.intValue() == 0) {
                         teleport.setDisable(true);
@@ -259,7 +259,7 @@ public class GameWindow extends VBox {
                     }
                 });
 
-        gameState.getNumberOfLivesProperty()
+        gameState.numberOfLivesProperty()
                 .addListener((ObservableValue<? extends Number> observableValue, Number number, Number t1) -> {
                     if (t1.intValue() < 0) {
                         numberOfLivesLabel.textProperty().unbind();
