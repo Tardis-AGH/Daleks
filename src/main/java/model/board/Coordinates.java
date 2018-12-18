@@ -1,5 +1,7 @@
 package model.board;
 
+import java.util.Objects;
+
 /**
  * The type Coordinates.
  */
@@ -63,7 +65,7 @@ public class Coordinates {
 
     @Override
     public int hashCode() {
-        return y * boardWidth + x;
+        return Objects.hash(x, y);
     }
 
     /**
