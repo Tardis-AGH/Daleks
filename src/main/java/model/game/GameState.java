@@ -137,7 +137,7 @@ public class GameState {
      *
      * @return level property
      */
-    public IntegerProperty getLevelProperty() {
+    public IntegerProperty levelProperty() {
         return level;
     }
 
@@ -146,7 +146,7 @@ public class GameState {
      *
      * @return the highest score property
      */
-    public IntegerProperty getHighestScoreProperty() {
+    public IntegerProperty highestScoreProperty() {
         return highestScore;
     }
 
@@ -155,7 +155,7 @@ public class GameState {
      *
      * @return the current score property
      */
-    public IntegerProperty getCurrentScoreProperty() {
+    public IntegerProperty currentScoreProperty() {
         return currentScore;
     }
 
@@ -164,7 +164,7 @@ public class GameState {
      *
      * @return the number of teleporters property
      */
-    public IntegerProperty getNumberOfTeleportersProperty() {
+    public IntegerProperty numberOfTeleportersProperty() {
         return numberOfTeleporters;
     }
 
@@ -173,7 +173,7 @@ public class GameState {
      *
      * @return the number of lives property
      */
-    public IntegerProperty getNumberOfLivesProperty() {
+    public IntegerProperty numberOfLivesProperty() {
         return numberOfLives;
     }
 }
