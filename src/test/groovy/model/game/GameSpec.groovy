@@ -2,7 +2,7 @@ package model.game
 
 import javafx.collections.FXCollections
 import javafx.collections.ObservableSet
-import model.board.Coordinates
+import model.board.coordinates.Coordinates
 import model.board.Move
 import model.board.factory.ConcreteBoardFactory
 import model.element.BoardElement

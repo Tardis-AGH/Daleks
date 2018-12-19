@@ -8,7 +8,7 @@ import model.action.element.ElementDeletionAction;
 import model.action.gamestate.LivesChangeAction;
 import model.action.gamestate.TeleportersChangeAction;
 import model.action.move.TeleportationAction;
-import model.board.Coordinates;
+import model.board.coordinates.Coordinates;
 import model.board.Move;
 import model.element.DynamicBoardElement;
 import model.element.staticelement.Heart;
@@ -38,6 +38,11 @@ public class Doctor extends DynamicBoardElement {
         setImage(0);
     }
 
+    /**
+     * Sets image.
+     *
+     * @param doctorDeaths the doctor deaths
+     */
     public void setImage(int doctorDeaths) {
         SPRITE_PATH = new File(SPRITE_BASE_PATH, SPRITES[doctorDeaths % SPRITES.length]).getPath();
     }

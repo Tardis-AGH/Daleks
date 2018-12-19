@@ -4,7 +4,7 @@ import model.action.element.ElementAdditionAction;
 import model.action.element.ElementDeletionAction;
 import model.action.gamestate.LivesChangeAction;
 import model.action.gamestate.ScoreChangeAction;
-import model.board.Coordinates;
+import model.board.coordinates.Coordinates;
 import model.board.Move;
 import model.element.DynamicBoardElement;
 import model.element.staticelement.Heart;

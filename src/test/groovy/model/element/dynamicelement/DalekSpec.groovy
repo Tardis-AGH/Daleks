@@ -1,6 +1,6 @@
 package model.element.dynamicelement
 
-import model.board.Coordinates
+import model.board.coordinates.Coordinates
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll

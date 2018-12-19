@@ -2,7 +2,7 @@ package model.element;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import model.board.Coordinates;
+import model.board.coordinates.Coordinates;
 import model.game.InteractionResult;
 
 /**

@@ -17,7 +17,7 @@ public class ElementAdditionAction implements Action {
     /**
      * Class constructor
      * E.g. when the Doctor steps into a cell in which a heart power-up is placed the {@link
-     * model.element.dynamicelement.Doctor#visit(model.element.staticelement.Heart)}* method is called;
+     * model.element.dynamicelement.Doctor#visit(model.element.staticelement.Heart)} method is called;
      * this action would be instantiated in the following way:
      * new ElementAdditionAction(this)
      *

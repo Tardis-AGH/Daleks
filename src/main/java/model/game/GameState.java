@@ -23,6 +23,7 @@ public class GameState {
      * @param currentScore the current score
      * @param highestScore the highest score
      * @param level the level
+     * @param doctorDeaths the doctor deaths
      */
     public GameState(int numberOfLives, int numberOfTeleporters, int currentScore, int highestScore, int level,
             int doctorDeaths) {
@@ -34,10 +35,20 @@ public class GameState {
         this.doctorDeaths = doctorDeaths;
     }
 
+    /**
+     * Gets doctor deaths.
+     *
+     * @return the doctor deaths
+     */
     public int getDoctorDeaths() {
         return doctorDeaths;
     }
 
+    /**
+     * Sets doctor deaths.
+     *
+     * @param doctorDeaths the doctor deaths
+     */
     public void setDoctorDeaths(int doctorDeaths) {
         this.doctorDeaths = doctorDeaths;
     }

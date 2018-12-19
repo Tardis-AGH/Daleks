@@ -4,7 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import model.board.Coordinates;
+import model.board.coordinates.Coordinates;
 import model.element.BoardElement;
 
 /**
@@ -19,6 +19,7 @@ public class Sprite implements ChangeListener<Coordinates> {
      * Instantiates a new Sprite.
      *
      * @param element the element
+     * @param spriteImage the sprite image
      * @param tiles the tiles
      */
     public Sprite(BoardElement element, ImageView spriteImage, GridPane tiles) {

@@ -1,6 +1,6 @@
 package model.element;
 
-import model.board.Coordinates;
+import model.board.coordinates.Coordinates;
 import model.element.dynamicelement.Dalek;
 import model.element.dynamicelement.Doctor;
 import model.element.staticelement.Heart;

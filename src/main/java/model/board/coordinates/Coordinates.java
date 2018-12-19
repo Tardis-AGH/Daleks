@@ -1,6 +1,7 @@
-package model.board;
+package model.board.coordinates;
 
 import java.util.Objects;
+import model.board.Move;
 
 /**
  * The type Coordinates.

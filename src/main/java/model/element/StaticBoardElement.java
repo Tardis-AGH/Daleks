@@ -1,6 +1,6 @@
 package model.element;
 
-import model.board.Coordinates;
+import model.board.coordinates.Coordinates;
 
 /**
  * The type Static board element.

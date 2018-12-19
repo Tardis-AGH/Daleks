@@ -3,7 +3,7 @@ package model.action.element
 import javafx.collections.FXCollections
 import javafx.collections.ObservableSet
 import model.action.Action
-import model.board.Coordinates
+import model.board.coordinates.Coordinates
 import model.board.factory.ConcreteBoardFactory
 import model.element.BoardElement
 import model.element.dynamicelement.Dalek

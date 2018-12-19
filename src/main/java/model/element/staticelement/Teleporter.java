@@ -1,6 +1,6 @@
 package model.element.staticelement;
 
-import model.board.Coordinates;
+import model.board.coordinates.Coordinates;
 import model.element.DynamicBoardElement;
 import model.element.StaticBoardElement;
 import model.game.InteractionResult;

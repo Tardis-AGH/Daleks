@@ -7,7 +7,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import model.action.Action;
 import model.board.Board;
-import model.board.Coordinates;
+import model.board.coordinates.Coordinates;
 import model.board.Move;
 import model.board.factory.BoardFactory;
 import model.element.BoardElement;

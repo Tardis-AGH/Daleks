@@ -2,7 +2,7 @@ package model.board.factory;
 
 import java.util.stream.Stream;
 import model.board.Board;
-import model.board.Coordinates;
+import model.board.coordinates.Coordinates;
 import model.element.dynamicelement.Dalek;
 import model.element.dynamicelement.Doctor;
 import model.element.staticelement.Heart;

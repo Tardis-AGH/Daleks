@@ -80,14 +80,29 @@ public class Board {
         return elements;
     }
 
+    /**
+     * Gets width.
+     *
+     * @return the width
+     */
     public Integer getWidth() {
         return boardWidth;
     }
 
+    /**
+     * Gets height.
+     *
+     * @return the height
+     */
     public Integer getHeight() {
         return boardHeight;
     }
 
+    /**
+     * Gets coordinate generator.
+     *
+     * @return the coordinate generator
+     */
     public RandomCoordinatesGenerator getCoordinateGenerator() {
         return coordinateGenerator;
     }

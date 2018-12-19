@@ -1,17 +1,21 @@
 package view;
 
 import controller.GameController;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import model.board.Move;
-
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * The type Game window.
@@ -178,10 +182,17 @@ public class GameWindow extends VBox {
         return specialButtons;
     }
 
+    /**
+     * Create sprite image image view.
+     *
+     * @param imagePath the image path
+     * @param boardWidth the board width
+     *
+     * @return the image view
+     */
     public ImageView createSpriteImage(String imagePath, int boardWidth) {
         Image image = new javafx.scene.image.Image(
-                Objects.requireNonNull(getClass().getClassLoader().getResource(imagePath))
-                        .toExternalForm());
+                Objects.requireNonNull(getClass().getClassLoader().getResource(imagePath)).toExternalForm());
 
         final double scale = image.getWidth() / image.getHeight();
         final double baseSize = 0.95 * (double) (NATIVE_BOARD_WIDTH / boardWidth);
@@ -193,66 +204,146 @@ public class GameWindow extends VBox {
         return spriteImage;
     }
 
+    /**
+     * Gets tiles.
+     *
+     * @return the tiles
+     */
     public GridPane getTiles() {
         return tiles;
     }
 
+    /**
+     * Gets down button.
+     *
+     * @return the down button
+     */
     public Button getDownButton() {
         return downButton;
     }
 
+    /**
+     * Gets lower left button.
+     *
+     * @return the lower left button
+     */
     public Button getLowerLeftButton() {
         return lowerLeftButton;
     }
 
+    /**
+     * Gets left button.
+     *
+     * @return the left button
+     */
     public Button getLeftButton() {
         return leftButton;
     }
 
+    /**
+     * Gets upper left button.
+     *
+     * @return the upper left button
+     */
     public Button getUpperLeftButton() {
         return upperLeftButton;
     }
 
+    /**
+     * Gets up button.
+     *
+     * @return the up button
+     */
     public Button getUpButton() {
         return upButton;
     }
 
+    /**
+     * Gets upper right button.
+     *
+     * @return the upper right button
+     */
     public Button getUpperRightButton() {
         return upperRightButton;
     }
 
+    /**
+     * Gets right button.
+     *
+     * @return the right button
+     */
     public Button getRightButton() {
         return rightButton;
     }
 
+    /**
+     * Gets lower right button.
+     *
+     * @return the lower right button
+     */
     public Button getLowerRightButton() {
         return lowerRightButton;
     }
 
+    /**
+     * Gets wait button.
+     *
+     * @return the wait button
+     */
     public Button getWaitButton() {
         return waitButton;
     }
 
+    /**
+     * Gets teleporter button.
+     *
+     * @return the teleporter button
+     */
     public Button getTeleporterButton() {
         return teleporterButton;
     }
 
+    /**
+     * Gets number of lives label.
+     *
+     * @return the number of lives label
+     */
     public Label getNumberOfLivesLabel() {
         return numberOfLivesLabel;
     }
 
+    /**
+     * Gets number of teleporters label.
+     *
+     * @return the number of teleporters label
+     */
     public Label getNumberOfTeleportersLabel() {
         return numberOfTeleportersLabel;
     }
 
+    /**
+     * Gets score label.
+     *
+     * @return the score label
+     */
     public Label getScoreLabel() {
         return scoreLabel;
     }
 
+    /**
+     * Gets high score label.
+     *
+     * @return the high score label
+     */
     public Label getHighScoreLabel() {
         return highScoreLabel;
     }
 
+    /**
+     * Gets level label.
+     *
+     * @return the level label
+     */
     public Label getLevelLabel() {
         return levelLabel;
     }

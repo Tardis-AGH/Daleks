@@ -1,6 +1,6 @@
 package model.element.dynamicelement
 
-import model.board.Coordinates
+import model.board.coordinates.Coordinates
 import model.board.Move
 import model.element.BoardElement
 import model.element.staticelement.Heart

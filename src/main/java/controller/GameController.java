@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.stream.Collectors;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.SetChangeListener;
 import javafx.event.Event;
@@ -13,8 +14,6 @@ import model.game.Game;
 import model.game.GameState;
 import model.game.Status;
 import view.GameWindow;
-
-import java.util.stream.Collectors;
 
 /**
  * The type Game controller.
@@ -52,10 +51,18 @@ public class GameController {
 
         game.getBoard().getElements().addListener((SetChangeListener.Change<? extends BoardElement> change) -> {
             if (change.wasAdded()) {
-                ImageView spriteImage = gameWindow.createSpriteImage(change.getElementAdded().getImagePath(), game.getBoardWidth());
+                ImageView spriteImage =
+                        gameWindow.createSpriteImage(change.getElementAdded().getImagePath(), game.getBoardWidth());
                 new Sprite(change.getElementAdded(), spriteImage, gameWindow.getTiles());
             }
         });
+    }
+
+    private void removeSprites() {
+        GridPane tiles = gameWindow.getTiles();
+        tiles.getChildren()
+                .removeAll(
+                        tiles.getChildren().stream().filter(c -> c instanceof ImageView).collect(Collectors.toList()));
     }
 
     /**
@@ -65,7 +72,9 @@ public class GameController {
         GameState gameState = game.getGameState();
 
         gameWindow.getNumberOfLivesLabel().textProperty().bind(gameState.numberOfLivesProperty().asString());
-        gameWindow.getNumberOfTeleportersLabel().textProperty().bind(gameState.numberOfTeleportersProperty().asString());
+        gameWindow.getNumberOfTeleportersLabel()
+                .textProperty()
+                .bind(gameState.numberOfTeleportersProperty().asString());
         gameWindow.getScoreLabel().textProperty().bind(gameState.currentScoreProperty().asString());
         gameWindow.getHighScoreLabel().textProperty().bind(gameState.highestScoreProperty().asString());
         gameWindow.getLevelLabel().textProperty().bind(gameState.levelProperty().asString());
@@ -115,6 +124,19 @@ public class GameController {
         }
     }
 
+    private void setGameControlsDisable(Boolean f) {
+        gameWindow.getDownButton().setDisable(f);
+        gameWindow.getLowerLeftButton().setDisable(f);
+        gameWindow.getLeftButton().setDisable(f);
+        gameWindow.getUpperLeftButton().setDisable(f);
+        gameWindow.getUpButton().setDisable(f);
+        gameWindow.getUpperRightButton().setDisable(f);
+        gameWindow.getRightButton().setDisable(f);
+        gameWindow.getLowerRightButton().setDisable(f);
+        gameWindow.getWaitButton().setDisable(f);
+        gameWindow.getTeleporterButton().setDisable(f);
+    }
+
     /**
      * Handle restart.
      *
@@ -130,34 +152,11 @@ public class GameController {
         initGameStateProperties();
     }
 
-    private void removeSprites() {
-        GridPane tiles = gameWindow.getTiles();
-        tiles.getChildren().removeAll(
-                tiles.getChildren()
-                        .stream()
-                        .filter(c -> c instanceof ImageView)
-                        .collect(Collectors.toList()));
-    }
-
-    private void setGameControlsDisable(Boolean f) {
-        gameWindow.getDownButton().setDisable(f);
-        gameWindow.getLowerLeftButton().setDisable(f);
-        gameWindow.getLeftButton().setDisable(f);
-        gameWindow.getUpperLeftButton().setDisable(f);
-        gameWindow.getUpButton().setDisable(f);
-        gameWindow.getUpperRightButton().setDisable(f);
-        gameWindow.getRightButton().setDisable(f);
-        gameWindow.getLowerRightButton().setDisable(f);
-        gameWindow.getWaitButton().setDisable(f);
-        gameWindow.getTeleporterButton().setDisable(f);
-    }
-
     /**
      * Gets primary stage.
      *
      * @return the primary stage
      */
-
     public Game getGame() {
         return game;
     }
