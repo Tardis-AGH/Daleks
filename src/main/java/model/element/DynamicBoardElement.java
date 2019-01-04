@@ -3,6 +3,7 @@ package model.element;
 import model.board.coordinates.Coordinates;
 import model.element.dynamicelement.Dalek;
 import model.element.dynamicelement.Doctor;
+import model.element.staticelement.Bomb;
 import model.element.staticelement.Heart;
 import model.element.staticelement.ScrapPile;
 import model.element.staticelement.Teleporter;
@@ -39,6 +40,14 @@ public abstract class DynamicBoardElement extends BoardElement {
      * @return the results of the interaction
      */
     public abstract InteractionResult visit(Teleporter teleporter);
+
+    /**
+     * Visit bomb element upon collision.
+     *
+     * @param bomb the bomb
+     * @return the results of the interaction
+     */
+    public abstract InteractionResult visit(Bomb bomb);
 
     /**
      * Visit scrapPile element upon collision.

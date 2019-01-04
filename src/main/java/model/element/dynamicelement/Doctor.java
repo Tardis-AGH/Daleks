@@ -1,20 +1,23 @@
 package model.element.dynamicelement;
 
-import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
 import model.action.Action;
 import model.action.element.ElementDeletionAction;
 import model.action.gamestate.LivesChangeAction;
 import model.action.gamestate.TeleportersChangeAction;
+import model.action.move.BombAction;
 import model.action.move.TeleportationAction;
-import model.board.coordinates.Coordinates;
 import model.board.Move;
+import model.board.coordinates.Coordinates;
 import model.element.DynamicBoardElement;
+import model.element.staticelement.Bomb;
 import model.element.staticelement.Heart;
 import model.element.staticelement.ScrapPile;
 import model.element.staticelement.Teleporter;
 import model.game.InteractionResult;
+
+import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * The type Doctor.
@@ -56,10 +59,18 @@ public class Doctor extends DynamicBoardElement {
      */
     public List<Action> makeMove(Move move) {
         final LinkedList<Action> actions = new LinkedList<>();
-        if (move == Move.TELEPORT) {
-            actions.add(new TeleportationAction());
-        } else {
-            setCoordinates(getCoordinates().getUpdated(move));
+
+        switch (move) {
+            case TELEPORT:
+                actions.add(new TeleportationAction());
+                break;
+            case BOMB:
+                actions.add(new BombAction());
+                break;
+
+            default:
+                setCoordinates(getCoordinates().getUpdated(move));
+                break;
         }
         return actions;
     }
@@ -92,6 +103,14 @@ public class Doctor extends DynamicBoardElement {
         final InteractionResult interactionResult = new InteractionResult(this);
         interactionResult.addAction(new TeleportersChangeAction(1));
         interactionResult.addAction(new ElementDeletionAction(teleporter));
+        return interactionResult;
+    }
+
+    @Override
+    public InteractionResult visit(Bomb bomb) {
+        final InteractionResult interactionResult = new InteractionResult(this);
+//        interactionResult.addAction(new TeleportersChangeAction(1));
+        interactionResult.addAction(new ElementDeletionAction(bomb));
         return interactionResult;
     }
 

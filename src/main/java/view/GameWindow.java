@@ -1,21 +1,17 @@
 package view;
 
 import controller.GameController;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import model.board.Move;
+
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * The type Game window.
@@ -40,6 +36,7 @@ public class GameWindow extends VBox {
     private Button lowerRightButton;
     private Button waitButton;
     private Button teleporterButton;
+    private Button bombButton;
 
     private Label numberOfLivesLabel;
     private Label numberOfTeleportersLabel;
@@ -164,9 +161,15 @@ public class GameWindow extends VBox {
 
         teleporterButton = new Button();
         teleporterButton.setPrefWidth(1.5 * NAVIGATION_BUTTON_SIZE);
-        teleporterButton.setPrefHeight(1.5 * NAVIGATION_BUTTON_SIZE);
+        teleporterButton.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         teleporterButton.setOnAction(event -> gameController.nextTurn(Move.TELEPORT));
         teleporterButton.setText("TELEPORT");
+
+        bombButton = new Button();
+        bombButton.setPrefWidth(1.5 * NAVIGATION_BUTTON_SIZE);
+        bombButton.setPrefHeight(NAVIGATION_BUTTON_SIZE);
+        bombButton.setOnAction(event -> gameController.nextTurn(Move.BOMB));
+        bombButton.setText("BOMB");
 
         Button restart = new Button();
         restart.setPrefWidth(1.5 * NAVIGATION_BUTTON_SIZE);
@@ -175,9 +178,10 @@ public class GameWindow extends VBox {
         restart.setText("RESET");
 
         specialButtons.getChildren().add(teleporterButton);
+        specialButtons.getChildren().add(bombButton);
         specialButtons.getChildren().add(restart);
         specialButtons.setPadding(new Insets(30, 30, 30, 30));
-        specialButtons.setSpacing(30);
+        specialButtons.setSpacing(10);
 
         return specialButtons;
     }
@@ -301,6 +305,15 @@ public class GameWindow extends VBox {
      */
     public Button getTeleporterButton() {
         return teleporterButton;
+    }
+
+    /**
+     * Gets bomb button.
+     *
+     * @return the bomb button
+     */
+    public Button getBombButton() {
+        return bombButton;
     }
 
     /**

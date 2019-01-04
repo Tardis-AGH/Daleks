@@ -1,6 +1,5 @@
 package controller;
 
-import java.util.stream.Collectors;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.SetChangeListener;
 import javafx.event.Event;
@@ -14,6 +13,8 @@ import model.game.Game;
 import model.game.GameState;
 import model.game.Status;
 import view.GameWindow;
+
+import java.util.stream.Collectors;
 
 /**
  * The type Game controller.
@@ -139,6 +140,8 @@ public class GameController {
         gameWindow.getLowerRightButton().setDisable(f);
         gameWindow.getWaitButton().setDisable(f);
         gameWindow.getTeleporterButton().setDisable(f);
+        ;
+        gameWindow.getBombButton().setDisable(f);
     }
 
     /**

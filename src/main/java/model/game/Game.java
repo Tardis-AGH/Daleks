@@ -1,19 +1,20 @@
 package model.game;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import model.action.Action;
 import model.board.Board;
-import model.board.coordinates.Coordinates;
 import model.board.Move;
+import model.board.coordinates.Coordinates;
 import model.board.factory.BoardFactory;
 import model.element.BoardElement;
 import model.element.DynamicBoardElement;
 import model.element.dynamicelement.Dalek;
 import model.element.dynamicelement.Doctor;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Root class of the model.
@@ -61,14 +62,10 @@ public class Game {
         board.getDoctor().setImage(gameState.getDoctorDeaths());
     }
 
-    private Status makeDoctorsMove(Move move, Map<Coordinates, BoardElement> collisionMap) {
+    private Status makeDoctorsMove(Move move) {
         final Doctor doctor = board.getDoctor();
         final List<Action> actions = doctor.makeMove(move);
-        final Status actionStatus = executeActions(actions);
-        if (actionStatus != Status.CONTINUE_GAME) {
-            return actionStatus;
-        }
-        return processCollision(collisionMap, doctor);
+        return executeActions(actions);
     }
 
     private Status makeDaleksMoves(Map<Coordinates, BoardElement> collisionMap) {
@@ -91,15 +88,21 @@ public class Game {
      * @return the status
      */
     public Status makeMoves(Move move) {
+
+        Status actionStatus = makeDoctorsMove(move);
+        if (actionStatus != Status.CONTINUE_GAME) {
+            return actionStatus == Status.SKIP_MOVE ? Status.CONTINUE_GAME : actionStatus;
+        }
+
         final Map<Coordinates, BoardElement> collisionMap = board.getStaticBoardElements()
                 .stream()
                 .collect(Collectors.toMap(BoardElement::getCoordinates, Function.identity()));
 
-        final Status actionStatus = makeDoctorsMove(move, collisionMap);
-
+        actionStatus = processCollision(collisionMap, board.getDoctor());
         if (actionStatus != Status.CONTINUE_GAME) {
-            return actionStatus == Status.SKIP_MOVE ? Status.CONTINUE_GAME : actionStatus;
+            return actionStatus;
         }
+
 
         return makeDaleksMoves(collisionMap);
     }
