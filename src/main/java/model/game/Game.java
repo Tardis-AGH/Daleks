@@ -23,6 +23,7 @@ public class Game {
 
     private static final int DEFAULT_NUMBER_OF_LIVES = 3;
     private static final int DEFAULT_NUMBER_OF_TELEPORTERS = 3;
+    private static final int DEFAULT_NUMBER_OF_BOMBS = 2;
     private static final int LEVEL_UP_POINTS = 5;
     private final BoardFactory boardFactory;
     private final GameState gameState;
@@ -36,7 +37,7 @@ public class Game {
     public Game(BoardFactory boardFactory) {
         this.boardFactory = boardFactory;
         this.board = boardFactory.generateNewBoard(1);
-        this.gameState = new GameState(DEFAULT_NUMBER_OF_LIVES, DEFAULT_NUMBER_OF_TELEPORTERS, 0, 0, 1, 0);
+        this.gameState = new GameState(DEFAULT_NUMBER_OF_LIVES, DEFAULT_NUMBER_OF_TELEPORTERS, DEFAULT_NUMBER_OF_BOMBS, 0, 0, 1, 0);
     }
 
     /**
@@ -51,6 +52,7 @@ public class Game {
         gameState.setHighestScore(Math.max(gameState.getCurrentScore(), gameState.getHighestScore()));
         gameState.setNumberOfTeleporters(gameState.getNumberOfTeleporters() + 1);
         gameState.setNumberOfLives(gameState.getNumberOfLives() + 1);
+        gameState.setNumberOfBombs(gameState.getNumberOfBombs() + 1);
     }
 
     /**

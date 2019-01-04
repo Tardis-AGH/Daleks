@@ -40,6 +40,7 @@ public class GameWindow extends VBox {
 
     private Label numberOfLivesLabel;
     private Label numberOfTeleportersLabel;
+    private Label numberOfBombsLabel;
     private Label scoreLabel;
     private Label highScoreLabel;
     private Label levelLabel;
@@ -98,12 +99,14 @@ public class GameWindow extends VBox {
 
         levelLabel = new Label();
         numberOfLivesLabel = new Label();
+        numberOfBombsLabel = new Label();
         numberOfTeleportersLabel = new Label();
         scoreLabel = new Label();
         highScoreLabel = new Label();
 
         metrics.getChildren().add(createLabelHolder(levelLabel, "Level:"));
         metrics.getChildren().add(createLabelHolder(numberOfLivesLabel, "Number of lives:"));
+        metrics.getChildren().add(createLabelHolder(numberOfBombsLabel, "Number of bombs:"));
         metrics.getChildren().add(createLabelHolder(numberOfTeleportersLabel, "Number of teleporters:"));
         metrics.getChildren().add(createLabelHolder(scoreLabel, "Score:"));
         metrics.getChildren().add(createLabelHolder(highScoreLabel, "Highest score:"));
@@ -199,7 +202,7 @@ public class GameWindow extends VBox {
                 Objects.requireNonNull(getClass().getClassLoader().getResource(imagePath)).toExternalForm());
 
         final double scale = image.getWidth() / image.getHeight();
-        final double baseSize = 0.95 * (double) (NATIVE_BOARD_WIDTH / boardWidth);
+        final double baseSize = 0.92 * (double) (NATIVE_BOARD_WIDTH / boardWidth);
 
         ImageView spriteImage = new ImageView(image);
         spriteImage.setFitHeight(baseSize * scale);
@@ -332,6 +335,15 @@ public class GameWindow extends VBox {
      */
     public Label getNumberOfTeleportersLabel() {
         return numberOfTeleportersLabel;
+    }
+
+    /**
+     * Gets number of bombs label.
+     *
+     * @return the number of bombs label
+     */
+    public Label getNumberOfBombsLabel() {
+        return numberOfBombsLabel;
     }
 
     /**

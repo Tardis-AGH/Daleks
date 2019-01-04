@@ -12,19 +12,17 @@ import model.game.Status;
 import java.util.Comparator;
 
 /**
- * Action implementation that changes the Doctor's position when teleportation is selected as the move only if it is
- * possible (that is if the player has enough teleportations available).
+ * Action implementation that EXTERMINATES any Dalek within one cell radius around the Doctor.
  */
 public class BombAction implements Action {
 
     @Override
     public Status execute(Game game) {
-//        if (game.getGameState().getNumberOfTeleporters() == 0) {
-//            return Status.SKIP_MOVE;
-//        } else {
-//            final int currentNumber = game.getGameState().getNumberOfTeleporters();
-//            game.getGameState().setNumberOfTeleporters(currentNumber - 1);
-//            game.getBoard().getDoctor().setCoordinates(game.getBoard().getCoordinateGenerator().getRandomCoordinates());
+        if (game.getGameState().getNumberOfBombs() == 0) return Status.SKIP_MOVE;
+
+        final int currentNumber = game.getGameState().getNumberOfBombs();
+        game.getGameState().setNumberOfBombs(currentNumber - 1);
+
         return game.getBoard().getDaleks().stream()
                 .filter(d -> d.getCoordinates().distance(game.getBoard().getDoctor().getCoordinates()) == 1)
                 .map(d -> {
@@ -34,9 +32,6 @@ public class BombAction implements Action {
                 })
                 .max(Comparator.comparing(Status::ordinal))
                 .orElse(Status.CONTINUE_GAME);
-
-//            return Status.CONTINUE_GAME;
-//        }
     }
 }
 

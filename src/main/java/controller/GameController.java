@@ -77,6 +77,9 @@ public class GameController {
         gameWindow.getNumberOfTeleportersLabel()
                 .textProperty()
                 .bind(gameState.numberOfTeleportersProperty().asString());
+        gameWindow.getNumberOfBombsLabel()
+                .textProperty()
+                .bind(gameState.numberOfBombsProperty().asString());
         gameWindow.getScoreLabel().textProperty().bind(gameState.currentScoreProperty().asString());
         gameWindow.getHighScoreLabel().textProperty().bind(gameState.highestScoreProperty().asString());
         gameWindow.getLevelLabel().textProperty().bind(gameState.levelProperty().asString());
@@ -88,6 +91,16 @@ public class GameController {
                     }
                     if (number.intValue() == 0) {
                         gameWindow.getTeleporterButton().setDisable(false);
+                    }
+                });
+
+        gameState.numberOfBombsProperty()
+                .addListener((ObservableValue<? extends Number> observableValue, Number number, Number t1) -> {
+                    if (t1.intValue() == 0) {
+                        gameWindow.getBombButton().setDisable(true);
+                    }
+                    if (number.intValue() == 0) {
+                        gameWindow.getBombButton().setDisable(false);
                     }
                 });
 
@@ -140,7 +153,6 @@ public class GameController {
         gameWindow.getLowerRightButton().setDisable(f);
         gameWindow.getWaitButton().setDisable(f);
         gameWindow.getTeleporterButton().setDisable(f);
-        ;
         gameWindow.getBombButton().setDisable(f);
     }
 

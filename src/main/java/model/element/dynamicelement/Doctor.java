@@ -2,6 +2,7 @@ package model.element.dynamicelement;
 
 import model.action.Action;
 import model.action.element.ElementDeletionAction;
+import model.action.gamestate.BombsChangeAction;
 import model.action.gamestate.LivesChangeAction;
 import model.action.gamestate.TeleportersChangeAction;
 import model.action.move.BombAction;
@@ -109,7 +110,7 @@ public class Doctor extends DynamicBoardElement {
     @Override
     public InteractionResult visit(Bomb bomb) {
         final InteractionResult interactionResult = new InteractionResult(this);
-//        interactionResult.addAction(new TeleportersChangeAction(1));
+        interactionResult.addAction(new BombsChangeAction(1));
         interactionResult.addAction(new ElementDeletionAction(bomb));
         return interactionResult;
     }

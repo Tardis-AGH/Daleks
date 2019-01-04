@@ -6,7 +6,7 @@ import model.element.StaticBoardElement;
 import model.game.InteractionResult;
 
 /**
- * The type Heart.
+ * The type Bomb.
  */
 public class Bomb extends StaticBoardElement {
 
