@@ -23,6 +23,7 @@ public class GameController {
     private final GameWindow gameWindow;
     private Game game;
     private Stage primaryStage;
+    private HighscoreManager highscoreManager;
 
     /**
      * Instantiates a new Game controller.
@@ -33,7 +34,7 @@ public class GameController {
         this.primaryStage = primaryStage;
         game = new Game(new RandomBoardFactory());
         gameWindow = new GameWindow(this);
-
+        highscoreManager = new HighscoreManager("score");
         initSprites();
         initGameStateProperties();
     }
@@ -94,8 +95,11 @@ public class GameController {
                     if (t1.intValue() < 0) {
                         gameWindow.getNumberOfLivesLabel().textProperty().unbind();
                         gameWindow.getNumberOfLivesLabel().setText("☠");
+
                     }
                 });
+
+        gameState.setHighestScore(highscoreManager.getHighScore());
     }
 
     /**
@@ -143,9 +147,11 @@ public class GameController {
      * @param event the event
      */
     public void handleRestart(Event event) {
-        int previousHighScore = game.getGameState().getHighestScore();
+        int currentGameScore = game.getGameState().getHighestScore();
+        if(currentGameScore > highscoreManager.getHighScore())
+            highscoreManager.setHighScore(currentGameScore);
         game = new Game(new RandomBoardFactory());
-        game.getGameState().setHighestScore(previousHighScore);
+        game.getGameState().setHighestScore(highscoreManager.getHighScore());
 
         setGameControlsDisable(false);
         initSprites();
