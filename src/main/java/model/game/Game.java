@@ -1,19 +1,20 @@
 package model.game;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import model.action.Action;
 import model.board.Board;
-import model.board.coordinates.Coordinates;
 import model.board.Move;
+import model.board.coordinates.Coordinates;
 import model.board.factory.BoardFactory;
 import model.element.BoardElement;
 import model.element.DynamicBoardElement;
 import model.element.dynamicelement.Dalek;
 import model.element.dynamicelement.Doctor;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Root class of the model.
@@ -22,6 +23,7 @@ public class Game {
 
     private static final int DEFAULT_NUMBER_OF_LIVES = 3;
     private static final int DEFAULT_NUMBER_OF_TELEPORTERS = 3;
+    private static final int DEFAULT_NUMBER_OF_BOMBS = 2;
     private static final int LEVEL_UP_POINTS = 5;
     private final BoardFactory boardFactory;
     private final GameState gameState;
@@ -35,7 +37,7 @@ public class Game {
     public Game(BoardFactory boardFactory) {
         this.boardFactory = boardFactory;
         this.board = boardFactory.generateNewBoard(1);
-        this.gameState = new GameState(DEFAULT_NUMBER_OF_LIVES, DEFAULT_NUMBER_OF_TELEPORTERS, 0, 0, 1, 0);
+        this.gameState = new GameState(DEFAULT_NUMBER_OF_LIVES, DEFAULT_NUMBER_OF_TELEPORTERS, DEFAULT_NUMBER_OF_BOMBS, 0, 0, 1, 0);
     }
 
     /**
@@ -50,6 +52,7 @@ public class Game {
         gameState.setHighestScore(Math.max(gameState.getCurrentScore(), gameState.getHighestScore()));
         gameState.setNumberOfTeleporters(gameState.getNumberOfTeleporters() + 1);
         gameState.setNumberOfLives(gameState.getNumberOfLives() + 1);
+        gameState.setNumberOfBombs(gameState.getNumberOfBombs() + 1);
     }
 
     /**
@@ -61,14 +64,10 @@ public class Game {
         board.getDoctor().setImage(gameState.getDoctorDeaths());
     }
 
-    private Status makeDoctorsMove(Move move, Map<Coordinates, BoardElement> collisionMap) {
+    private Status makeDoctorsMove(Move move) {
         final Doctor doctor = board.getDoctor();
         final List<Action> actions = doctor.makeMove(move);
-        final Status actionStatus = executeActions(actions);
-        if (actionStatus != Status.CONTINUE_GAME) {
-            return actionStatus;
-        }
-        return processCollision(collisionMap, doctor);
+        return executeActions(actions);
     }
 
     private Status makeDaleksMoves(Map<Coordinates, BoardElement> collisionMap) {
@@ -91,15 +90,21 @@ public class Game {
      * @return the status
      */
     public Status makeMoves(Move move) {
+
+        Status actionStatus = makeDoctorsMove(move);
+        if (actionStatus != Status.CONTINUE_GAME) {
+            return actionStatus == Status.SKIP_MOVE ? Status.CONTINUE_GAME : actionStatus;
+        }
+
         final Map<Coordinates, BoardElement> collisionMap = board.getStaticBoardElements()
                 .stream()
                 .collect(Collectors.toMap(BoardElement::getCoordinates, Function.identity()));
 
-        final Status actionStatus = makeDoctorsMove(move, collisionMap);
-
+        actionStatus = processCollision(collisionMap, board.getDoctor());
         if (actionStatus != Status.CONTINUE_GAME) {
-            return actionStatus == Status.SKIP_MOVE ? Status.CONTINUE_GAME : actionStatus;
+            return actionStatus;
         }
+
 
         return makeDaleksMoves(collisionMap);
     }

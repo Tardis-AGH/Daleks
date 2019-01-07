@@ -10,6 +10,7 @@ public class GameState {
 
     private final IntegerProperty numberOfLives;
     private final IntegerProperty numberOfTeleporters;
+    private final IntegerProperty numberOfBombs;
     private final IntegerProperty currentScore;
     private final IntegerProperty highestScore;
     private final IntegerProperty level;
@@ -20,15 +21,17 @@ public class GameState {
      *
      * @param numberOfLives the number of lives
      * @param numberOfTeleporters the number of teleporters
+     * @param numberOfBombs the number of bombs
      * @param currentScore the current score
      * @param highestScore the highest score
      * @param level the level
      * @param doctorDeaths the doctor deaths
      */
-    public GameState(int numberOfLives, int numberOfTeleporters, int currentScore, int highestScore, int level,
-            int doctorDeaths) {
+    public GameState(int numberOfLives, int numberOfTeleporters, int numberOfBombs, int currentScore, int highestScore, int level,
+                     int doctorDeaths) {
         this.numberOfLives = new SimpleIntegerProperty(numberOfLives);
         this.numberOfTeleporters = new SimpleIntegerProperty(numberOfTeleporters);
+        this.numberOfBombs = new SimpleIntegerProperty(numberOfBombs);
         this.currentScore = new SimpleIntegerProperty(currentScore);
         this.highestScore = new SimpleIntegerProperty(highestScore);
         this.level = new SimpleIntegerProperty(level);
@@ -126,6 +129,24 @@ public class GameState {
     }
 
     /**
+     * Gets number of bombs.
+     *
+     * @return the number of bombs
+     */
+    public int getNumberOfBombs() {
+        return numberOfBombs.getValue();
+    }
+
+    /**
+     * Sets number of bombs.
+     *
+     * @param numberOfBombs the number of bombs
+     */
+    public void setNumberOfBombs(int numberOfBombs) {
+        this.numberOfBombs.setValue(numberOfBombs);
+    }
+
+    /**
      * Gets number of lives.
      *
      * @return the number of lives
@@ -177,6 +198,15 @@ public class GameState {
      */
     public IntegerProperty numberOfTeleportersProperty() {
         return numberOfTeleporters;
+    }
+
+    /**
+     * Gets number of bombs property.
+     *
+     * @return the number of bombs property
+     */
+    public IntegerProperty numberOfBombsProperty() {
+        return numberOfBombs;
     }
 
     /**

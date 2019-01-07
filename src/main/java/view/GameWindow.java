@@ -1,21 +1,17 @@
 package view;
 
 import controller.GameController;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import model.board.Move;
+
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * The type Game window.
@@ -40,9 +36,11 @@ public class GameWindow extends VBox {
     private Button lowerRightButton;
     private Button waitButton;
     private Button teleporterButton;
+    private Button bombButton;
 
     private Label numberOfLivesLabel;
     private Label numberOfTeleportersLabel;
+    private Label numberOfBombsLabel;
     private Label scoreLabel;
     private Label highScoreLabel;
     private Label levelLabel;
@@ -101,12 +99,14 @@ public class GameWindow extends VBox {
 
         levelLabel = new Label();
         numberOfLivesLabel = new Label();
+        numberOfBombsLabel = new Label();
         numberOfTeleportersLabel = new Label();
         scoreLabel = new Label();
         highScoreLabel = new Label();
 
         metrics.getChildren().add(createLabelHolder(levelLabel, "Level:"));
         metrics.getChildren().add(createLabelHolder(numberOfLivesLabel, "Number of lives:"));
+        metrics.getChildren().add(createLabelHolder(numberOfBombsLabel, "Number of bombs:"));
         metrics.getChildren().add(createLabelHolder(numberOfTeleportersLabel, "Number of teleporters:"));
         metrics.getChildren().add(createLabelHolder(scoreLabel, "Score:"));
         metrics.getChildren().add(createLabelHolder(highScoreLabel, "Highest score:"));
@@ -164,9 +164,15 @@ public class GameWindow extends VBox {
 
         teleporterButton = new Button();
         teleporterButton.setPrefWidth(1.5 * NAVIGATION_BUTTON_SIZE);
-        teleporterButton.setPrefHeight(1.5 * NAVIGATION_BUTTON_SIZE);
+        teleporterButton.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         teleporterButton.setOnAction(event -> gameController.nextTurn(Move.TELEPORT));
         teleporterButton.setText("TELEPORT");
+
+        bombButton = new Button();
+        bombButton.setPrefWidth(1.5 * NAVIGATION_BUTTON_SIZE);
+        bombButton.setPrefHeight(NAVIGATION_BUTTON_SIZE);
+        bombButton.setOnAction(event -> gameController.nextTurn(Move.BOMB));
+        bombButton.setText("BOMB");
 
         Button restart = new Button();
         restart.setPrefWidth(1.5 * NAVIGATION_BUTTON_SIZE);
@@ -175,9 +181,10 @@ public class GameWindow extends VBox {
         restart.setText("RESET");
 
         specialButtons.getChildren().add(teleporterButton);
+        specialButtons.getChildren().add(bombButton);
         specialButtons.getChildren().add(restart);
         specialButtons.setPadding(new Insets(30, 30, 30, 30));
-        specialButtons.setSpacing(30);
+        specialButtons.setSpacing(10);
 
         return specialButtons;
     }
@@ -195,7 +202,7 @@ public class GameWindow extends VBox {
                 Objects.requireNonNull(getClass().getClassLoader().getResource(imagePath)).toExternalForm());
 
         final double scale = image.getWidth() / image.getHeight();
-        final double baseSize = 0.95 * (double) (NATIVE_BOARD_WIDTH / boardWidth);
+        final double baseSize = 0.92 * (double) (NATIVE_BOARD_WIDTH / boardWidth);
 
         ImageView spriteImage = new ImageView(image);
         spriteImage.setFitHeight(baseSize * scale);
@@ -304,6 +311,15 @@ public class GameWindow extends VBox {
     }
 
     /**
+     * Gets bomb button.
+     *
+     * @return the bomb button
+     */
+    public Button getBombButton() {
+        return bombButton;
+    }
+
+    /**
      * Gets number of lives label.
      *
      * @return the number of lives label
@@ -319,6 +335,15 @@ public class GameWindow extends VBox {
      */
     public Label getNumberOfTeleportersLabel() {
         return numberOfTeleportersLabel;
+    }
+
+    /**
+     * Gets number of bombs label.
+     *
+     * @return the number of bombs label
+     */
+    public Label getNumberOfBombsLabel() {
+        return numberOfBombsLabel;
     }
 
     /**
