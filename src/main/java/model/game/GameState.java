@@ -27,8 +27,8 @@ public class GameState {
      * @param level the level
      * @param doctorDeaths the doctor deaths
      */
-    public GameState(int numberOfLives, int numberOfTeleporters, int numberOfBombs, int currentScore, int highestScore, int level,
-                     int doctorDeaths) {
+    public GameState(int numberOfLives, int numberOfTeleporters, int numberOfBombs, int currentScore, int highestScore,
+            int level, int doctorDeaths) {
         this.numberOfLives = new SimpleIntegerProperty(numberOfLives);
         this.numberOfTeleporters = new SimpleIntegerProperty(numberOfTeleporters);
         this.numberOfBombs = new SimpleIntegerProperty(numberOfBombs);

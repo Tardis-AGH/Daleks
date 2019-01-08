@@ -1,8 +1,7 @@
 package model.board.coordinates;
 
-import model.board.Move;
-
 import java.util.Objects;
+import model.board.Move;
 
 /**
  * The type Coordinates.
@@ -53,25 +52,15 @@ public class Coordinates {
         return new Coordinates(xCoordinate, yCoordinate, boardWidth, boardHeight);
     }
 
+    /**
+     * Distance int.
+     *
+     * @param other the other
+     *
+     * @return the int
+     */
     public int distance(Coordinates other) {
         return Math.abs(this.x - other.getX()) + Math.abs(this.y - other.getY());
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        final Coordinates that = (Coordinates) o;
-        return x == that.x && y == that.y;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
     }
 
     /**
@@ -90,6 +79,23 @@ public class Coordinates {
      */
     public int getX() {
         return x;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final Coordinates that = (Coordinates) o;
+        return x == that.x && y == that.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 
     @Override

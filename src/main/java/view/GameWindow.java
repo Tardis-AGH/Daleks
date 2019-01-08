@@ -17,10 +17,6 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import model.board.Move;
 
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 /**
  * The type Game window.
  */
@@ -64,32 +60,32 @@ public class GameWindow extends VBox {
         tiles = createTiles(gameController);
         getChildren().add(tiles);
 
-        BorderPane controls = createControls(gameController);
+        final BorderPane controls = createControls(gameController);
         getChildren().add(controls);
     }
 
     private GridPane createTiles(GameController gameController) {
-        GridPane tiles = new GridPane();
-        tiles.setGridLinesVisible(true);
-        int preferredTileSize = NATIVE_BOARD_WIDTH / gameController.getGame().getBoardWidth();
-        Stream<ColumnConstraints> columns = Stream.generate(ColumnConstraints::new)
+        final GridPane gridPane = new GridPane();
+        gridPane.setGridLinesVisible(true);
+        final int preferredTileSize = NATIVE_BOARD_WIDTH / gameController.getGame().getBoardWidth();
+        final Stream<ColumnConstraints> columns = Stream.generate(ColumnConstraints::new)
                 .peek(e -> e.setPrefWidth(preferredTileSize))
                 .limit(gameController.getGame().getBoardWidth());
 
-        Stream<RowConstraints> rows = Stream.generate(RowConstraints::new)
+        final Stream<RowConstraints> rows = Stream.generate(RowConstraints::new)
                 .peek(e -> e.setPrefHeight(preferredTileSize))
                 .limit(gameController.getGame().getBoardHeight());
-        tiles.getColumnConstraints().addAll(columns.collect(Collectors.toSet()));
-        tiles.getRowConstraints().addAll(rows.collect(Collectors.toSet()));
+        gridPane.getColumnConstraints().addAll(columns.collect(Collectors.toSet()));
+        gridPane.getRowConstraints().addAll(rows.collect(Collectors.toSet()));
 
-        return tiles;
+        return gridPane;
     }
 
     private BorderPane createControls(GameController gameController) {
-        BorderPane lowerBar = new BorderPane();
-        VBox metrics = createMetrics();
-        GridPane movementButtons = createMovementButtons(gameController);
-        VBox specialButtons = createSpecialButtons(gameController);
+        final BorderPane lowerBar = new BorderPane();
+        final VBox metrics = createMetrics();
+        final GridPane movementButtons = createMovementButtons(gameController);
+        final VBox specialButtons = createSpecialButtons(gameController);
         createKeyBindings(gameController);
 
         lowerBar.setLeft(metrics);
@@ -103,7 +99,7 @@ public class GameWindow extends VBox {
     }
 
     private VBox createMetrics() {
-        VBox metrics = new VBox(10);
+        final VBox metrics = new VBox(10);
         metrics.setPadding(new Insets(50, 30, 30, 30));
 
         levelLabel = new Label();
@@ -124,7 +120,7 @@ public class GameWindow extends VBox {
     }
 
     private BorderPane createLabelHolder(Label numericLabel, String labelText) {
-        BorderPane labelHolder = new BorderPane();
+        final BorderPane labelHolder = new BorderPane();
         labelHolder.setLeft(new Label(labelText));
         labelHolder.setRight(numericLabel);
         numericLabel.setPadding(new Insets(0, 0, 0, 5));
@@ -132,7 +128,7 @@ public class GameWindow extends VBox {
     }
 
     private GridPane createMovementButtons(GameController gameController) {
-        GridPane controls = new GridPane();
+        final GridPane controls = new GridPane();
 
         upButton = createMovementButton("⬆", gameController, Move.UP);
         upperRightButton = createMovementButton("⬈", gameController, Move.UPPER_RIGHT);
@@ -158,7 +154,7 @@ public class GameWindow extends VBox {
     }
 
     private Button createMovementButton(String buttonText, GameController gameController, Move move) {
-        Button button = new Button();
+        final Button button = new Button();
         button.setPrefWidth(NAVIGATION_BUTTON_SIZE);
         button.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         button.setOnAction(event -> gameController.nextTurn(move));
@@ -169,7 +165,7 @@ public class GameWindow extends VBox {
     }
 
     private VBox createSpecialButtons(GameController gameController) {
-        VBox specialButtons = new VBox();
+        final VBox specialButtons = new VBox();
 
         teleporterButton = new Button();
         teleporterButton.setPrefWidth(1.5 * NAVIGATION_BUTTON_SIZE);
@@ -183,7 +179,7 @@ public class GameWindow extends VBox {
         bombButton.setOnAction(event -> gameController.nextTurn(Move.BOMB));
         bombButton.setText("BOMB");
 
-        Button restart = new Button();
+        final Button restart = new Button();
         restart.setPrefWidth(1.5 * NAVIGATION_BUTTON_SIZE);
         restart.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         restart.setOnAction(gameController::handleRestart);
@@ -249,13 +245,13 @@ public class GameWindow extends VBox {
      * @return the image view
      */
     public ImageView createSpriteImage(String imagePath, int boardWidth) {
-        Image image = new javafx.scene.image.Image(
+        final Image image = new javafx.scene.image.Image(
                 Objects.requireNonNull(getClass().getClassLoader().getResource(imagePath)).toExternalForm());
 
         final double scale = image.getWidth() / image.getHeight();
-        final double baseSize = 0.92 * (double) (NATIVE_BOARD_WIDTH / boardWidth);
+        final double baseSize = 0.92 * (double) NATIVE_BOARD_WIDTH / boardWidth;
 
-        ImageView spriteImage = new ImageView(image);
+        final ImageView spriteImage = new ImageView(image);
         spriteImage.setFitHeight(baseSize * scale);
         spriteImage.setFitWidth(baseSize);
 

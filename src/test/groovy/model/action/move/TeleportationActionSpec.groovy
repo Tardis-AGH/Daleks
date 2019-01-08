@@ -2,8 +2,8 @@ package model.action.move
 
 import javafx.collections.FXCollections
 import model.action.Action
-import model.board.coordinates.Coordinates
 import model.board.Move
+import model.board.coordinates.Coordinates
 import model.board.factory.ConcreteBoardFactory
 import model.element.dynamicelement.Doctor
 import model.game.Game
