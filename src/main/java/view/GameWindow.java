@@ -1,12 +1,20 @@
 package view;
 
 import controller.GameController;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import model.board.Move;
 
 import java.util.Objects;
@@ -82,6 +90,7 @@ public class GameWindow extends VBox {
         VBox metrics = createMetrics();
         GridPane movementButtons = createMovementButtons(gameController);
         VBox specialButtons = createSpecialButtons(gameController);
+        createKeyBindings(gameController);
 
         lowerBar.setLeft(metrics);
         lowerBar.setCenter(movementButtons);
@@ -187,6 +196,48 @@ public class GameWindow extends VBox {
         specialButtons.setSpacing(10);
 
         return specialButtons;
+    }
+
+    private void createKeyBindings(GameController gameController) {
+        this.setOnKeyPressed(e -> {
+            switch (e.getCode()) {
+                case W:
+                    gameController.nextTurn(Move.UP);
+                    break;
+                case E:
+                    gameController.nextTurn(Move.UPPER_RIGHT);
+                    break;
+                case D:
+                    gameController.nextTurn(Move.RIGHT);
+                    break;
+                case C:
+                    gameController.nextTurn(Move.LOWER_RIGHT);
+                    break;
+                case X:
+                    gameController.nextTurn(Move.DOWN);
+                    break;
+                case Z:
+                    gameController.nextTurn(Move.LOWER_LEFT);
+                    break;
+                case A:
+                    gameController.nextTurn(Move.LEFT);
+                    break;
+                case Q:
+                    gameController.nextTurn(Move.UPPER_LEFT);
+                    break;
+                case S:
+                    gameController.nextTurn(Move.WAIT);
+                    break;
+                case T:
+                    gameController.nextTurn(Move.TELEPORT);
+                    break;
+                case R:
+                    gameController.handleRestart(e);
+                    break;
+                case B:
+                    gameController.nextTurn(Move.BOMB);
+            }
+        });
     }
 
     /**
