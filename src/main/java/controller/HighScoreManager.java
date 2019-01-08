@@ -23,10 +23,10 @@ import javax.crypto.spec.DESedeKeySpec;
 /**
  * The type Highscore manager.
  */
-public class HighscoreManager {
+public class HighScoreManager {
 
     private static final String DESEDE_ENCRYPTION_SCHEME = "DESede";
-    private static final String key = "%Tnxd}Mc<@n#Z/=.!mGR0N#T90Og$w";
+    private static final String KEY = "%Tnxd}Mc<@n#Z/=.!mGR0N#T90Og$w";
     private final String filePath;
     private int highScore;
 
@@ -35,29 +35,29 @@ public class HighscoreManager {
      *
      * @param filePath the file path
      */
-    public HighscoreManager(String filePath) {
+    public HighScoreManager(String filePath) {
         this.filePath = filePath;
         this.highScore = parseHighScore();
     }
 
     private int parseHighScore() {
         try {
-            Cipher cipher = Cipher.getInstance(DESEDE_ENCRYPTION_SCHEME);
-            SecretKey secretKey = initializeKey();
+            final Cipher cipher = Cipher.getInstance(DESEDE_ENCRYPTION_SCHEME);
+            final SecretKey secretKey = initializeKey();
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
 
-            Path fileLocation = Paths.get(filePath);
-            byte[] data = Files.readAllBytes(fileLocation);
-            byte[] decodedBytes = Base64.getDecoder().decode(data);
-            byte[] scoreBytes = cipher.doFinal(decodedBytes);
-            String scoreText = new String(scoreBytes);
+            final Path fileLocation = Paths.get(filePath);
+            final byte[] data = Files.readAllBytes(fileLocation);
+            final byte[] decodedBytes = Base64.getDecoder().decode(data);
+            final byte[] scoreBytes = cipher.doFinal(decodedBytes);
+            final String scoreText = new String(scoreBytes);
             return Integer.parseInt(scoreText);
 
         } catch (IOException e) {
             return 0;
         } catch (IllegalArgumentException e) {
-            File file = new File(filePath);
-            boolean success = file.delete();
+            final File file = new File(filePath);
+            final boolean success = file.delete();
             return 0;
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
             e.printStackTrace();
@@ -67,9 +67,9 @@ public class HighscoreManager {
 
     private SecretKey initializeKey() {
         try {
-            byte[] keyBytes = key.getBytes(StandardCharsets.UTF_8);
-            KeySpec keySpec = new DESedeKeySpec(keyBytes);
-            SecretKeyFactory skf = SecretKeyFactory.getInstance(DESEDE_ENCRYPTION_SCHEME);
+            final byte[] keyBytes = KEY.getBytes(StandardCharsets.UTF_8);
+            final KeySpec keySpec = new DESedeKeySpec(keyBytes);
+            final SecretKeyFactory skf = SecretKeyFactory.getInstance(DESEDE_ENCRYPTION_SCHEME);
             return skf.generateSecret(keySpec);
         } catch (NoSuchAlgorithmException | InvalidKeyException | InvalidKeySpecException e) {
             e.printStackTrace();
@@ -107,14 +107,14 @@ public class HighscoreManager {
 
     private void saveHighScore() {
         try {
-            FileOutputStream stream = new FileOutputStream(filePath);
-            Cipher cipher = Cipher.getInstance(DESEDE_ENCRYPTION_SCHEME);
-            SecretKey secretKey = initializeKey();
+            final FileOutputStream stream = new FileOutputStream(filePath);
+            final Cipher cipher = Cipher.getInstance(DESEDE_ENCRYPTION_SCHEME);
+            final SecretKey secretKey = initializeKey();
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
 
-            byte[] scoreBytes = Integer.toString(highScore).getBytes(StandardCharsets.UTF_8);
-            byte[] encryptedBytes = cipher.doFinal(scoreBytes);
-            byte[] encodedBaseBytes = Base64.getEncoder().encode(encryptedBytes);
+            final byte[] scoreBytes = Integer.toString(highScore).getBytes(StandardCharsets.UTF_8);
+            final byte[] encryptedBytes = cipher.doFinal(scoreBytes);
+            final byte[] encodedBaseBytes = Base64.getEncoder().encode(encryptedBytes);
             stream.write(encodedBaseBytes);
         } catch (NoSuchPaddingException | IOException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
             e.printStackTrace();

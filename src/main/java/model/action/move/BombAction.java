@@ -5,7 +5,6 @@ import model.action.Action;
 import model.action.element.ElementAdditionAction;
 import model.action.element.ElementDeletionAction;
 import model.board.Move;
-import model.board.coordinates.Coordinates;
 import model.element.staticelement.ScrapPile;
 import model.game.Game;
 import model.game.Status;
@@ -27,11 +26,11 @@ public class BombAction implements Action {
         return game.getBoard()
                 .getDaleks()
                 .stream()
-                .filter(d -> d.getCoordinates().distance(game.getBoard().getDoctor().getCoordinates()) == 1)
-                .map(d -> {
-                    Coordinates c = d.getCoordinates().getUpdated(Move.BOMB);
-                    new ElementAdditionAction(new ScrapPile(c)).execute(game);
-                    return new ElementDeletionAction(d).execute(game);
+                .filter(dalek -> dalek.getCoordinates().distance(game.getBoard().getDoctor().getCoordinates()) == 1)
+                .map(dalek -> {
+                    new ElementAdditionAction(new ScrapPile(dalek.getCoordinates().getUpdated(Move.BOMB))).execute(
+                            game);
+                    return new ElementDeletionAction(dalek).execute(game);
                 })
                 .max(Comparator.comparing(Status::ordinal))
                 .orElse(Status.CONTINUE_GAME);

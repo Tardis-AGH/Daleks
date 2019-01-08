@@ -35,7 +35,7 @@ public class RandomCoordinatesGenerator {
      * @return the random coordinates
      */
     public Coordinates getRandomCoordinates() {
-        return getRandomCoordinates(1);
+        return getRandomCoordinates(0);
     }
 
     /**
