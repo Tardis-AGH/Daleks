@@ -4,9 +4,10 @@ import model.action.element.ElementAdditionAction;
 import model.action.element.ElementDeletionAction;
 import model.action.gamestate.LivesChangeAction;
 import model.action.gamestate.ScoreChangeAction;
-import model.board.coordinates.Coordinates;
 import model.board.Move;
+import model.board.coordinates.Coordinates;
 import model.element.DynamicBoardElement;
+import model.element.staticelement.Bomb;
 import model.element.staticelement.Heart;
 import model.element.staticelement.ScrapPile;
 import model.element.staticelement.Teleporter;
@@ -88,6 +89,13 @@ public class Dalek extends DynamicBoardElement {
     public InteractionResult visit(Teleporter teleporter) {
         final InteractionResult interactionResult = new InteractionResult(this);
         interactionResult.addAction(new ElementDeletionAction(teleporter));
+        return interactionResult;
+    }
+
+    @Override
+    public InteractionResult visit(Bomb bomb) {
+        final InteractionResult interactionResult = new InteractionResult(this);
+        interactionResult.addAction(new ElementDeletionAction(bomb));
         return interactionResult;
     }
 

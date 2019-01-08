@@ -1,7 +1,8 @@
 package model.board.coordinates;
 
-import java.util.Objects;
 import model.board.Move;
+
+import java.util.Objects;
 
 /**
  * The type Coordinates.
@@ -50,6 +51,10 @@ public class Coordinates {
      */
     public Coordinates getUpdated(int xCoordinate, int yCoordinate) {
         return new Coordinates(xCoordinate, yCoordinate, boardWidth, boardHeight);
+    }
+
+    public int distance(Coordinates other) {
+        return Math.abs(this.x - other.getX()) + Math.abs(this.y - other.getY());
     }
 
     @Override

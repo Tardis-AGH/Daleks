@@ -43,7 +43,11 @@ public enum Move {
     /**
      * Teleport move.
      */
-    TELEPORT(0, 0);
+    TELEPORT(0, 0),
+    /**
+     * Bomb move.
+     */
+    BOMB(0, 0);
 
     private final int deltaX;
     private final int deltaY;

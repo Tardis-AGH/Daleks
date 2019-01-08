@@ -1,12 +1,14 @@
 package model.board.factory;
 
-import java.util.stream.Stream;
 import model.board.Board;
 import model.board.coordinates.Coordinates;
 import model.element.dynamicelement.Dalek;
 import model.element.dynamicelement.Doctor;
+import model.element.staticelement.Bomb;
 import model.element.staticelement.Heart;
 import model.element.staticelement.Teleporter;
+
+import java.util.stream.Stream;
 
 /**
  * The type random Board factory.
@@ -15,6 +17,7 @@ public class RandomBoardFactory implements BoardFactory {
 
     private static final double HEART_RATIO = 0.01;
     private static final double TELEPORTER_RATIO = 0.01;
+    private static final double BOMB_RATIO = 0.005;
     private static final double DALEKS_RATIO = 1.5;
     private static final int DALEKS_OFFSET = 5;
     private static final int BOARD_HEIGHT = 21;
@@ -33,6 +36,7 @@ public class RandomBoardFactory implements BoardFactory {
         populateWithDaleks(board, level);
         populateWithHearts(board);
         populateWithTeleporters(board);
+        populateWithBombs(board);
         return board;
     }
 
@@ -63,6 +67,13 @@ public class RandomBoardFactory implements BoardFactory {
                 .limit((int) (BOARD_HEIGHT * BOARD_WIDTH * TELEPORTER_RATIO))
                 .forEach(e -> board.getElements()
                         .add(new Teleporter(board.getCoordinateGenerator().getRandomCoordinates())));
+    }
+
+    private void populateWithBombs(Board board) {
+        Stream.iterate(0, n -> n + 1)
+                .limit((int) (BOARD_HEIGHT * BOARD_WIDTH * BOMB_RATIO))
+                .forEach(e -> board.getElements()
+                        .add(new Bomb(board.getCoordinateGenerator().getRandomCoordinates())));
     }
 
     public int getBoardHeight() {

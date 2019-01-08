@@ -1,6 +1,5 @@
 package controller;
 
-import java.util.stream.Collectors;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.SetChangeListener;
 import javafx.event.Event;
@@ -15,6 +14,8 @@ import model.game.GameState;
 import model.game.Status;
 import view.GameWindow;
 
+import java.util.stream.Collectors;
+
 /**
  * The type Game controller.
  */
@@ -23,6 +24,7 @@ public class GameController {
     private final GameWindow gameWindow;
     private Game game;
     private Stage primaryStage;
+    private HighscoreManager highscoreManager;
 
     /**
      * Instantiates a new Game controller.
@@ -33,7 +35,7 @@ public class GameController {
         this.primaryStage = primaryStage;
         game = new Game(new RandomBoardFactory());
         gameWindow = new GameWindow(this);
-
+        highscoreManager = new HighscoreManager("score");
         initSprites();
         initGameStateProperties();
     }
@@ -75,6 +77,9 @@ public class GameController {
         gameWindow.getNumberOfTeleportersLabel()
                 .textProperty()
                 .bind(gameState.numberOfTeleportersProperty().asString());
+        gameWindow.getNumberOfBombsLabel()
+                .textProperty()
+                .bind(gameState.numberOfBombsProperty().asString());
         gameWindow.getScoreLabel().textProperty().bind(gameState.currentScoreProperty().asString());
         gameWindow.getHighScoreLabel().textProperty().bind(gameState.highestScoreProperty().asString());
         gameWindow.getLevelLabel().textProperty().bind(gameState.levelProperty().asString());
@@ -89,13 +94,26 @@ public class GameController {
                     }
                 });
 
+        gameState.numberOfBombsProperty()
+                .addListener((ObservableValue<? extends Number> observableValue, Number number, Number t1) -> {
+                    if (t1.intValue() == 0) {
+                        gameWindow.getBombButton().setDisable(true);
+                    }
+                    if (number.intValue() == 0) {
+                        gameWindow.getBombButton().setDisable(false);
+                    }
+                });
+
         gameState.numberOfLivesProperty()
                 .addListener((ObservableValue<? extends Number> observableValue, Number number, Number t1) -> {
                     if (t1.intValue() < 0) {
                         gameWindow.getNumberOfLivesLabel().textProperty().unbind();
                         gameWindow.getNumberOfLivesLabel().setText("☠");
+
                     }
                 });
+
+        gameState.setHighestScore(highscoreManager.getHighScore());
     }
 
     /**
@@ -135,6 +153,7 @@ public class GameController {
         gameWindow.getLowerRightButton().setDisable(f);
         gameWindow.getWaitButton().setDisable(f);
         gameWindow.getTeleporterButton().setDisable(f);
+        gameWindow.getBombButton().setDisable(f);
     }
 
     /**
@@ -143,9 +162,11 @@ public class GameController {
      * @param event the event
      */
     public void handleRestart(Event event) {
-        int previousHighScore = game.getGameState().getHighestScore();
+        int currentGameScore = game.getGameState().getHighestScore();
+        if(currentGameScore > highscoreManager.getHighScore())
+            highscoreManager.setHighScore(currentGameScore);
         game = new Game(new RandomBoardFactory());
-        game.getGameState().setHighestScore(previousHighScore);
+        game.getGameState().setHighestScore(highscoreManager.getHighScore());
 
         setGameControlsDisable(false);
         initSprites();
