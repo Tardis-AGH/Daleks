@@ -23,7 +23,7 @@ public class GameController {
     private final GameWindow gameWindow;
     private Game game;
     private Stage primaryStage;
-    private HighscoreManager highscoreManager;
+    private HighScoreManager highScoreManager;
 
     /**
      * Instantiates a new Game controller.
@@ -34,7 +34,7 @@ public class GameController {
         this.primaryStage = primaryStage;
         game = new Game(new RandomBoardFactory());
         gameWindow = new GameWindow(this);
-        highscoreManager = new HighscoreManager("score");
+        highScoreManager = new HighScoreManager("score");
         initSprites();
         initGameStateProperties();
     }
@@ -46,13 +46,14 @@ public class GameController {
         removeSprites();
 
         for (BoardElement boardElement : game.getBoard().getElements()) {
-            ImageView spriteImage = gameWindow.createSpriteImage(boardElement.getImagePath(), game.getBoardWidth());
+            final ImageView spriteImage =
+                    gameWindow.createSpriteImage(boardElement.getImagePath(), game.getBoardWidth());
             new Sprite(boardElement, spriteImage, gameWindow.getTiles());
         }
 
         game.getBoard().getElements().addListener((SetChangeListener.Change<? extends BoardElement> change) -> {
             if (change.wasAdded()) {
-                ImageView spriteImage =
+                final ImageView spriteImage =
                         gameWindow.createSpriteImage(change.getElementAdded().getImagePath(), game.getBoardWidth());
                 new Sprite(change.getElementAdded(), spriteImage, gameWindow.getTiles());
             }
@@ -60,7 +61,7 @@ public class GameController {
     }
 
     private void removeSprites() {
-        GridPane tiles = gameWindow.getTiles();
+        final GridPane tiles = gameWindow.getTiles();
         tiles.getChildren()
                 .removeAll(
                         tiles.getChildren().stream().filter(c -> c instanceof ImageView).collect(Collectors.toList()));
@@ -70,7 +71,7 @@ public class GameController {
      * Init game state properties.
      */
     private void initGameStateProperties() {
-        GameState gameState = game.getGameState();
+        final GameState gameState = game.getGameState();
 
         gameWindow.getNumberOfLivesLabel().textProperty().bind(gameState.numberOfLivesProperty().asString());
         gameWindow.getNumberOfTeleportersLabel()
@@ -110,7 +111,7 @@ public class GameController {
                     }
                 });
 
-        gameState.setHighestScore(highscoreManager.getHighScore());
+        gameState.setHighestScore(highScoreManager.getHighScore());
     }
 
     /**
@@ -159,12 +160,12 @@ public class GameController {
      * @param event the event
      */
     public void handleRestart(Event event) {
-        int currentGameScore = game.getGameState().getHighestScore();
-        if (currentGameScore > highscoreManager.getHighScore()) {
-            highscoreManager.setHighScore(currentGameScore);
+        final int currentGameScore = game.getGameState().getHighestScore();
+        if (currentGameScore > highScoreManager.getHighScore()) {
+            highScoreManager.setHighScore(currentGameScore);
         }
         game = new Game(new RandomBoardFactory());
-        game.getGameState().setHighestScore(highscoreManager.getHighScore());
+        game.getGameState().setHighestScore(highScoreManager.getHighScore());
 
         setGameControlsDisable(false);
         initSprites();

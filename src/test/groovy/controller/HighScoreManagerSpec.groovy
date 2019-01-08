@@ -1,36 +1,33 @@
-package model.game
+package controller
 
-import controller.HighscoreManager
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
-class HighscoreSpec extends Specification {
+class HighScoreManagerSpec extends Specification {
 
     @Shared
-    String path = "test"
+    private static final String PATH = 'test'
 
     @Unroll
     def "handles game highscore #score properly"(Integer score) {
-
         given:
-        HighscoreManager highscoreManager = new HighscoreManager(path)
+        HighScoreManager highScoreManager = new HighScoreManager(PATH)
 
         when:
-        highscoreManager.setHighScore(score)
+        highScoreManager.highScore = score
 
         then:
-        highscoreManager.getHighScore() == score
+        highScoreManager.highScore == score
 
         where:
         score | _
         1     | _
         2     | _
-
     }
 
     def cleanupSpec() {
-        File file = new File(path)
+        File file = new File(PATH)
         file.delete()
     }
 }
