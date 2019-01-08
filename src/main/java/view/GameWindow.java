@@ -234,6 +234,8 @@ public class GameWindow extends VBox {
                 case R:
                     gameController.handleRestart(e);
                     break;
+                case B:
+                    gameController.nextTurn(Move.BOMB);
             }
         });
     }
