@@ -173,7 +173,7 @@ public class GameWindow extends VBox {
 
         teleporterButton = new Button();
         teleporterButton.setPrefWidth(1.5 * NAVIGATION_BUTTON_SIZE);
-        teleporterButton.setPrefHeight(1.5 * NAVIGATION_BUTTON_SIZE);
+        teleporterButton.setPrefHeight(NAVIGATION_BUTTON_SIZE);
         teleporterButton.setOnAction(event -> gameController.nextTurn(Move.TELEPORT));
         teleporterButton.setText("TELEPORT");
 
@@ -193,7 +193,7 @@ public class GameWindow extends VBox {
         specialButtons.getChildren().add(bombButton);
         specialButtons.getChildren().add(restart);
         specialButtons.setPadding(new Insets(30, 30, 30, 30));
-        specialButtons.setSpacing(30);
+        specialButtons.setSpacing(10);
 
         return specialButtons;
     }
@@ -253,7 +253,7 @@ public class GameWindow extends VBox {
                 Objects.requireNonNull(getClass().getClassLoader().getResource(imagePath)).toExternalForm());
 
         final double scale = image.getWidth() / image.getHeight();
-        final double baseSize = 0.95 * (double) (NATIVE_BOARD_WIDTH / boardWidth);
+        final double baseSize = 0.92 * (double) (NATIVE_BOARD_WIDTH / boardWidth);
 
         ImageView spriteImage = new ImageView(image);
         spriteImage.setFitHeight(baseSize * scale);
