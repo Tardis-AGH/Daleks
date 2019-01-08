@@ -45,6 +45,7 @@ public abstract class DynamicBoardElement extends BoardElement {
      * Visit bomb element upon collision.
      *
      * @param bomb the bomb
+     *
      * @return the results of the interaction
      */
     public abstract InteractionResult visit(Bomb bomb);

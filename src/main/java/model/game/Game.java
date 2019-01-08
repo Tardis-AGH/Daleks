@@ -1,5 +1,10 @@
 package model.game;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import model.action.Action;
 import model.board.Board;
 import model.board.Move;
@@ -9,12 +14,6 @@ import model.element.BoardElement;
 import model.element.DynamicBoardElement;
 import model.element.dynamicelement.Dalek;
 import model.element.dynamicelement.Doctor;
-
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * Root class of the model.
@@ -37,7 +36,9 @@ public class Game {
     public Game(BoardFactory boardFactory) {
         this.boardFactory = boardFactory;
         this.board = boardFactory.generateNewBoard(1);
-        this.gameState = new GameState(DEFAULT_NUMBER_OF_LIVES, DEFAULT_NUMBER_OF_TELEPORTERS, DEFAULT_NUMBER_OF_BOMBS, 0, 0, 1, 0);
+        this.gameState =
+                new GameState(DEFAULT_NUMBER_OF_LIVES, DEFAULT_NUMBER_OF_TELEPORTERS, DEFAULT_NUMBER_OF_BOMBS, 0, 0, 1,
+                        0);
     }
 
     /**
@@ -64,24 +65,6 @@ public class Game {
         board.getDoctor().setImage(gameState.getDoctorDeaths());
     }
 
-    private Status makeDoctorsMove(Move move) {
-        final Doctor doctor = board.getDoctor();
-        final List<Action> actions = doctor.makeMove(move);
-        return executeActions(actions);
-    }
-
-    private Status makeDaleksMoves(Map<Coordinates, BoardElement> collisionMap) {
-        final Doctor doctor = board.getDoctor();
-        for (Dalek dalek : board.getDaleks()) {
-            dalek.makeMove(doctor.getCoordinates());
-            final Status actionStatus = processCollision(collisionMap, dalek);
-            if (actionStatus != Status.CONTINUE_GAME) {
-                return actionStatus;
-            }
-        }
-        return Status.CONTINUE_GAME;
-    }
-
     /**
      * Make moves status.
      *
@@ -105,8 +88,13 @@ public class Game {
             return actionStatus;
         }
 
-
         return makeDaleksMoves(collisionMap);
+    }
+
+    private Status makeDoctorsMove(Move move) {
+        final Doctor doctor = board.getDoctor();
+        final List<Action> actions = doctor.makeMove(move);
+        return executeActions(actions);
     }
 
     private Status executeActions(List<Action> actionList) {
@@ -114,6 +102,18 @@ public class Game {
                 .map(a -> a.execute(this))
                 .max(Comparator.comparing(Status::ordinal))
                 .orElse(Status.CONTINUE_GAME);
+    }
+
+    private Status makeDaleksMoves(Map<Coordinates, BoardElement> collisionMap) {
+        final Doctor doctor = board.getDoctor();
+        for (Dalek dalek : board.getDaleks()) {
+            dalek.makeMove(doctor.getCoordinates());
+            final Status actionStatus = processCollision(collisionMap, dalek);
+            if (actionStatus != Status.CONTINUE_GAME) {
+                return actionStatus;
+            }
+        }
+        return Status.CONTINUE_GAME;
     }
 
     private Status processCollision(Map<Coordinates, BoardElement> collisionMap, DynamicBoardElement visitor) {

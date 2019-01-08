@@ -17,10 +17,6 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import model.board.Move;
 
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 /**
  * The type Game window.
  */

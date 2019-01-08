@@ -1,5 +1,8 @@
 package model.element.dynamicelement;
 
+import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 import model.action.Action;
 import model.action.element.ElementDeletionAction;
 import model.action.gamestate.BombsChangeAction;
@@ -15,10 +18,6 @@ import model.element.staticelement.Heart;
 import model.element.staticelement.ScrapPile;
 import model.element.staticelement.Teleporter;
 import model.game.InteractionResult;
-
-import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * The type Doctor.

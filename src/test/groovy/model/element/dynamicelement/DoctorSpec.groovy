@@ -1,7 +1,7 @@
 package model.element.dynamicelement
 
-import model.board.coordinates.Coordinates
 import model.board.Move
+import model.board.coordinates.Coordinates
 import model.element.BoardElement
 import model.element.staticelement.Heart
 import spock.lang.Shared

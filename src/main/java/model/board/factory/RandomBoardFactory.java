@@ -1,5 +1,6 @@
 package model.board.factory;
 
+import java.util.stream.Stream;
 import model.board.Board;
 import model.board.coordinates.Coordinates;
 import model.element.dynamicelement.Dalek;
@@ -7,8 +8,6 @@ import model.element.dynamicelement.Doctor;
 import model.element.staticelement.Bomb;
 import model.element.staticelement.Heart;
 import model.element.staticelement.Teleporter;
-
-import java.util.stream.Stream;
 
 /**
  * The type random Board factory.
@@ -72,8 +71,7 @@ public class RandomBoardFactory implements BoardFactory {
     private void populateWithBombs(Board board) {
         Stream.iterate(0, n -> n + 1)
                 .limit((int) (BOARD_HEIGHT * BOARD_WIDTH * BOMB_RATIO))
-                .forEach(e -> board.getElements()
-                        .add(new Bomb(board.getCoordinateGenerator().getRandomCoordinates())));
+                .forEach(e -> board.getElements().add(new Bomb(board.getCoordinateGenerator().getRandomCoordinates())));
     }
 
     public int getBoardHeight() {

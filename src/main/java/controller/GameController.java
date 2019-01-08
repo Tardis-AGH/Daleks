@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.stream.Collectors;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.SetChangeListener;
 import javafx.event.Event;
@@ -13,8 +14,6 @@ import model.game.Game;
 import model.game.GameState;
 import model.game.Status;
 import view.GameWindow;
-
-import java.util.stream.Collectors;
 
 /**
  * The type Game controller.
@@ -77,9 +76,7 @@ public class GameController {
         gameWindow.getNumberOfTeleportersLabel()
                 .textProperty()
                 .bind(gameState.numberOfTeleportersProperty().asString());
-        gameWindow.getNumberOfBombsLabel()
-                .textProperty()
-                .bind(gameState.numberOfBombsProperty().asString());
+        gameWindow.getNumberOfBombsLabel().textProperty().bind(gameState.numberOfBombsProperty().asString());
         gameWindow.getScoreLabel().textProperty().bind(gameState.currentScoreProperty().asString());
         gameWindow.getHighScoreLabel().textProperty().bind(gameState.highestScoreProperty().asString());
         gameWindow.getLevelLabel().textProperty().bind(gameState.levelProperty().asString());
@@ -163,8 +160,9 @@ public class GameController {
      */
     public void handleRestart(Event event) {
         int currentGameScore = game.getGameState().getHighestScore();
-        if(currentGameScore > highscoreManager.getHighScore())
+        if (currentGameScore > highscoreManager.getHighScore()) {
             highscoreManager.setHighScore(currentGameScore);
+        }
         game = new Game(new RandomBoardFactory());
         game.getGameState().setHighestScore(highscoreManager.getHighScore());
 
