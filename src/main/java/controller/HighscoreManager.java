@@ -20,6 +20,9 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 
+/**
+ * The type Highscore manager.
+ */
 public class HighscoreManager {
 
     private static final String DESEDE_ENCRYPTION_SCHEME = "DESede";
@@ -27,6 +30,11 @@ public class HighscoreManager {
     private final String filePath;
     private int highScore;
 
+    /**
+     * Instantiates a new Highscore manager.
+     *
+     * @param filePath the file path
+     */
     public HighscoreManager(String filePath) {
         this.filePath = filePath;
         this.highScore = parseHighScore();
@@ -69,14 +77,29 @@ public class HighscoreManager {
         }
     }
 
+    /**
+     * Gets file path.
+     *
+     * @return the file path
+     */
     public String getFilePath() {
         return filePath;
     }
 
+    /**
+     * Gets high score.
+     *
+     * @return the high score
+     */
     public int getHighScore() {
         return highScore;
     }
 
+    /**
+     * Sets high score.
+     *
+     * @param highScore the high score
+     */
     public void setHighScore(int highScore) {
         this.highScore = highScore;
         saveHighScore();

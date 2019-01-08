@@ -52,6 +52,13 @@ public class Coordinates {
         return new Coordinates(xCoordinate, yCoordinate, boardWidth, boardHeight);
     }
 
+    /**
+     * Distance int.
+     *
+     * @param other the other
+     *
+     * @return the int
+     */
     public int distance(Coordinates other) {
         return Math.abs(this.x - other.getX()) + Math.abs(this.y - other.getY());
     }

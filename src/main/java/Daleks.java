@@ -4,12 +4,12 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * The type Daleks.
+ * Full Daleks game application.
  */
 public class Daleks extends Application {
 
     /**
-     * Main.
+     * Game launcher.
      *
      * @param args the args
      */
