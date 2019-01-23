@@ -2,7 +2,6 @@ package model.board.coordinates.generator;
 
 import java.util.List;
 import java.util.Random;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -49,21 +48,19 @@ public class RandomCoordinatesGenerator {
         final int boardWidth = board.getWidth();
         final int boardHeight = board.getHeight();
 
-        final Supplier<Stream<Coordinates>> occupiedCoordinates =
-                () -> Stream.concat(board.getElements().stream().map(BoardElement::getCoordinates),
-                        getDalekNeighbors(board.getDaleks(), distance)).distinct();
-
-        final Supplier<Stream<Coordinates>> allCoordinates = () -> IntStream.range(0, boardHeight * boardWidth)
-                .mapToObj(xy -> new Coordinates(xy % boardWidth, xy / boardWidth, boardWidth, boardHeight));
-
-        final List<Coordinates> availableCoordinates = allCoordinates.get()
-                .filter(coordinates -> occupiedCoordinates.get().noneMatch(other -> other.equals(coordinates)))
+        final List<Coordinates> availableCoordinates = getAllCoordinates(boardWidth, boardHeight).filter(
+                coordinates -> getOccupiedCoordinates(distance).noneMatch(other -> other.equals(coordinates)))
                 .collect(Collectors.toList());
 
         if (availableCoordinates.size() == 0) {
             throw new RuntimeException("All teleportation locations are occupied");
         }
         return availableCoordinates.get(generator.nextInt(availableCoordinates.size()));
+    }
+
+    private Stream<Coordinates> getOccupiedCoordinates(int distance) {
+        return Stream.concat(board.getElements().stream().map(BoardElement::getCoordinates),
+                getDalekNeighbors(board.getDaleks(), distance)).distinct();
     }
 
     private Stream<Coordinates> getDalekNeighbors(List<Dalek> elements, int distance) {
@@ -75,6 +72,11 @@ public class RandomCoordinatesGenerator {
                                         element.getCoordinates().getY() + coordinates / (2 * distance + 1) - distance))
                         .filter(coordinates -> !coordinates.equals(element.getCoordinates())))
                 .distinct();
+    }
+
+    private Stream<Coordinates> getAllCoordinates(int boardWidth, int boardHeight) {
+        return IntStream.range(0, boardHeight * boardWidth)
+                .mapToObj(xy -> new Coordinates(xy % boardWidth, xy / boardWidth, boardWidth, boardHeight));
     }
 
 }
